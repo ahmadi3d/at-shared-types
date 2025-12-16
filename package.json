@@ -1,7 +1,6 @@
 {
-  "name": "at-shared-typescript-types",
+  "name": "at-shared-types",
   "version": "1.0.0",
-  "license": "MIT",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
