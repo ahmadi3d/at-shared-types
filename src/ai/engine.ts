@@ -1,40 +1,16 @@
-export interface AIGenerateTextOptions {
-    engineID?: string;
-    type?: string;
-    model?: string;
-    temperature?: number;
-    maxTokens?: number;
-    systemPrompt?: string;
-}
-
-export interface AIGenerateTextResult {
-    text: string;
-    raw?: any;
-    engineID: string;
-}
-
-export type ATChatMessageContent =
+export type ATChatMessageContentDTO =
     | string
     | null;
 
 /**
  * Internal representation — can include nulls for assistant messages, etc.
  */
-export type AIChatMessage =
-    | { role: "system"; content: ATChatMessageContent }
-    | { role: "user"; content: ATChatMessageContent }
-    | { role: "assistant"; content: ATChatMessageContent };
+export type AIChatMessageDTO =
+    | { role: "system"; content: ATChatMessageContentDTO }
+    | { role: "user"; content: ATChatMessageContentDTO }
+    | { role: "assistant"; content: ATChatMessageContentDTO };
 
-/**
- * Provider-safe variant (no null content, matches what OpenAI expects)
- */
-export type AIChatInputMessage =
-    | { role: "system"; content: Exclude<ATChatMessageContent, null> }
-    | { role: "user"; content: Exclude<ATChatMessageContent, null> }
-    | { role: "assistant"; content: Exclude<ATChatMessageContent, null> };
-
-
-export type AIChatOptionsResponseFormat =
+export type AIChatOptionsResponseFormatDTO =
     | {
         type: "text";
     }
@@ -43,22 +19,22 @@ export type AIChatOptionsResponseFormat =
         jsonSchema?: Record<string, any>;
     };
 
-export interface AIChatOptions {
+export interface AIChatOptionsDTO {
     model?: string;
     temperature?: number;
     maxTokens?: number;
     engineID?: string;
-    responseFormat?: AIChatOptionsResponseFormat;
+    responseFormat?: AIChatOptionsResponseFormatDTO;
 }
 
-export interface AIChatResponse {
-    message: AIChatMessage;
+export interface AIChatResponseDTO {
+    message: AIChatMessageDTO;
     usage?: { tokens?: number };
     raw?: any;
     debug?: any,
 }
 
-export interface AIIntent {
+export interface AIIntentDTO {
     capabilityID: string,
     params?: object,
     // 0..1
@@ -67,26 +43,12 @@ export interface AIIntent {
     reason?: string;
 }
 
-export interface AICapability {
+export interface AICapabilityDTO {
     id: string,
     description: string,
 }
 
-export interface AIChatWithIntentOptions extends AIChatOptions {
-    capabilities?: AICapability[];
+export interface AIChatWithIntentOptionsDTO extends AIChatOptionsDTO {
+    capabilities?: AICapabilityDTO[];
 }
 
-export interface AIChatWithIntentResponse extends AIChatResponse {
-    intents?: AIIntent[];
-}
-
-export interface AIEmbedOptions {
-    model?: string;
-    engineID?: string;
-}
-
-export interface AIEmbedResponse {
-    embeddings: number[] | number[][];
-    model: string;
-    engineID: string;
-}
