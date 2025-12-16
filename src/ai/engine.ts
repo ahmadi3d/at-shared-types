@@ -27,13 +27,6 @@ export interface AIChatOptionsDTO {
     responseFormat?: AIChatOptionsResponseFormatDTO;
 }
 
-export interface AIChatResponseDTO {
-    message: AIChatMessageDTO;
-    usage?: { tokens?: number };
-    raw?: any;
-    debug?: any,
-}
-
 export interface AIIntentDTO {
     capabilityID: string,
     params?: object,
