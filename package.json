@@ -1,6 +1,6 @@
 {
   "name": "at-shared-types",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
