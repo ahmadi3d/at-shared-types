@@ -25,6 +25,7 @@ export interface AIChatOptionsDTO {
     maxTokens?: number;
     engineID?: string;
     responseFormat?: AIChatOptionsResponseFormatDTO;
+    sessionID?: string,
 }
 
 export interface AIIntentDTO {
