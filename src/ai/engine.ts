@@ -19,13 +19,21 @@ export type AIChatOptionsResponseFormatDTO =
         jsonSchema?: Record<string, any>;
     };
 
+// Contextual information for the request coming from the application
+export interface AIRequestContext {
+    messages?: AIChatMessageDTO[],
+    sessionID?: string,
+    engine?: string,
+    engineType?: string,
+}
+
 export interface AIChatOptionsDTO {
     model?: string;
     temperature?: number;
     maxTokens?: number;
     engineID?: string;
     responseFormat?: AIChatOptionsResponseFormatDTO;
-    sessionID?: string,
+    requestContext?: AIRequestContext,
 }
 
 export interface AIIntentDTO {
@@ -35,6 +43,7 @@ export interface AIIntentDTO {
     confidence?: number;
     // why this intent was chosen
     reason?: string;
+    output?: unknown,
 }
 
 export interface AICapabilityDTO {
@@ -45,4 +54,3 @@ export interface AICapabilityDTO {
 export interface AIChatWithIntentOptionsDTO extends AIChatOptionsDTO {
     capabilities?: AICapabilityDTO[];
 }
-
