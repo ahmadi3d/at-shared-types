@@ -20,7 +20,7 @@ export type AIChatOptionsResponseFormatDTO =
     };
 
 // Contextual information for the request coming from the application
-export interface AIRequestContext {
+export interface AIRequestContextDTO {
     messages?: AIChatMessageDTO[],
     sessionID?: string,
     engine?: string,
@@ -33,7 +33,7 @@ export interface AIChatOptionsDTO {
     maxTokens?: number;
     engineID?: string;
     responseFormat?: AIChatOptionsResponseFormatDTO;
-    requestContext?: AIRequestContext,
+    requestContext?: AIRequestContextDTO,
 }
 
 export interface AIIntentDTO {
