@@ -58,5 +58,5 @@ export interface AIPageContextDTO {
 
 export interface AIChatWithIntentOptionsDTO extends AIChatOptionsDTO {
     capabilities?: AICapabilityDTO[];
-    pageContext?: AIPageContextDTO;
+    pageContext?: AIPageContextDTO | null;
 }
