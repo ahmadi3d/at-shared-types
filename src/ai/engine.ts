@@ -51,6 +51,12 @@ export interface AICapabilityDTO {
     description: string,
 }
 
+export interface AIPageContextDTO {
+    location?: string,
+    data?: unknown,
+}
+
 export interface AIChatWithIntentOptionsDTO extends AIChatOptionsDTO {
     capabilities?: AICapabilityDTO[];
+    pageContext?: AIPageContextDTO;
 }
