@@ -1,3 +1,5 @@
-export * from "./engine";
-export * from "./chat/index";
-export * from "./session/index";
+// src/ai/index.ts
+import * as Domain from "./domain";
+import * as Transport from "./transport";
+
+export { Domain, Transport };

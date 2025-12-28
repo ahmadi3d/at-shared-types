@@ -1,9 +1,16 @@
 {
   "name": "at-shared-types",
-  "version": "1.1.13",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "version": "1.1.26",
+  "type": "commonjs",
+  "main": "./dist/cjs/index.cjs",
   "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/esm/index.d.ts"
+    }
+  },
   "files": [
     "dist/esm",
     "dist/cjs"
@@ -12,24 +19,7 @@
     "clean": "rimraf dist",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.json",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js",
-      "types": "./dist/esm/index.d.ts"
-    },
-    "./ai": {
-      "import": "./dist/esm/ai/index.js",
-      "require": "./dist/cjs/ai/index.js",
-      "types": "./dist/esm/ai/index.d.ts"
-    },
-    "./core": {
-      "import": "./dist/esm/core/index.js",
-      "require": "./dist/cjs/core/index.js",
-      "types": "./dist/esm/core/index.d.ts"
-    }
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && node scripts/postbuild.mjs"
   },
   "devDependencies": {
     "rimraf": "^6.1.2",
