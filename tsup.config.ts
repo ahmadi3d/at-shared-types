@@ -4,7 +4,8 @@ export default defineConfig({
     entry: {
         index: "src/index.ts",
         domain: "src/domain.ts",
-        transport: "src/transport.ts"
+        transport: "src/transport.ts",
+        protocol: "src/protocol.ts"
     },
     format: ["esm", "cjs"],
     sourcemap: true,

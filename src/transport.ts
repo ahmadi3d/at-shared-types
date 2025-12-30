@@ -2,6 +2,8 @@ export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
 export type * from "./core/transport/responses";
 
+export const ATTransportDTO = {} as const;
+
 // ✅ type bucket (so ATTransportDTO.ResponseErrorDTO etc works)
 export namespace ATTransportDTO {
   export type ResponseSuccessDTO<T> =
