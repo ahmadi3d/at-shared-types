@@ -1,16 +1,24 @@
 {
   "name": "at-shared-types",
-  "version": "1.1.31",
-  "description": "Shared domain + transport DTO types for AT backend and frontend.",
-  "type": "module",
+  "version": "1.1.35",
+  "type": "commonjs",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./domain": {
+      "types": "./dist/domain.d.ts",
+      "require": "./dist/domain.cjs",
+      "import": "./dist/domain.mjs"
+    },
+    "./transport": {
+      "types": "./dist/transport.d.ts",
+      "require": "./dist/transport.cjs",
+      "import": "./dist/transport.mjs"
     }
   },
   "files": [
@@ -19,7 +27,7 @@
   "sideEffects": false,
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && tsup src/index.ts --format esm,cjs --dts --sourcemap --target es2020 --out-dir dist",
+    "build": "npm run clean && tsup && tsc -p tsconfig.types.json",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
