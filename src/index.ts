@@ -1,2 +1,2 @@
-export * as Casing from "./casing";
+export * as ATCasing from "./casing";
 
