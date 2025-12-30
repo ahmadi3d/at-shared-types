@@ -1,7 +1,4 @@
-import type { AIChatMessageWireDTO, AIChatWithIntentOptionsWireDTO } from "../wire.types";
+import type { DeepSnakeKeys } from "../../../casing";
+import type { AIChatWithIntentRequestDTO as DomainAIChatWithIntentRequestDTO } from "../../domain/chat";
 
-export interface AIChatWithIntentRequestDTO {
-    session_id: string;
-    messages: AIChatMessageWireDTO[];
-    options?: AIChatWithIntentOptionsWireDTO;
-}
+export type AIChatWithIntentRequestDTO = DeepSnakeKeys<DomainAIChatWithIntentRequestDTO>;

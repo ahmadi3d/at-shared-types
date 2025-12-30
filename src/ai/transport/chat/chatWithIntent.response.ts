@@ -1,6 +1,4 @@
-import type { AIIntentWireDTO } from "../wire.types";
-import type { AIChatResponseDTO } from "./chat.response";
+import type { DeepSnakeKeys } from "../../../casing";
+import type { AIChatWithIntentResponseDTO as DomainAIChatWithIntentResponseDTO } from "../../domain/chat";
 
-export interface AIChatWithIntentResponseDTO extends AIChatResponseDTO {
-  intents?: AIIntentWireDTO[];
-}
+export type AIChatWithIntentResponseDTO = DeepSnakeKeys<DomainAIChatWithIntentResponseDTO>;

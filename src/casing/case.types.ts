@@ -1,3 +1,6 @@
+type FixAcronyms<S extends string> =
+    S extends `${infer A}ID${infer B}` ? FixAcronyms<`${A}Id${B}`> : S;
+
 export type SnakeCase<S extends string> =
     S extends `${infer H}${infer T}`
     ? T extends Uncapitalize<T>
@@ -25,7 +28,12 @@ export type DeepSnakeKeys<T> =
     T extends Set<infer U>
     ? Set<DeepSnakeKeys<U>> :
     T extends object
-    ? { [K in keyof T as K extends string ? SnakeCase<K> : K]: DeepSnakeKeys<T[K]> }
+    ? {
+        [K in keyof T as K extends string
+        ? SnakeCase<FixAcronyms<K>>
+        : K
+        ]: DeepSnakeKeys<T[K]>
+    }
     : T;
 
 export type DeepCamelKeys<T> =

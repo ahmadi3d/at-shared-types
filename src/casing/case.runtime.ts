@@ -1,8 +1,11 @@
 const CAMEL_TO_SNAKE = /[A-Z]/g;
 const SNAKE_TO_CAMEL = /_([a-z])/g;
 
+// Normalize common acronyms before snake conversion
+const normalizeAcronyms = (k: string) => k.replace(/ID/g, "Id");
+
 export const toSnakeKey = (k: string) =>
-    k.replace(CAMEL_TO_SNAKE, m => `_${m.toLowerCase()}`);
+    normalizeAcronyms(k).replace(CAMEL_TO_SNAKE, m => `_${m.toLowerCase()}`);
 
 export const toCamelKey = (k: string) =>
     k.replace(SNAKE_TO_CAMEL, (_, c) => c.toUpperCase());

@@ -1,5 +1,6 @@
 export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
+export type * from "./ai/domain/chat";
 
 /**
  * Runtime value so consumers can use:
@@ -13,6 +14,15 @@ export const ATDomainDTO = {} as const;
  * This is emitted correctly by tsc (not tsup dts bundler).
  */
 export namespace ATDomainDTO {
+    export type AIChatUsageDTO =
+        import("./ai/domain/chat").AIChatUsageDTO;
+
+    export type AIChatResponseDTO =
+        import("./ai/domain/chat").AIChatResponseDTO;
+
+    export type AIChatWithIntentResponseDTO =
+        import("./ai/domain/chat").AIChatWithIntentResponseDTO;
+
     export type ATChatMessageContentDTO =
         import("./ai/domain/engine").ATChatMessageContentDTO;
 

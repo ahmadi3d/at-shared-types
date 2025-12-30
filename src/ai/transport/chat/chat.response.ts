@@ -1,8 +1,4 @@
-import type { AIChatMessageWireDTO } from "../wire.types";
+import type { DeepSnakeKeys } from "../../../casing";
+import type { AIChatResponseDTO as DomainAIChatResponseDTO } from "../../domain/chat";
 
-export interface AIChatResponseDTO {
-    message: AIChatMessageWireDTO;
-    usage?: { tokens?: number };
-    raw?: any;
-    debug?: any;
-}
+export type AIChatResponseDTO = DeepSnakeKeys<DomainAIChatResponseDTO>;
