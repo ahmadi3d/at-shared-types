@@ -1,19 +1,9 @@
 import type * as AIWire from "./ai/transport/wire.types";
 import type * as AIChat from "./ai/transport/chat";
-import {
-    ATAPIErrorCodeDTO as ATAPIErrorCodeConst,
-    type ATAPIErrorCodeDTO as ATAPIErrorCodeType,
-} from "./core/transport/errors";
+
 import type * as CoreResponses from "./core/transport/responses";
 
-export const ATTransportDTO = {
-    ATAPIErrorCodeDTO: ATAPIErrorCodeConst,
-} as const;
-
 export namespace ATTransportDTO {
-    // expose the union type
-    export type ATAPIErrorCodeDTO = ATAPIErrorCodeType;
-
     // core response DTOs
     export type ResponseSuccessDTO<T> = CoreResponses.ResponseSuccessDTO<T>;
     export type ResponseErrorDTO = CoreResponses.ResponseErrorDTO;

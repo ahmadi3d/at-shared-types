@@ -2,27 +2,8 @@ export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
 export type * from "./core/transport/responses";
 
-// ✅ bring them into scope (value + type)
-import {
-  ATAPIErrorCodeDTO as ATAPIErrorCodeDTOConst
-} from "./core/transport/errors";
-import type {
-  ATAPIErrorCodeDTO as ATAPIErrorCodeDTOType
-} from "./core/transport/errors";
-
-// ✅ re-export the runtime value under the public name
-export { ATAPIErrorCodeDTOConst as ATAPIErrorCodeDTO };
-
-// ✅ runtime bucket object (so ATTransportDTO.ATAPIErrorCodeDTO.<code> works)
-export const ATTransportDTO = {
-  ATAPIErrorCodeDTO: ATAPIErrorCodeDTOConst
-} as const;
-
 // ✅ type bucket (so ATTransportDTO.ResponseErrorDTO etc works)
 export namespace ATTransportDTO {
-  // expose the union type (number union)
-  export type ATAPIErrorCodeDTO = ATAPIErrorCodeDTOType;
-
   export type ResponseSuccessDTO<T> =
     import("./core/transport/responses").ResponseSuccessDTO<T>;
   export type ResponseErrorDTO =
