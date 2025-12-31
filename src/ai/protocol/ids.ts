@@ -3,9 +3,12 @@ type Brand<T, B extends string> = T & { readonly __brand: B };
 export type ATAICapabilityID = Brand<string, "ATAICapabilityID">;
 export type ATAIPromptID = Brand<string, "ATAIPromptID">;
 
+// allow underscores inside each segment
+const SEG = `[a-z0-9_]+`;
+
 const RX = {
-    capability: /^cap\.[a-z0-9]+(?:\.[a-z0-9]+){3,}$/i,
-    prompt: /^prompt\.[a-z0-9]+(?:\.[a-z0-9]+){3,}\.v[0-9]+$/i,
+    capability: new RegExp(`^cap\\.${SEG}(?:\\.${SEG}){3,}$`, "i"),
+    prompt: new RegExp(`^prompt\\.${SEG}(?:\\.${SEG}){3,}\\.v[0-9]+$`, "i"),
 } as const;
 
 function validate(kind: keyof typeof RX, id: string): void {
@@ -15,22 +18,22 @@ function validate(kind: keyof typeof RX, id: string): void {
 }
 
 /**
- * Normalize a segment for IDs.
- * Keep it strict: IDs should be stable, grep-friendly, and predictable.
+ * Normalize a segment for IDs (snake_case).
  * - trims
  * - lowercases
- * - converts spaces/underscores to dots
- * - removes illegal chars (keeps a-z0-9 and dots)
- * - collapses multiple dots
+ * - converts spaces and dashes to underscores
+ * - removes illegal chars (keeps a-z0-9 and _)
+ * - collapses multiple underscores
+ * - trims leading/trailing underscores
  */
 function normalizeSegment(seg: string): string {
     return seg
         .trim()
         .toLowerCase()
-        .replace(/[\s_]+/g, ".")
-        .replace(/[^a-z0-9.]/g, "")
-        .replace(/\.+/g, ".")
-        .replace(/^\.+|\.+$/g, "");
+        .replace(/[\s-]+/g, "_")     // spaces/dashes -> _
+        .replace(/[^a-z0-9_]/g, "")  // keep only a-z0-9_
+        .replace(/_+/g, "_")         // collapse __
+        .replace(/^_+|_+$/g, "");    // trim edges
 }
 
 function joinSegments(...segs: string[]): string {
@@ -38,22 +41,16 @@ function joinSegments(...segs: string[]): string {
 }
 
 export const ATAIID = {
-    /** Validate & brand an existing capability id (throws if invalid). */
     validateCapability(id: string): ATAICapabilityID {
         validate("capability", id);
         return id as ATAICapabilityID;
     },
 
-    /** Validate & brand an existing prompt id (throws if invalid). */
     validatePrompt(id: string): ATAIPromptID {
         validate("prompt", id);
         return id as ATAIPromptID;
     },
 
-    /**
-     * Build a capability id from parts (then validates & brands).
-     * Format: cap.<app>.<area>.<object>.<verb>
-     */
     makeCapability(parts: {
         app: string;
         area: string;
@@ -64,16 +61,12 @@ export const ATAIID = {
         return ATAIID.validateCapability(id);
     },
 
-    /**
-     * Build a prompt id from parts (then validates & brands).
-     * Format: prompt.<app>.<area>.<object>.<verb>.v<major>
-     */
     makePrompt(parts: {
         app: string;
         area: string;
         target: string;
         action: string;
-        v: number; // major version
+        v: number;
     }): ATAIPromptID {
         const major = Math.max(0, Math.floor(parts.v));
         const id = `prompt.${joinSegments(parts.app, parts.area, parts.target, parts.action)}.v${major}`;
