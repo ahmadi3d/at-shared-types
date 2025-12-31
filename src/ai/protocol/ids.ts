@@ -1,5 +1,3 @@
-// src/ai/protocol/ids.ts
-
 type Brand<T, B extends string> = T & { readonly __brand: B };
 
 export type ATAICapabilityID = Brand<string, "ATAICapabilityID">;
@@ -59,10 +57,10 @@ export const ATAIID = {
     makeCapability(parts: {
         app: string;
         area: string;
-        object: string;
-        verb: string;
+        target: string;
+        action: string;
     }): ATAICapabilityID {
-        const id = `cap.${joinSegments(parts.app, parts.area, parts.object, parts.verb)}`;
+        const id = `cap.${joinSegments(parts.app, parts.area, parts.target, parts.action)}`;
         return ATAIID.validateCapability(id);
     },
 
@@ -73,12 +71,12 @@ export const ATAIID = {
     makePrompt(parts: {
         app: string;
         area: string;
-        object: string;
-        verb: string;
+        target: string;
+        action: string;
         v: number; // major version
     }): ATAIPromptID {
         const major = Math.max(0, Math.floor(parts.v));
-        const id = `prompt.${joinSegments(parts.app, parts.area, parts.object, parts.verb)}.v${major}`;
+        const id = `prompt.${joinSegments(parts.app, parts.area, parts.target, parts.action)}.v${major}`;
         return ATAIID.validatePrompt(id);
     },
 } as const;
