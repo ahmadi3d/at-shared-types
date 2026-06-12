@@ -1,10 +1,10 @@
-import { AuthSessionDTO } from "../../domain/authSession";
+import { ATAuthSessionDTO } from "../../domain/authSession";
 import { ATPlatformLoginResponseDTO } from "./atplatform.login.types";
 import { ATPlatformAccessTokenPayloadDTO } from "./atplatform.token.types";
 
 export function mapATPlatformSessionFromLogin(
     response: ATPlatformLoginResponseDTO
-): AuthSessionDTO {
+): ATAuthSessionDTO {
     return {
         token: response.token,
         refreshToken: response.refresh_token,
@@ -21,7 +21,7 @@ export function mapATPlatformSessionFromLogin(
 export function mapATPlatformSessionFromToken(
     payload: ATPlatformAccessTokenPayloadDTO,
     token: string
-): AuthSessionDTO {
+): ATAuthSessionDTO {
     return {
         token,
         expiresAt: payload.exp,

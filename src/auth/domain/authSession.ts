@@ -1,4 +1,4 @@
-export interface AuthUserDTO {
+export interface ATAuthUserDTO {
     userID: string;
 
     username?: string;
@@ -14,7 +14,7 @@ export interface AuthUserDTO {
     permissions?: string[];
 }
 
-export interface AuthSessionDTO {
+export interface ATAuthSessionDTO {
     token: string;
 
     refreshToken?: string;
@@ -23,7 +23,7 @@ export interface AuthSessionDTO {
 
     iss: "parto" | "atplatform";
 
-    user: AuthUserDTO;
+    user: ATAuthUserDTO;
 
     //issuer junks 
     meta?: Record<string, unknown>;

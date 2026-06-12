@@ -1,10 +1,10 @@
-import { AuthSessionDTO } from "../../domain/authSession";
+import { ATAuthSessionDTO } from "../../domain/authSession";
 import { PartoLoginResponseDTO } from "./parto.login.types";
 import { PartoAccessTokenPayloadDTO } from "./parto.token.types";
 
 export function mapPartoSessionFromLogin(
     response: PartoLoginResponseDTO
-): AuthSessionDTO {
+): ATAuthSessionDTO {
     const user = response.userInfo;
 
     return {
@@ -28,7 +28,7 @@ export function mapPartoSessionFromLogin(
 export function mapPartoSessionFromToken(
     payload: PartoAccessTokenPayloadDTO,
     token: string
-): AuthSessionDTO {
+): ATAuthSessionDTO {
     return {
         token,
         expiresAt: payload.exp,
