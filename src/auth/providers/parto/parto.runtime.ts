@@ -33,6 +33,7 @@ export function mapPartoSessionFromToken(
         token,
         expiresAt: payload.exp,
         providerType: 'parto',
+        iss: payload.iss,
         user: {
             userID: payload.ID,
             username: payload.unique_name,

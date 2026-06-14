@@ -1,6 +1,5 @@
-export type ATAuthProviderType =
-    | "parto"
-    | "atplatform";
+export const ATAuthProviderTypes = ["parto", "atplatform"] as const;
+export type ATAuthProviderType = typeof ATAuthProviderTypes[number];
 
 export interface ATAuthUserDTO {
     userID: string;
@@ -27,7 +26,7 @@ export interface ATAuthSessionDTO {
 
     iss?: string;
 
-    providerType: ATAuthProviderType,
+    providerType: ATAuthProviderType;
 
     user: ATAuthUserDTO;
 

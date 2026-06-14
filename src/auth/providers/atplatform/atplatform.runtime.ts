@@ -25,6 +25,7 @@ export function mapATPlatformSessionFromToken(
     return {
         token,
         expiresAt: payload.exp,
+        iss: payload.iss,
         providerType: 'atplatform',
         user: {
             userID: payload.sub
