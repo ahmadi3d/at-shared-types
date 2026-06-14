@@ -8,7 +8,7 @@ export function mapATPlatformSessionFromLogin(
     return {
         token: response.token,
         refreshToken: response.refresh_token,
-        iss: "atplatform",
+        providerType: 'atplatform',
         user: {
             userID: String(response.user_id),
             username: response.username,
@@ -25,7 +25,7 @@ export function mapATPlatformSessionFromToken(
     return {
         token,
         expiresAt: payload.exp,
-        iss: "atplatform",
+        providerType: 'atplatform',
         user: {
             userID: payload.sub
         }

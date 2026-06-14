@@ -1,3 +1,7 @@
+export type ATAuthProviderType =
+    | "parto"
+    | "atplatform";
+
 export interface ATAuthUserDTO {
     userID: string;
 
@@ -21,7 +25,9 @@ export interface ATAuthSessionDTO {
 
     expiresAt?: number;
 
-    iss: "parto" | "atplatform";
+    iss?: string;
+
+    providerType: ATAuthProviderType,
 
     user: ATAuthUserDTO;
 

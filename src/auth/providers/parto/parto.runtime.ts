@@ -10,7 +10,7 @@ export function mapPartoSessionFromLogin(
     return {
         token: response.token,
         refreshToken: response.refreshToken,
-        iss: "parto",
+        providerType: 'parto',
         user: {
             userID: String(user.ID),
             username: user.userName,
@@ -32,7 +32,7 @@ export function mapPartoSessionFromToken(
     return {
         token,
         expiresAt: payload.exp,
-        iss: "parto",
+        providerType: 'parto',
         user: {
             userID: payload.ID,
             username: payload.unique_name,
