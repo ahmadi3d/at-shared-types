@@ -1,16 +1,16 @@
-export type ATChatMessageContentDTO =
+export type AtChatMessageContentDto =
     | string
     | null;
 
 /**
  * Internal representation — can include nulls for assistant messages, etc.
  */
-export type AIChatMessageDTO =
-    | { role: "system"; content: ATChatMessageContentDTO }
-    | { role: "user"; content: ATChatMessageContentDTO }
-    | { role: "assistant"; content: ATChatMessageContentDTO };
+export type AiChatMessageDto =
+    | { role: "system"; content: AtChatMessageContentDto }
+    | { role: "user"; content: AtChatMessageContentDto }
+    | { role: "assistant"; content: AtChatMessageContentDto };
 
-export type AIChatOptionsResponseFormatDTO =
+export type AiChatOptionsResponseFormatDto =
     | {
         type: "text";
     }
@@ -20,24 +20,24 @@ export type AIChatOptionsResponseFormatDTO =
     };
 
 // Contextual information for the request coming from the application
-export interface AIRequestContextDTO {
-    messages?: AIChatMessageDTO[],
-    sessionID?: string,
+export interface AiRequestContextDto {
+    messages?: AiChatMessageDto[],
+    sessionId?: string,
     engine?: string,
     engineType?: string,
 }
 
-export interface AIChatOptionsDTO {
+export interface AiChatOptionsDto {
     model?: string;
     temperature?: number;
     maxTokens?: number;
-    engineID?: string;
-    responseFormat?: AIChatOptionsResponseFormatDTO;
-    requestContext?: AIRequestContextDTO,
+    engineId?: string;
+    responseFormat?: AiChatOptionsResponseFormatDto;
+    requestContext?: AiRequestContextDto,
 }
 
-export interface AIIntentDTO {
-    capabilityID: string,
+export interface AiIntentDto {
+    capabilityId: string,
     params?: object,
     // 0..1
     confidence?: number;
@@ -46,17 +46,17 @@ export interface AIIntentDTO {
     output?: unknown,
 }
 
-export interface AICapabilityDTO {
+export interface AiCapabilityDto {
     id: string,
     description: string,
 }
 
-export interface AIPageContextDTO {
+export interface AiPageContextDto {
     location?: string,
     data?: unknown,
 }
 
-export interface AIChatWithIntentOptionsDTO extends AIChatOptionsDTO {
-    capabilities?: AICapabilityDTO[];
-    pageContext?: AIPageContextDTO | null;
+export interface AiChatWithIntentOptionsDto extends AiChatOptionsDto {
+    capabilities?: AiCapabilityDto[];
+    pageContext?: AiPageContextDto | null;
 }

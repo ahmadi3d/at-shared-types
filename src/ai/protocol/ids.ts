@@ -1,7 +1,7 @@
 type Brand<T, B extends string> = T & { readonly __brand: B };
 
-export type ATAICapabilityID = Brand<string, "ATAICapabilityID">;
-export type ATAIPromptID = Brand<string, "ATAIPromptID">;
+export type AtAiCapabilityId = Brand<string, "AtAiCapabilityId">;
+export type AtAiPromptId = Brand<string, "AtAiPromptId">;
 
 // allow underscores inside each segment
 const SEG = `[a-z0-9_]+`;
@@ -18,7 +18,7 @@ function validate(kind: keyof typeof RX, id: string): void {
 }
 
 /**
- * Normalize a segment for IDs (snake_case).
+ * Normalize a segment for Ids (snake_case).
  * - trims
  * - lowercases
  * - converts spaces and dashes to underscores
@@ -40,15 +40,15 @@ function joinSegments(...segs: string[]): string {
     return segs.map(normalizeSegment).filter(Boolean).join(".");
 }
 
-export const ATAIID = {
-    validateCapability(id: string): ATAICapabilityID {
+export const AtAiId = {
+    validateCapability(id: string): AtAiCapabilityId {
         validate("capability", id);
-        return id as ATAICapabilityID;
+        return id as AtAiCapabilityId;
     },
 
-    validatePrompt(id: string): ATAIPromptID {
+    validatePrompt(id: string): AtAiPromptId {
         validate("prompt", id);
-        return id as ATAIPromptID;
+        return id as AtAiPromptId;
     },
 
     makeCapability(parts: {
@@ -56,9 +56,9 @@ export const ATAIID = {
         area: string;
         target: string;
         action: string;
-    }): ATAICapabilityID {
+    }): AtAiCapabilityId {
         const id = `cap.${joinSegments(parts.app, parts.area, parts.target, parts.action)}`;
-        return ATAIID.validateCapability(id);
+        return AtAiId.validateCapability(id);
     },
 
     makePrompt(parts: {
@@ -67,9 +67,9 @@ export const ATAIID = {
         target: string;
         action: string;
         v: number;
-    }): ATAIPromptID {
+    }): AtAiPromptId {
         const major = Math.max(0, Math.floor(parts.v));
         const id = `prompt.${joinSegments(parts.app, parts.area, parts.target, parts.action)}.v${major}`;
-        return ATAIID.validatePrompt(id);
+        return AtAiId.validatePrompt(id);
     },
 } as const;

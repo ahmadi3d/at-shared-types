@@ -1,5 +1,5 @@
 /** A single role message in a prompt (system, user, assistant, etc.) */
-export interface AIPromptRoleDTO {
+export interface AiPromptRoleDto {
     /** Role type: system | user | assistant */
     role: "system" | "user" | "assistant";
 
@@ -10,9 +10,9 @@ export interface AIPromptRoleDTO {
     content: string;
 }
 
-export interface AISessionConfigDTO {
+export interface AiSessionConfigDto {
     id: string,
-    messages?: AIPromptRoleDTO[]
+    messages?: AiPromptRoleDto[]
     priority?: number;
     // Slots act like namespaces: using one enforces exclusivity; without one, the config is additive.
     slot?: string;

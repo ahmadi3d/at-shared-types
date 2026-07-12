@@ -1,2 +1,2 @@
-export * as ATCasing from "./casing";
-export * as ATAuth from "./auth";
+export * as AtCasing from "./casing";
+export * as AtAuth from "./auth";

@@ -1,26 +1,26 @@
 export * from "./core/protocol/errors";
 
-import { ATAPIErrorCodeMap } from "./core/protocol/errors";
+import { AtApiErrorCodeMap } from "./core/protocol/errors";
 
-import { ATAIID } from "./ai/protocol/ids";
-import { ATAIPrompts } from "./ai/protocol/prompts";
-import { ATAICapabilities } from "./ai/protocol/capabilities";
+import { AtAiId } from "./ai/protocol/ids";
+import { AtAiPrompts } from "./ai/protocol/prompts";
+import { AtAiCapabilities } from "./ai/protocol/capabilities";
 
-export const ATAI = {
-    ID: ATAIID,
-    Prompts: ATAIPrompts,
-    Capabilities: ATAICapabilities,
+export const AtAi = {
+    Id: AtAiId,
+    Prompts: AtAiPrompts,
+    Capabilities: AtAiCapabilities,
 } as const;
 
-export const ATProtocol = {
-    ATAPIErrorCodeMap,
-    AI: ATAI,
+export const AtProtocol = {
+    AtApiErrorCodeMap,
+    Ai: AtAi,
 } as const;
 
-export type ATAICapabilityID =
-    import("./ai/protocol/ids").ATAICapabilityID;
-export type ATAIPromptID =
-    import("./ai/protocol/ids").ATAIPromptID;
+export type AtAiCapabilityId =
+    import("./ai/protocol/ids").AtAiCapabilityId;
+export type AtAiPromptId =
+    import("./ai/protocol/ids").AtAiPromptId;
 
-export type ATAPIErrorCode =
-    import("./core/protocol/errors").ATAPIErrorCode;
+export type AtApiErrorCode =
+    import("./core/protocol/errors").AtApiErrorCode;

@@ -1,4 +1,4 @@
-export interface PartoUserInfoDTO {
+export interface PartoUserInfoDto {
     ID: number;
 
     userName: string;
@@ -11,11 +11,11 @@ export interface PartoUserInfoDTO {
 
     birthdate: string;
 
-    businessTypeID: number;
+    businessTypeId: number;
 
     companyName: string | null;
 
-    customerID: number | null;
+    customerId: number | null;
 
     department: string | null;
 
@@ -40,10 +40,10 @@ export interface PartoUserInfoDTO {
     roles: unknown;
 }
 
-export interface PartoLoginResponseDTO {
+export interface PartoLoginResponseDto {
     token: string;
 
     refreshToken: string;
 
-    userInfo: PartoUserInfoDTO;
+    userInfo: PartoUserInfoDto;
 }

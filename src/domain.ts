@@ -4,55 +4,55 @@ export type * from "./ai/domain/chat";
 
 /**
  * Runtime value so consumers can use:
- *   import { ATDomainDTO } from "at-shared-types/domain";
- *   ATDomainDTO.<autocomplete>
+ *   import { AtDomainDto } from "at-shared-types/domain";
+ *   AtDomainDto.<autocomplete>
  */
-export const ATDomainDTO = {} as const;
+export const AtDomainDto = {} as const;
 
 /**
  * Merge types into the runtime value for dot-access.
  * This is emitted correctly by tsc (not tsup dts bundler).
  */
-export namespace ATDomainDTO {
-    export type AIChatUsageDTO =
-        import("./ai/domain/chat").AIChatUsageDTO;
+export namespace AtDomainDto {
+    export type AiChatUsageDto =
+        import("./ai/domain/chat").AiChatUsageDto;
 
-    export type AIChatResponseDTO =
-        import("./ai/domain/chat").AIChatResponseDTO;
+    export type AiChatResponseDto =
+        import("./ai/domain/chat").AiChatResponseDto;
 
-    export type AIChatWithIntentResponseDTO =
-        import("./ai/domain/chat").AIChatWithIntentResponseDTO;
+    export type AiChatWithIntentResponseDto =
+        import("./ai/domain/chat").AiChatWithIntentResponseDto;
 
-    export type ATChatMessageContentDTO =
-        import("./ai/domain/engine").ATChatMessageContentDTO;
+    export type AtChatMessageContentDto =
+        import("./ai/domain/engine").AtChatMessageContentDto;
 
-    export type AIChatMessageDTO =
-        import("./ai/domain/engine").AIChatMessageDTO;
+    export type AiChatMessageDto =
+        import("./ai/domain/engine").AiChatMessageDto;
 
-    export type AIChatOptionsResponseFormatDTO =
-        import("./ai/domain/engine").AIChatOptionsResponseFormatDTO;
+    export type AiChatOptionsResponseFormatDto =
+        import("./ai/domain/engine").AiChatOptionsResponseFormatDto;
 
-    export type AIRequestContextDTO =
-        import("./ai/domain/engine").AIRequestContextDTO;
+    export type AiRequestContextDto =
+        import("./ai/domain/engine").AiRequestContextDto;
 
-    export type AIChatOptionsDTO =
-        import("./ai/domain/engine").AIChatOptionsDTO;
+    export type AiChatOptionsDto =
+        import("./ai/domain/engine").AiChatOptionsDto;
 
-    export type AIIntentDTO =
-        import("./ai/domain/engine").AIIntentDTO;
+    export type AiIntentDto =
+        import("./ai/domain/engine").AiIntentDto;
 
-    export type AICapabilityDTO =
-        import("./ai/domain/engine").AICapabilityDTO;
+    export type AiCapabilityDto =
+        import("./ai/domain/engine").AiCapabilityDto;
 
-    export type AIPageContextDTO =
-        import("./ai/domain/engine").AIPageContextDTO;
+    export type AiPageContextDto =
+        import("./ai/domain/engine").AiPageContextDto;
 
-    export type AIChatWithIntentOptionsDTO =
-        import("./ai/domain/engine").AIChatWithIntentOptionsDTO;
+    export type AiChatWithIntentOptionsDto =
+        import("./ai/domain/engine").AiChatWithIntentOptionsDto;
 
-    export type AIPromptRoleDTO =
-        import("./ai/domain/session").AIPromptRoleDTO;
+    export type AiPromptRoleDto =
+        import("./ai/domain/session").AiPromptRoleDto;
 
-    export type AISessionConfigDTO =
-        import("./ai/domain/session").AISessionConfigDTO;
+    export type AiSessionConfigDto =
+        import("./ai/domain/session").AiSessionConfigDto;
 }

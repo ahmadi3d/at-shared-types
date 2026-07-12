@@ -1,4 +1,4 @@
-export interface ATPlatformAccessTokenPayloadDTO {
+export interface AtPlatformAccessTokenPayloadDto {
     // user id
     sub: string;
     // session id, useful for tracking session in multiple devices and logging them out.

@@ -1,4 +1,4 @@
-export interface ATPlatformLoginResponseDTO {
+export interface AtPlatformLoginResponseDto {
     token: string;
 
     refresh_token: string;

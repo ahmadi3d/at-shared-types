@@ -1,8 +1,8 @@
-export const ATAuthProviderTypes = ["parto", "atplatform"] as const;
-export type ATAuthProviderType = typeof ATAuthProviderTypes[number];
+export const AtAuthProviderTypes = ["parto", "atplatform"] as const;
+export type AtAuthProviderType = typeof AtAuthProviderTypes[number];
 
-export interface ATAuthUserDTO {
-    userID: string;
+export interface AtAuthUserDto {
+    userId: string;
 
     username?: string;
 
@@ -17,7 +17,7 @@ export interface ATAuthUserDTO {
     permissions?: string[];
 }
 
-export interface ATAuthSessionDTO {
+export interface AtAuthSessionDto {
     token: string;
 
     refreshToken?: string;
@@ -26,9 +26,9 @@ export interface ATAuthSessionDTO {
 
     iss?: string;
 
-    providerType: ATAuthProviderType;
+    providerType: AtAuthProviderType;
 
-    user: ATAuthUserDTO;
+    user: AtAuthUserDto;
 
     //issuer junks 
     meta?: Record<string, unknown>;

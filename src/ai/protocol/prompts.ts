@@ -1,9 +1,9 @@
-import { ATAIID } from "./ids";
+import { AtAiId } from "./ids";
 
-export const ATAIPrompts = {
+export const AtAiPrompts = {
     BPMS: {
         SYSTEM: {
-            INTENT_DETECTION_V1: ATAIID.makePrompt({
+            INTENT_DETECTION_V1: AtAiId.makePrompt({
                 app: "bpms",
                 area: "system",
                 target: "intent",
@@ -12,7 +12,7 @@ export const ATAIPrompts = {
             }),
         },
         FORMAKER: {
-            VALUE_GENERATE_V1: ATAIID.makePrompt({
+            VALUE_GENERATE_V1: AtAiId.makePrompt({
                 app: "bpms",
                 area: "formmaker",
                 target: "value",
@@ -21,7 +21,7 @@ export const ATAIPrompts = {
             }),
         },
         APIMANAGER: {
-            POST_RESPONSE_SCRIPT_GENERATE_V1: ATAIID.makePrompt({
+            POST_RESPONSE_SCRIPT_GENERATE_V1: AtAiId.makePrompt({
                 app: "bpms",
                 area: "apimanager",
                 target: "post_response_script",

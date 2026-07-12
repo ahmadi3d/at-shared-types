@@ -1,4 +1,4 @@
 import type { DeepSnakeKeys } from "../../../casing";
-import type { AIChatWithIntentResponseDTO as DomainAIChatWithIntentResponseDTO } from "../../domain/chat";
+import type { AiChatWithIntentResponseDto as DomainAiChatWithIntentResponseDto } from "../../domain/chat";
 
-export type AIChatWithIntentResponseDTO = DeepSnakeKeys<DomainAIChatWithIntentResponseDTO>;
+export type AiChatWithIntentResponseDto = DeepSnakeKeys<DomainAiChatWithIntentResponseDto>;

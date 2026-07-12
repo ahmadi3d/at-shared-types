@@ -1,9 +1,9 @@
-import { ATAIID } from "./ids";
+import { AtAiId } from "./ids";
 
-export const ATAICapabilities = {
+export const AtAiCapabilities = {
     BPMS: {
         FORMAKER: {
-            FORM_GENERATE: ATAIID.makeCapability({
+            FORM_GENERATE: AtAiId.makeCapability({
                 app: "bpms",
                 area: "formmaker",
                 target: "form",
@@ -11,7 +11,7 @@ export const ATAICapabilities = {
             }),
         },
         APIMANAGER: {
-            POST_RESPONSE_SCRIPT_GENERATE: ATAIID.makeCapability({
+            POST_RESPONSE_SCRIPT_GENERATE: AtAiId.makeCapability({
                 app: "bpms",
                 area: "apimanager",
                 target: "post_response_script",

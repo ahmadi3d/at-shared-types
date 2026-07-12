@@ -4,35 +4,35 @@ import {
 } from "./providers/parto/parto.runtime";
 
 import {
-    mapATPlatformSessionFromLogin,
-    mapATPlatformSessionFromToken,
+    mapAtPlatformSessionFromLogin,
+    mapAtPlatformSessionFromToken,
 } from "./providers/atplatform/atplatform.runtime";
 
-import { ATAuthProviderType, ATAuthSessionDTO } from "./domain/authSession";
+import { AtAuthProviderType, AtAuthSessionDto } from "./domain/authSession";
 
 export * from "./providers/parto/parto.runtime";
 export * from "./providers/atplatform/atplatform.runtime";
 
 const mapSessionFromLoginByProvider: Record<
-    ATAuthProviderType,
-    (response: any) => ATAuthSessionDTO
+    AtAuthProviderType,
+    (response: any) => AtAuthSessionDto
 > = {
-    atplatform: mapATPlatformSessionFromLogin,
+    atplatform: mapAtPlatformSessionFromLogin,
     parto: mapPartoSessionFromLogin,
 };
 
 const mapSessionFromTokenByProvider: Record<
-    ATAuthProviderType,
-    (payload: any, token: string) => ATAuthSessionDTO
+    AtAuthProviderType,
+    (payload: any, token: string) => AtAuthSessionDto
 > = {
-    atplatform: mapATPlatformSessionFromToken,
+    atplatform: mapAtPlatformSessionFromToken,
     parto: mapPartoSessionFromToken,
 };
 
 export function mapSessionFromLogin(
-    providerType: ATAuthProviderType,
+    providerType: AtAuthProviderType,
     response: unknown,
-): ATAuthSessionDTO {
+): AtAuthSessionDto {
     const mapper = mapSessionFromLoginByProvider[providerType];
 
     if (!mapper)
@@ -42,10 +42,10 @@ export function mapSessionFromLogin(
 }
 
 export function mapSessionFromToken(
-    providerType: ATAuthProviderType,
+    providerType: AtAuthProviderType,
     payload: unknown,
     token: string
-): ATAuthSessionDTO {
+): AtAuthSessionDto {
     const mapper = mapSessionFromTokenByProvider[providerType];
 
     if (!mapper)

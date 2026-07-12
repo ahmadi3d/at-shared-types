@@ -1,10 +1,10 @@
-import { ATAuthSessionDTO } from "../../domain/authSession";
-import { PartoLoginResponseDTO } from "./parto.login.types";
-import { PartoAccessTokenPayloadDTO } from "./parto.token.types";
+import { AtAuthSessionDto } from "../../domain/authSession";
+import { PartoLoginResponseDto } from "./parto.login.types";
+import { PartoAccessTokenPayloadDto } from "./parto.token.types";
 
 export function mapPartoSessionFromLogin(
-    response: PartoLoginResponseDTO
-): ATAuthSessionDTO {
+    response: PartoLoginResponseDto
+): AtAuthSessionDto {
     const user = response.userInfo;
 
     return {
@@ -12,7 +12,7 @@ export function mapPartoSessionFromLogin(
         refreshToken: response.refreshToken,
         providerType: 'parto',
         user: {
-            userID: String(user.ID),
+            userId: String(user.ID),
             username: user.userName,
             firstName: user.firstName,
             lastName: user.lastName
@@ -20,22 +20,22 @@ export function mapPartoSessionFromLogin(
         meta: {
             department: user.department,
             companyName: user.companyName,
-            businessTypeID: user.businessTypeID
+            businessTypeId: user.businessTypeId
         }
     };
 }
 
 export function mapPartoSessionFromToken(
-    payload: PartoAccessTokenPayloadDTO,
+    payload: PartoAccessTokenPayloadDto,
     token: string
-): ATAuthSessionDTO {
+): AtAuthSessionDto {
     return {
         token,
         expiresAt: payload.exp,
         providerType: 'parto',
         iss: payload.iss,
         user: {
-            userID: payload.ID,
+            userId: payload.ID,
             username: payload.unique_name,
             permissions: payload.PERMISSIONS?.split(",")
         }

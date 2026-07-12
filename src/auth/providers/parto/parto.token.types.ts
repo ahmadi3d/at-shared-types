@@ -1,4 +1,4 @@
-export interface PartoAccessTokenPayloadDTO {
+export interface PartoAccessTokenPayloadDto {
     aud: string;
 
     iss: string;

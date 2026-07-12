@@ -2,40 +2,40 @@ export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
 export type * from "./core/transport/responses";
 
-export const ATTransportDTO = {} as const;
+export const AtTransportDto = {} as const;
 
-// ✅ type bucket (so ATTransportDTO.ResponseErrorDTO etc works)
-export namespace ATTransportDTO {
-  export type ResponseSuccessDTO<T> =
-    import("./core/transport/responses").ResponseSuccessDTO<T>;
-  export type ResponseErrorDTO =
-    import("./core/transport/responses").ResponseErrorDTO;
+// ✅ type bucket (so AtTransportDto.ResponseErrorDto etc works)
+export namespace AtTransportDto {
+  export type ResponseSuccessDto<T> =
+    import("./core/transport/responses").ResponseSuccessDto<T>;
+  export type ResponseErrorDto =
+    import("./core/transport/responses").ResponseErrorDto;
 
-  export type AIChatRequestDTO =
-    import("./ai/transport/chat").AIChatRequestDTO;
-  export type AIChatResponseDTO =
-    import("./ai/transport/chat").AIChatResponseDTO;
-  export type AIChatWithIntentRequestDTO =
-    import("./ai/transport/chat").AIChatWithIntentRequestDTO;
-  export type AIChatWithIntentResponseDTO =
-    import("./ai/transport/chat").AIChatWithIntentResponseDTO;
+  export type AiChatRequestDto =
+    import("./ai/transport/chat").AiChatRequestDto;
+  export type AiChatResponseDto =
+    import("./ai/transport/chat").AiChatResponseDto;
+  export type AiChatWithIntentRequestDto =
+    import("./ai/transport/chat").AiChatWithIntentRequestDto;
+  export type AiChatWithIntentResponseDto =
+    import("./ai/transport/chat").AiChatWithIntentResponseDto;
 
-  export type AIChatMessageWireDTO =
-    import("./ai/transport/wire.types").AIChatMessageWireDTO;
-  export type AIChatOptionsWireDTO =
-    import("./ai/transport/wire.types").AIChatOptionsWireDTO;
-  export type AIRequestContextWireDTO =
-    import("./ai/transport/wire.types").AIRequestContextWireDTO;
-  export type AIChatWithIntentOptionsWireDTO =
-    import("./ai/transport/wire.types").AIChatWithIntentOptionsWireDTO;
+  export type AiChatMessageWireDto =
+    import("./ai/transport/wire.types").AiChatMessageWireDto;
+  export type AiChatOptionsWireDto =
+    import("./ai/transport/wire.types").AiChatOptionsWireDto;
+  export type AiRequestContextWireDto =
+    import("./ai/transport/wire.types").AiRequestContextWireDto;
+  export type AiChatWithIntentOptionsWireDto =
+    import("./ai/transport/wire.types").AiChatWithIntentOptionsWireDto;
 
-  export type AIIntentWireDTO =
-    import("./ai/transport/wire.types").AIIntentWireDTO;
-  export type AICapabilityWireDTO =
-    import("./ai/transport/wire.types").AICapabilityWireDTO;
-  export type AIPageContextWireDTO =
-    import("./ai/transport/wire.types").AIPageContextWireDTO;
+  export type AiIntentWireDto =
+    import("./ai/transport/wire.types").AiIntentWireDto;
+  export type AiCapabilityWireDto =
+    import("./ai/transport/wire.types").AiCapabilityWireDto;
+  export type AiPageContextWireDto =
+    import("./ai/transport/wire.types").AiPageContextWireDto;
 
-  export type AISessionConfigWireDTO =
-    import("./ai/transport/wire.types").AISessionConfigWireDTO;
+  export type AiSessionConfigWireDto =
+    import("./ai/transport/wire.types").AiSessionConfigWireDto;
 }
