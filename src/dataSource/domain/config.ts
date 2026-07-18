@@ -1,3 +1,7 @@
+export interface StaticDataSourceConfig {
+    data: unknown;
+}
+
 export interface EnumDataSourceConfig {
     enumId: string;
 }
@@ -24,6 +28,7 @@ export interface ManualDataSourceConfig {
  *   type -> config
  */
 export interface DataSourceConfigMap {
+    static: StaticDataSourceConfig;
     enum: EnumDataSourceConfig;
     database: DatabaseDataSourceConfig;
     api: ApiDataSourceConfig;
