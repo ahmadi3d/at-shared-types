@@ -2,18 +2,22 @@ export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
 
+export type * from "./dataSource/domain";
+
 /**
  * Runtime value so consumers can use:
- *   import { AtDomainDto } from "at-shared-types/domain";
- *   AtDomainDto.<autocomplete>
+ *
+ * import { AtDomainDto } from "at-shared-types/domain";
+ *
+ * AtDomainDto.<type>
  */
 export const AtDomainDto = {} as const;
 
-/**
- * Merge types into the runtime value for dot-access.
- * This is emitted correctly by tsc (not tsup dts bundler).
- */
 export namespace AtDomainDto {
+    // =========================================================
+    // AI
+    // =========================================================
+
     export type AiChatUsageDto =
         import("./ai/domain/chat").AiChatUsageDto;
 
@@ -55,4 +59,36 @@ export namespace AtDomainDto {
 
     export type AiSessionConfigDto =
         import("./ai/domain/session").AiSessionConfigDto;
+
+
+    // =========================================================
+    // Data Source
+    // =========================================================
+
+    export type DataSourceType =
+        import("./dataSource/domain").DataSourceType;
+
+    export type DataSourceConfig =
+        import("./dataSource/domain").DataSourceConfig;
+
+    export type DataSourceConfigMap =
+        import("./dataSource/domain").DataSourceConfigMap;
+
+    export type EnumDataSourceConfig =
+        import("./dataSource/domain").EnumDataSourceConfig;
+
+    export type DatabaseDataSourceConfig =
+        import("./dataSource/domain").DatabaseDataSourceConfig;
+
+    export type ApiDataSourceConfig =
+        import("./dataSource/domain").ApiDataSourceConfig;
+
+    export type ManualDataSourceConfig =
+        import("./dataSource/domain").ManualDataSourceConfig;
+
+    export type DataSourceValue =
+        import("./dataSource/domain").DataSourceValue;
+
+    export type DataSourceValueDraft =
+        import("./dataSource/domain").DataSourceValueDraft;
 }
