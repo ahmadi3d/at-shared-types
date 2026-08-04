@@ -1,3 +1,4 @@
+export type * from "./core/domain/json.types";
 export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
