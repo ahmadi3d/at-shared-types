@@ -25,7 +25,7 @@ type IsLowerAlpha<C extends string> =
 /**
  * Internal helper:
  * determines whether "_" should be inserted before
- * the current character when converting to snake_case.
+ * the current character when normalizing to snake_case.
  */
 type NeedsSnakeBoundary<
     Prev extends string,
@@ -44,7 +44,7 @@ type NeedsSnakeBoundary<
 
 
 /**
- * Internal snake_case string implementation.
+ * Internal snake_case normalization implementation.
  */
 type SnakeStrImpl<
     S extends string,
@@ -75,14 +75,20 @@ type SnakeStrImpl<
 
 
 /**
- * Convert a string-literal type to snake_case.
+ * Normalize a supported identifier string to snake_case.
  *
  * Examples:
  *
- * SnakeStr<"userId">
- * // "user_id"
+ * SnakeStr<"regionId">
+ * // "region_id"
  *
  * SnakeStr<"RegionID">
+ * // "region_id"
+ *
+ * SnakeStr<"regionID">
+ * // "region_id"
+ *
+ * SnakeStr<"region_id">
  * // "region_id"
  *
  * SnakeStr<"RTime">
@@ -97,39 +103,55 @@ export type SnakeStr<
 
 
 /**
- * Internal camelCase string implementation.
+ * Internal snake_case -> camelCase implementation.
+ *
+ * Input to this helper is assumed to already be
+ * normalized snake_case.
  */
-type CamelStrImpl<S extends string> =
+type CamelFromSnake<S extends string> =
     S extends `${infer Head}_${infer Tail}`
     ? `${Head}${Capitalize<
-        CamelStrImpl<Tail>
+        CamelFromSnake<Tail>
     >}`
     : S;
 
 
 /**
- * Convert a snake_case string-literal type
- * to camelCase.
+ * Normalize a supported identifier string to camelCase.
+ *
+ * The type first normalizes to snake_case and then
+ * converts that canonical representation to camelCase.
  *
  * Examples:
  *
- * CamelStr<"user_id">
- * // "userId"
+ * CamelStr<"regionId">
+ * // "regionId"
+ *
+ * CamelStr<"RegionID">
+ * // "regionId"
+ *
+ * CamelStr<"regionID">
+ * // "regionId"
+ *
+ * CamelStr<"region_id">
+ * // "regionId"
+ *
+ * CamelStr<"RTime">
+ * // "rTime"
  *
  * CamelStr<"r_time">
  * // "rTime"
- *
- * CamelStr<"result_sets_obj">
- * // "resultSetsObj"
  */
 export type CamelStr<
     S extends string
-> = CamelStrImpl<S>;
+> = CamelFromSnake<
+    SnakeStr<S>
+>;
 
 
 /**
- * Values that should never have their internal
- * structure inspected by casing utilities.
+ * Values that casing utilities should treat as values,
+ * rather than attempting to inspect as ordinary objects.
  */
 type Primitive =
     | string
@@ -157,8 +179,8 @@ type AnyFunction =
 /**
  * Internal shallow snake_case object mapping.
  *
- * Only immediate object keys are transformed.
- * Values are left unchanged.
+ * Only immediate object keys are normalized.
+ * Values themselves are left unchanged.
  */
 type SnakeObjectKeys<
     T,
@@ -192,29 +214,28 @@ type CamelObjectKeys<
 
 
 /**
- * Shallowly convert object keys to snake_case.
+ * Shallowly normalize object keys to snake_case.
  *
- * Arrays are treated as containers, so an array
- * of objects has each object's immediate keys
- * converted.
+ * Arrays are treated as containers, so an array of
+ * objects has each object's immediate keys normalized.
  *
- * Nested object values are NOT recursively converted.
+ * Nested object values are NOT recursively normalized.
  *
  * Example:
  *
  * SnakeKeys<{
- *     userId: number;
+ *     RegionID: number;
  *     info: {
- *         regionId: number;
+ *         UserID: number;
  *     };
  * }>
  *
  * becomes:
  *
  * {
- *     user_id: number;
+ *     region_id: number;
  *     info: {
- *         regionId: number;
+ *         UserID: number;
  *     };
  * }
  */
@@ -234,10 +255,7 @@ export type SnakeKeys<
             PreservedKey
         >
     }
-    : T extends ReadonlyMap<
-        any,
-        any
-    >
+    : T extends ReadonlyMap<any, any>
     ? T
     : T extends ReadonlySet<any>
     ? T
@@ -250,7 +268,7 @@ export type SnakeKeys<
 
 
 /**
- * Shallowly convert object keys to camelCase.
+ * Shallowly normalize object keys to camelCase.
  */
 export type CamelKeys<
     T,
@@ -268,10 +286,7 @@ export type CamelKeys<
             PreservedKey
         >
     }
-    : T extends ReadonlyMap<
-        any,
-        any
-    >
+    : T extends ReadonlyMap<any, any>
     ? T
     : T extends ReadonlySet<any>
     ? T
@@ -284,10 +299,12 @@ export type CamelKeys<
 
 
 /**
- * Recursively convert object keys to snake_case.
+ * Recursively normalize object keys to snake_case.
+ *
+ * Behavior:
  *
  * - arrays are traversed
- * - nested objects are traversed
+ * - nested plain objects are traversed
  * - Map keys are preserved
  * - Map values are traversed
  * - Set values are traversed
@@ -367,7 +384,7 @@ export type SnakeKeysDeep<
 
 
 /**
- * Recursively convert object keys to camelCase.
+ * Recursively normalize object keys to camelCase.
  */
 export type CamelKeysDeep<
     T,

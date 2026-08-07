@@ -9,42 +9,41 @@ import type {
 
 
 /**
- * Acronym-to-word boundary.
+ * Acronym -> normal-word boundary.
  *
  * Examples:
  *
  * APIUrl
- *   ↓
- * API_Url
+ * -> API_Url
  *
- * JSONData
- *   ↓
- * JSON_Data
+ * RegionID
+ * is handled together with WORD_BOUNDARY:
+ * -> Region_ID
  */
 const ACRONYM_BOUNDARY =
     /([A-Z]+)([A-Z][a-z])/g;
 
 
 /**
- * Normal camelCase/PascalCase word boundary.
+ * Normal camelCase / PascalCase boundary.
  *
  * Examples:
  *
- * userId
- *   ↓
- * user_Id
+ * regionId
+ * -> region_Id
  *
- * RegionId
- *   ↓
- * Region_Id
+ * RegionID
+ * -> Region_ID
+ *
+ * dataJSON
+ * -> data_JSON
  */
 const WORD_BOUNDARY =
     /([a-z0-9])([A-Z])/g;
 
 
 /**
- * snake_case separator followed by the character
- * that should become uppercase.
+ * Internal canonical snake_case -> camelCase rule.
  */
 const SNAKE_TO_CAMEL =
     /_+([a-zA-Z0-9])/g;
@@ -58,26 +57,33 @@ type KeyTransformer =
 
 
 /**
- * Convert one string identifier to snake_case.
+ * Normalize one supported identifier string
+ * to canonical snake_case.
  *
- * This does NOT inspect objects.
+ * This function does NOT inspect objects.
  *
  * Examples:
  *
- * userId
- * -> user_id
- *
  * RegionID
+ * -> region_id
+ *
+ * regionID
+ * -> region_id
+ *
+ * regionId
+ * -> region_id
+ *
+ * region_id
  * -> region_id
  *
  * RTime
  * -> r_time
  *
+ * rTime
+ * -> r_time
+ *
  * APIUrl
  * -> api_url
- *
- * resultSetsObj
- * -> result_sets_obj
  */
 export function toSnakeStr<
     S extends string
@@ -98,40 +104,70 @@ export function toSnakeStr<
 
 
 /**
- * Convert one snake_case string identifier
- * to camelCase.
+ * Internal conversion from canonical snake_case
+ * to canonical camelCase.
  *
- * This does NOT inspect objects.
- *
- * Examples:
- *
- * user_id
- * -> userId
- *
- * r_time
- * -> rTime
- *
- * result_sets_obj
- * -> resultSetsObj
+ * This stays private because callers should use
+ * toCamelStr(), which also normalizes the input first.
  */
-export function toCamelStr<
-    S extends string
->(
-    value: S
-): CamelStr<S> {
+function snakeToCamel(
+    value: string
+): string {
     return value.replace(
         SNAKE_TO_CAMEL,
         (
             _,
             char: string
         ) => char.toUpperCase()
+    );
+}
+
+
+/**
+ * Normalize one supported identifier string
+ * to canonical camelCase.
+ *
+ * The input is first normalized to snake_case.
+ * This means PascalCase, acronym-heavy casing,
+ * normal camelCase, and snake_case all converge
+ * to the same camelCase result.
+ *
+ * Examples:
+ *
+ * RegionID
+ * -> region_id
+ * -> regionId
+ *
+ * regionID
+ * -> region_id
+ * -> regionId
+ *
+ * regionId
+ * -> region_id
+ * -> regionId
+ *
+ * region_id
+ * -> region_id
+ * -> regionId
+ *
+ * RTime
+ * -> r_time
+ * -> rTime
+ */
+export function toCamelStr<
+    S extends string
+>(
+    value: S
+): CamelStr<S> {
+    return snakeToCamel(
+        toSnakeStr(value)
     ) as CamelStr<S>;
 }
 
 
 /**
- * Determine whether a value is a plain object
- * whose keys are safe to reconstruct.
+ * Determine whether a value is a plain object whose
+ * keys are safe to reconstruct.
  *
  * Custom class instances are deliberately excluded.
  */
@@ -156,16 +192,16 @@ function isPlainObject(
 
 
 /**
- * Values whose internal structure must never
- * be reconstructed as a normal object.
+ * Values whose internal structure must never be
+ * reconstructed as a normal object.
  *
- * ArrayBuffer.isView() also covers:
+ * ArrayBuffer.isView() covers:
  *
  * - Uint8Array
  * - Int32Array
  * - DataView
  * - Node.js Buffer
- * - etc.
+ * - other typed arrays
  */
 function isOpaqueObject(
     value: object
@@ -181,9 +217,9 @@ function isOpaqueObject(
 
 
 /**
- * Preserve the source object's plain-object prototype.
+ * Preserve the source plain object's prototype.
  *
- * This matters for objects created with:
+ * This also preserves objects created using:
  *
  * Object.create(null)
  */
@@ -199,12 +235,13 @@ function createPlainObjectLike(
 /**
  * Safely define a transformed object property.
  *
- * defineProperty is used instead of:
+ * Object.defineProperty() is deliberately used
+ * instead of:
  *
  * target[key] = value
  *
- * so special names such as "__proto__" are treated
- * as ordinary own properties.
+ * so keys such as "__proto__" remain ordinary
+ * own properties.
  */
 function defineValue(
     target: Record<string, unknown>,
@@ -225,15 +262,14 @@ function defineValue(
 
 
 /**
- * Internal shallow key transformer.
+ * Internal shallow object-key normalizer.
  *
- * Arrays are traversed because arrays are containers,
- * not an object-key depth.
+ * Arrays are treated as transparent containers.
  *
  * Once a plain object is reached:
  *
- * - its immediate keys are converted
- * - its values are NOT recursively converted
+ * - its immediate keys are normalized
+ * - its values are NOT recursively normalized
  */
 function transformKeysShallow(
     value: unknown,
@@ -266,21 +302,21 @@ function transformKeysShallow(
 
 
         /**
-         * Arrays are transparent containers for
-         * shallow conversion.
+         * Arrays are containers rather than another
+         * object-key depth.
          *
          * Example:
          *
          * [
-         *   { userId: 1 },
-         *   { userId: 2 }
+         *     { RegionID: 1 },
+         *     { regionId: 2 }
          * ]
          *
          * becomes:
          *
          * [
-         *   { user_id: 1 },
-         *   { user_id: 2 }
+         *     { region_id: 1 },
+         *     { region_id: 2 }
          * ]
          */
         if (Array.isArray(current)) {
@@ -302,10 +338,16 @@ function transformKeysShallow(
 
 
         /**
-         * Map, Set, custom classes, URL, Blob,
-         * File, database-driver objects, etc.
+         * Shallow normalization does not inspect:
          *
-         * Shallow conversion does not inspect them.
+         * - Map
+         * - Set
+         * - custom classes
+         * - URL
+         * - Blob
+         * - File
+         * - FormData
+         * - database-driver objects
          */
         if (!isPlainObject(current)) {
             return current;
@@ -325,23 +367,20 @@ function transformKeysShallow(
             const [key, item]
             of Object.entries(current)
         ) {
-            const nextKey =
+            const normalizedKey =
                 preservedKeys.has(key)
                     ? key
                     : transformKey(key);
 
             /**
-             * IMPORTANT:
+             * Deliberately do NOT recurse into item.
              *
-             * item is deliberately NOT passed
-             * through visit().
-             *
-             * This is what makes this function
+             * That is what makes this operation
              * shallow.
              */
             defineValue(
                 output,
-                nextKey,
+                normalizedKey,
                 item
             );
         }
@@ -356,9 +395,9 @@ function transformKeysShallow(
 
 
 /**
- * Internal recursive key transformer.
+ * Internal recursive object-key normalizer.
  *
- * This is the engine used by:
+ * Used only by:
  *
  * - toSnakeDeep()
  * - toCamelDeep()
@@ -391,8 +430,7 @@ function transformKeysDeep(
 
 
         /**
-         * Handles circular references and preserves
-         * shared references.
+         * Preserve circular/shared object references.
          */
         if (seen.has(current)) {
             return seen.get(current);
@@ -418,12 +456,12 @@ function transformKeysDeep(
 
 
         /**
-         * Map keys are preserved deliberately.
+         * Map keys are preserved.
          *
-         * Map keys are data, not JavaScript
-         * property names.
+         * They are data values rather than normal
+         * JavaScript object property names.
          *
-         * Map values are recursively converted.
+         * Map values are recursively normalized.
          */
         if (current instanceof Map) {
             const output =
@@ -449,8 +487,7 @@ function transformKeysDeep(
 
 
         /**
-         * Set items are values, so nested object
-         * values inside a Set are recursively handled.
+         * Set values are recursively normalized.
          */
         if (current instanceof Set) {
             const output =
@@ -475,16 +512,7 @@ function transformKeysDeep(
 
 
         /**
-         * Do not destroy custom object types.
-         *
-         * Examples:
-         *
-         * URL
-         * File
-         * Blob
-         * FormData
-         * database-driver classes
-         * custom class instances
+         * Preserve custom/non-plain object instances.
          */
         if (!isPlainObject(current)) {
             return current;
@@ -504,14 +532,14 @@ function transformKeysDeep(
             const [key, item]
             of Object.entries(current)
         ) {
-            const nextKey =
+            const normalizedKey =
                 preservedKeys.has(key)
                     ? key
                     : transformKey(key);
 
             defineValue(
                 output,
-                nextKey,
+                normalizedKey,
                 visit(item)
             );
         }
@@ -526,27 +554,27 @@ function transformKeysDeep(
 
 
 /**
- * Shallowly convert object keys to snake_case.
+ * Shallowly normalize object keys to snake_case.
  *
  * Arrays of objects are supported.
  *
- * Nested object values are NOT converted.
+ * Nested object values are NOT recursively normalized.
  *
  * Example:
  *
  * toSnake({
- *     userId: 1,
+ *     RegionID: 1,
  *     info: {
- *         regionId: 2
+ *         UserID: 2
  *     }
  * })
  *
  * returns:
  *
  * {
- *     user_id: 1,
+ *     region_id: 1,
  *     info: {
- *         regionId: 2
+ *         UserID: 2
  *     }
  * }
  */
@@ -571,7 +599,25 @@ export function toSnake<
 
 
 /**
- * Shallowly convert object keys to camelCase.
+ * Shallowly normalize object keys to camelCase.
+ *
+ * Example:
+ *
+ * toCamel({
+ *     RegionID: 1,
+ *     info: {
+ *         UserID: 2
+ *     }
+ * })
+ *
+ * returns:
+ *
+ * {
+ *     regionId: 1,
+ *     info: {
+ *         UserID: 2
+ *     }
+ * }
  */
 export function toCamel<
     T,
@@ -594,9 +640,9 @@ export function toCamel<
 
 
 /**
- * Recursively convert object keys to snake_case.
+ * Recursively normalize object keys to snake_case.
  *
- * This is normally what you want for:
+ * Normally used for:
  *
  * - HTTP request payloads
  * - nested DTOs
@@ -623,13 +669,33 @@ export function toSnakeDeep<
 
 
 /**
- * Recursively convert object keys to camelCase.
+ * Recursively normalize object keys to camelCase.
  *
- * This is normally what you want for:
+ * Normally used for:
  *
  * - HTTP responses
  * - nested DTOs
  * - nested arrays/objects
+ *
+ * PascalCase/acronym-heavy keys are normalized too.
+ *
+ * Example:
+ *
+ * {
+ *     RegionID: 1,
+ *     nested_value: {
+ *         UserID: 2
+ *     }
+ * }
+ *
+ * becomes:
+ *
+ * {
+ *     regionId: 1,
+ *     nestedValue: {
+ *         userId: 2
+ *     }
+ * }
  */
 export function toCamelDeep<
     T,
