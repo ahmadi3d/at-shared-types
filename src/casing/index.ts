@@ -1,8 +1,17 @@
-// src/casing/index.ts
-export * from "./case.types";
-export * from "./case.runtime";
+export {
+    toSnakeStr,
+    toCamelStr,
+    toSnake,
+    toCamel,
+    toSnakeDeep,
+    toCamelDeep,
+} from "./case.runtime";
 
-// (optional) if you still like namespaces, keep them too:
-import * as Types from "./case.types";
-import * as Runtime from "./case.runtime";
-export { Types, Runtime };
+export type {
+    SnakeStr,
+    CamelStr,
+    SnakeKeys,
+    CamelKeys,
+    SnakeKeysDeep,
+    CamelKeysDeep,
+} from "./case.types";
