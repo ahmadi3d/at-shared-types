@@ -81,6 +81,24 @@ export namespace AtDomainDto {
     export type DatabaseDataSourceConfig =
         import("./dataSource/domain").DatabaseDataSourceConfig;
 
+    export type DatabaseDataSourceObjectType =
+        import("./dataSource/domain").DatabaseDataSourceObjectType;
+
+    export type DatabaseProcedureDataSourceConfig =
+        import("./dataSource/domain").DatabaseProcedureDataSourceConfig;
+
+    export type DatabaseTableDataSourceConfig =
+        import("./dataSource/domain").DatabaseTableDataSourceConfig;
+
+    export type DatabaseTableQuery =
+        import("./dataSource/domain").DatabaseTableQuery;
+
+    export type DatabaseTableQueryOrder =
+        import("./dataSource/domain").DatabaseTableQueryOrder;
+
+    export type DatabaseTableQueryOrderDirection =
+        import("./dataSource/domain").DatabaseTableQueryOrderDirection;
+
     export type ApiDataSourceConfig =
         import("./dataSource/domain").ApiDataSourceConfig;
 

@@ -1,4 +1,4 @@
-export const AtAuthProviderTypes = ["parto", "atplatform"] as const;
+export const AtAuthProviderTypes = ["parto", "atplatform", "host"] as const;
 export type AtAuthProviderType = typeof AtAuthProviderTypes[number];
 
 export interface AtAuthUserDto {
