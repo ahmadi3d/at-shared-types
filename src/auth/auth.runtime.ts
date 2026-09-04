@@ -8,10 +8,16 @@ import {
     mapAtPlatformSessionFromToken,
 } from "./providers/atplatform/atplatform.runtime";
 
+import {
+    mapHostSessionFromLogin,
+    mapHostSessionFromToken,
+} from "./providers/host/host.runtime";
+
 import { AtAuthProviderType, AtAuthSessionDto } from "./domain/authSession";
 
 export * from "./providers/parto/parto.runtime";
 export * from "./providers/atplatform/atplatform.runtime";
+export * from "./providers/host/host.runtime";
 
 const mapSessionFromLoginByProvider: Record<
     AtAuthProviderType,
@@ -19,6 +25,7 @@ const mapSessionFromLoginByProvider: Record<
 > = {
     atplatform: mapAtPlatformSessionFromLogin,
     parto: mapPartoSessionFromLogin,
+    host: mapHostSessionFromLogin,
 };
 
 const mapSessionFromTokenByProvider: Record<
@@ -27,6 +34,7 @@ const mapSessionFromTokenByProvider: Record<
 > = {
     atplatform: mapAtPlatformSessionFromToken,
     parto: mapPartoSessionFromToken,
+    host: mapHostSessionFromToken,
 };
 
 export function mapSessionFromLogin(
@@ -53,4 +61,3 @@ export function mapSessionFromToken(
 
     return mapper(payload, token);
 }
-

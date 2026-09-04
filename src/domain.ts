@@ -75,6 +75,9 @@ export namespace AtDomainDto {
     export type DataSourceConfigMap =
         import("./dataSource/domain").DataSourceConfigMap;
 
+    export type StaticDataSourceConfig =
+        import("./dataSource/domain").StaticDataSourceConfig;
+
     export type EnumDataSourceConfig =
         import("./dataSource/domain").EnumDataSourceConfig;
 
@@ -110,4 +113,102 @@ export namespace AtDomainDto {
 
     export type DataSourceValueDraft =
         import("./dataSource/domain").DataSourceValueDraft;
+
+    // =========================================================
+    // Data Source Binding / Transform
+    // =========================================================
+
+    export type DataSourceBindingVersion =
+        import("./dataSource/domain").DataSourceBindingVersion;
+
+    export type DataSourceBinding =
+        import("./dataSource/domain").DataSourceBinding;
+
+    export type DataSourceBindingDraft =
+        import("./dataSource/domain").DataSourceBindingDraft;
+
+    export type DataTransformVersion =
+        import("./dataSource/domain").DataTransformVersion;
+
+    export type DataTransform =
+        import("./dataSource/domain").DataTransform;
+
+    export type DataTransformDraft =
+        import("./dataSource/domain").DataTransformDraft;
+
+    export type DataTransformExpression =
+        import("./dataSource/domain").DataTransformExpression;
+
+    export type DataTransformPathExpression =
+        import("./dataSource/domain").DataTransformPathExpression;
+
+    export type DataTransformConstantExpression =
+        import("./dataSource/domain").DataTransformConstantExpression;
+
+    export type DataTransformTemplateExpression =
+        import("./dataSource/domain").DataTransformTemplateExpression;
+
+    export type DataTransformStepType =
+        import("./dataSource/domain").DataTransformStepType;
+
+    export type DataTransformStepConfigMap =
+        import("./dataSource/domain").DataTransformStepConfigMap;
+
+    export type DataTransformStepValue =
+        import("./dataSource/domain").DataTransformStepValue;
+
+    export type DataTransformStepValueDraft =
+        import("./dataSource/domain").DataTransformStepValueDraft;
+
+    export type SelectPathTransformConfig =
+        import("./dataSource/domain").SelectPathTransformConfig;
+
+    export type MapTransformScope =
+        import("./dataSource/domain").MapTransformScope;
+
+    export type MapTransformFieldMapping =
+        import("./dataSource/domain").MapTransformFieldMapping;
+
+    export type MapTransformConfig =
+        import("./dataSource/domain").MapTransformConfig;
+
+    export type FilterTransformComparisonOperator =
+        import("./dataSource/domain").FilterTransformComparisonOperator;
+
+    export type FilterTransformRule =
+        import("./dataSource/domain").FilterTransformRule;
+
+    export type FilterTransformLogicalOperator =
+        import("./dataSource/domain").FilterTransformLogicalOperator;
+
+    export type FilterTransformGroup =
+        import("./dataSource/domain").FilterTransformGroup;
+
+    export type FilterTransformCondition =
+        import("./dataSource/domain").FilterTransformCondition;
+
+    export type FilterTransformConfig =
+        import("./dataSource/domain").FilterTransformConfig;
+
+    export type SortTransformDirection =
+        import("./dataSource/domain").SortTransformDirection;
+
+    export type SortTransformNullPlacement =
+        import("./dataSource/domain").SortTransformNullPlacement;
+
+    export type SortTransformField =
+        import("./dataSource/domain").SortTransformField;
+
+    export type SortTransformConfig =
+        import("./dataSource/domain").SortTransformConfig;
+
+    export type DistinctTransformConfig =
+        import("./dataSource/domain").DistinctTransformConfig;
+
+    export type LimitTransformConfig =
+        import("./dataSource/domain").LimitTransformConfig;
+
+    export type JavascriptTransformConfig =
+        import("./dataSource/domain").JavascriptTransformConfig;
+
 }

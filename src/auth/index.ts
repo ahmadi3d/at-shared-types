@@ -20,6 +20,10 @@ export namespace Types {
     export type PartoUserInfoDto = import("./providers/parto/parto.login.types").PartoUserInfoDto;
     export type PartoLoginResponseDto = import("./providers/parto/parto.login.types").PartoLoginResponseDto;
     export type PartoAccessTokenPayloadDto = import("./providers/parto/parto.token.types").PartoAccessTokenPayloadDto;
+
+    // Host Types
+    export type HostLoginResponseDto = import("./providers/host/host.login.types").HostLoginResponseDto;
+    export type HostAccessTokenPayloadDto = import("./providers/host/host.token.types").HostAccessTokenPayloadDto;
 }
 
 // Export runtime under a clean namespace
