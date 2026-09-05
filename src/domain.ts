@@ -3,6 +3,8 @@ export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
 
+export type * from "./dataShape/domain";
+export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 
 /**
@@ -15,6 +17,33 @@ export type * from "./dataSource/domain";
 export const AtDomainDto = {} as const;
 
 export namespace AtDomainDto {
+    // =========================================================
+    // Data Shape / Runtime Values
+    // =========================================================
+
+    export type DataShapeKind = import("./dataShape/domain").DataShapeKind;
+    export type DataShape = import("./dataShape/domain").DataShape;
+    export type DataShapeField = import("./dataShape/domain").DataShapeField;
+    export type UnknownDataShape = import("./dataShape/domain").UnknownDataShape;
+    export type StringDataShape = import("./dataShape/domain").StringDataShape;
+    export type NumberDataShape = import("./dataShape/domain").NumberDataShape;
+    export type IntegerDataShape = import("./dataShape/domain").IntegerDataShape;
+    export type BooleanDataShape = import("./dataShape/domain").BooleanDataShape;
+    export type ObjectDataShape = import("./dataShape/domain").ObjectDataShape;
+    export type ArrayDataShape = import("./dataShape/domain").ArrayDataShape;
+
+    export type RuntimeValueExpressionType = import("./runtime/domain").RuntimeValueExpressionType;
+    export type RuntimeValueExpressionMap = import("./runtime/domain").RuntimeValueExpressionMap;
+    export type RuntimeValueExpression = import("./runtime/domain").RuntimeValueExpression;
+    export type RuntimeValueExpressionDraft = import("./runtime/domain").RuntimeValueExpressionDraft;
+    export type ConstantRuntimeValueExpression = import("./runtime/domain").ConstantRuntimeValueExpression;
+    export type FormValueRuntimeValueExpression = import("./runtime/domain").FormValueRuntimeValueExpression;
+    export type EventRuntimeValueExpression = import("./runtime/domain").EventRuntimeValueExpression;
+    export type ActionResultRuntimeValueExpression = import("./runtime/domain").ActionResultRuntimeValueExpression;
+    export type VariableRuntimeValueExpression = import("./runtime/domain").VariableRuntimeValueExpression;
+    export type ContextRuntimeValueExpression = import("./runtime/domain").ContextRuntimeValueExpression;
+    export type JavascriptRuntimeValueExpression = import("./runtime/domain").JavascriptRuntimeValueExpression;
+
     // =========================================================
     // AI
     // =========================================================
@@ -108,6 +137,10 @@ export namespace AtDomainDto {
     export type ManualDataSourceConfig =
         import("./dataSource/domain").ManualDataSourceConfig;
 
+    export type DataContractId = import("./dataSource/domain").DataContractId;
+    export type DataContractVersion = import("./dataSource/domain").DataContractVersion;
+    export type DataContractDataSourceConfig = import("./dataSource/domain").DataContractDataSourceConfig;
+
     export type DataSourceValue =
         import("./dataSource/domain").DataSourceValue;
 
@@ -126,6 +159,9 @@ export namespace AtDomainDto {
 
     export type DataSourceBindingDraft =
         import("./dataSource/domain").DataSourceBindingDraft;
+
+    export type DataSourceInputBindings = import("./dataSource/domain").DataSourceInputBindings;
+    export type DataSourceInputBindingsDraft = import("./dataSource/domain").DataSourceInputBindingsDraft;
 
     export type DataTransformVersion =
         import("./dataSource/domain").DataTransformVersion;

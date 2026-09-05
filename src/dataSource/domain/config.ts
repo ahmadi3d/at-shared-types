@@ -67,6 +67,14 @@ export interface ManualDataSourceConfig {
     script: string;
 }
 
+export type DataContractId = string | number;
+export type DataContractVersion = number;
+
+export interface DataContractDataSourceConfig {
+    dataContractId: DataContractId;
+    version: DataContractVersion;
+}
+
 /**
  * Maps each data-source type to its corresponding configuration.
  *
@@ -79,6 +87,7 @@ export interface DataSourceConfigMap {
     enum: EnumDataSourceConfig;
     database: DatabaseDataSourceConfig;
     api: ApiDataSourceConfig;
+    dataContract: DataContractDataSourceConfig;
     manual: ManualDataSourceConfig;
 }
 
