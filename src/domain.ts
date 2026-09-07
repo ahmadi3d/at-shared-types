@@ -147,6 +147,9 @@ export namespace AtDomainDto {
     export type DataSourceValueDraft =
         import("./dataSource/domain").DataSourceValueDraft;
 
+    export type DataSourceExecutionResult<TRaw = unknown, TSourceValue = unknown, TValue = unknown> =
+        import("./dataSource/domain").DataSourceExecutionResult<TRaw, TSourceValue, TValue>;
+
     // =========================================================
     // Data Source Binding / Transform
     // =========================================================
