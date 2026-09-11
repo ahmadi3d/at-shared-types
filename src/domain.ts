@@ -6,6 +6,7 @@ export type * from "./ai/domain/chat";
 export type * from "./dataShape/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
+export type * from "./dataResource/domain";
 
 /**
  * Runtime value so consumers can use:
@@ -43,6 +44,9 @@ export namespace AtDomainDto {
     export type VariableRuntimeValueExpression = import("./runtime/domain").VariableRuntimeValueExpression;
     export type ContextRuntimeValueExpression = import("./runtime/domain").ContextRuntimeValueExpression;
     export type JavascriptRuntimeValueExpression = import("./runtime/domain").JavascriptRuntimeValueExpression;
+    export type ResourceRuntimeValueExpression = import("./runtime/domain").ResourceRuntimeValueExpression;
+    export type RuntimeValueBindingVersion = import("./runtime/domain").RuntimeValueBindingVersion;
+    export type RuntimeValueBinding = import("./runtime/domain").RuntimeValueBinding;
 
     // =========================================================
     // AI
@@ -247,7 +251,32 @@ export namespace AtDomainDto {
     export type LimitTransformConfig =
         import("./dataSource/domain").LimitTransformConfig;
 
+    export type ApplyTransformScope =
+        import("./dataSource/domain").ApplyTransformScope;
+
+    export type ApplyTransformConfig =
+        import("./dataSource/domain").ApplyTransformConfig;
+
+    export type ApplyTransformConfigDraft =
+        import("./dataSource/domain").ApplyTransformConfigDraft;
+
+    export type ParseJsonTransformConfig =
+        import("./dataSource/domain").ParseJsonTransformConfig;
+
     export type JavascriptTransformConfig =
         import("./dataSource/domain").JavascriptTransformConfig;
+
+    // =========================================================
+    // Data Resource / Graph
+    // =========================================================
+
+    export type DataResourceId = import("./dataResource/domain").DataResourceId;
+    export type DataResourceExecutionMode = import("./dataResource/domain").DataResourceExecutionMode;
+    export type SourceDataResource = import("./dataResource/domain").SourceDataResource;
+    export type ComputedDataResource = import("./dataResource/domain").ComputedDataResource;
+    export type DataResource = import("./dataResource/domain").DataResource;
+    export type DataGraphVersion = import("./dataResource/domain").DataGraphVersion;
+    export type DataGraph = import("./dataResource/domain").DataGraph;
+    export type DataResourceReference = import("./dataResource/domain").DataResourceReference;
 
 }

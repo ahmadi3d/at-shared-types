@@ -1,9 +1,12 @@
 import type {
+    ApplyTransformConfig,
+    ApplyTransformConfigDraft,
     DistinctTransformConfig,
     FilterTransformConfig,
     JavascriptTransformConfig,
     LimitTransformConfig,
     MapTransformConfig,
+    ParseJsonTransformConfig,
     SelectPathTransformConfig,
     SortTransformConfig,
 } from "./steps";
@@ -22,6 +25,8 @@ export interface DataTransformStepConfigMap {
     sort: SortTransformConfig;
     distinct: DistinctTransformConfig;
     limit: LimitTransformConfig;
+    apply: ApplyTransformConfig;
+    parseJson: ParseJsonTransformConfig;
     javascript: JavascriptTransformConfig;
 }
 
@@ -43,6 +48,16 @@ export type DataTransformStepValue = {
 }[DataTransformStepType];
 
 /**
+ * Draft configuration for a built-in step. Apply is the only recursive step,
+ * so it keeps a nested DataTransformDraft instead of requiring a fully
+ * configured nested pipeline while authoring.
+ */
+export type DataTransformStepConfigDraft<Type extends DataTransformStepType> =
+    Type extends "apply"
+        ? ApplyTransformConfigDraft
+        : Partial<DataTransformStepConfigMap[Type]>;
+
+/**
  * Editable/incomplete representation used while a transform step is being
  * configured in Form Maker.
  */
@@ -50,7 +65,7 @@ export type DataTransformStepValueDraft = {
     [Type in DataTransformStepType]: {
         id: string;
         type: Type;
-        config: Partial<DataTransformStepConfigMap[Type]>;
+        config: DataTransformStepConfigDraft<Type>;
         enabled?: boolean;
     };
 }[DataTransformStepType];

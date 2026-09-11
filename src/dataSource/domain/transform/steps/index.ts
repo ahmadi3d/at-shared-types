@@ -4,4 +4,6 @@ export type * from "./filter";
 export type * from "./sort";
 export type * from "./distinct";
 export type * from "./limit";
+export type * from "./apply";
+export type * from "./parseJson";
 export type * from "./javascript";

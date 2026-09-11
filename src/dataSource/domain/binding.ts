@@ -18,8 +18,14 @@ export type DataSourceInputBindings = Record<string, RuntimeValueExpression>;
 export type DataSourceInputBindingsDraft = Record<string, RuntimeValueExpressionDraft>;
 
 /**
- * A DataSource together with the optional transformation pipeline that adapts
- * its resolved value before it is passed to the consumer.
+ * A DataSource together with declared runtime inputs and an optional source
+ * transform. The transform converts the provider's resolved source value into
+ * the binding's canonical value.
+ *
+ * When a binding belongs to a SourceDataResource this canonical value is the
+ * resource value. For an inline single-consumer DataSource it remains the
+ * resolved DataSource value consumed by that binding. Consumer-specific
+ * adaptation belongs to RuntimeValueBinding rather than this type.
  */
 export interface DataSourceBinding {
     version: DataSourceBindingVersion;

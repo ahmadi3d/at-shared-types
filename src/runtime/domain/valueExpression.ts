@@ -1,3 +1,4 @@
+import type { DataResourceId } from "../../dataResource/domain/identity";
 import type { AtJsonValue } from "../../core/domain/json.types";
 
 export interface ConstantRuntimeValueExpression {
@@ -48,6 +49,18 @@ export interface ContextRuntimeValueExpression {
     path?: string;
 }
 
+
+/**
+ * Reads the canonical value of a configured DataResource, optionally selecting
+ * a nested path. This expression is a read reference only; it does not execute
+ * or otherwise control the resource.
+ */
+export interface ResourceRuntimeValueExpression {
+    type: "resource";
+    resourceId: DataResourceId;
+    path?: string;
+}
+
 /**
  * Escape hatch for values that cannot be expressed by the declarative modes.
  * The host runtime owns the available script context and execution policy.
@@ -64,6 +77,7 @@ export interface RuntimeValueExpressionMap {
     actionResult: ActionResultRuntimeValueExpression;
     variable: VariableRuntimeValueExpression;
     context: ContextRuntimeValueExpression;
+    resource: ResourceRuntimeValueExpression;
     javascript: JavascriptRuntimeValueExpression;
 }
 
