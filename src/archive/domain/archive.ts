@@ -1,13 +1,14 @@
 import type { AtJsonObject } from "../../core/domain/json.types";
 
 /**
- * Opaque application-level reference to an archived file.
+ * Stable application-level identity of an archived file.
  *
- * Consumers must not parse or construct archive keys. The archive service owns
- * their format so physical providers can change without leaking implementation
- * details to callers.
+ * Archive IDs are the only durable identity business data should persist.
+ * They must remain stable when file content moves between physical archive
+ * providers. Consumers must not derive provider, database, path, or bucket
+ * information from an archive ID.
  */
-export type ArchiveKey = string;
+export type ArchiveId = string;
 
 /**
  * Logical archive partition used by the application to route/group files.
@@ -23,12 +24,23 @@ export type ArchiveBucket = string;
 export type ArchiveMetadata = AtJsonObject;
 
 /**
- * Optional content checksum exposed when an archive implementation can provide
- * one. The algorithm is intentionally open-ended so future providers are not
- * constrained to a fixed checksum list.
+ * Encoding used for checksum values exposed through JSON contracts.
+ *
+ * Binary checksum bytes must never be coerced directly into text.
+ */
+export type ArchiveChecksumEncoding = "hex" | "base64";
+
+/**
+ * Optional content checksum exposed when the archive implementation can
+ * provide one.
+ *
+ * The algorithm remains open-ended so future implementations are not limited
+ * to a hard-coded algorithm list. The value must use the declared text
+ * encoding.
  */
 export interface ArchiveChecksum {
     algorithm: string;
+    encoding: ArchiveChecksumEncoding;
     value: string;
 }
 
@@ -44,14 +56,31 @@ export interface ArchiveFileProperties {
 }
 
 /**
- * Stable, provider-agnostic description of an archived file.
+ * Lightweight durable reference intended for business records, forms,
+ * workflows, and other application data that points at an archived file.
  *
- * Binary content is deliberately not part of this DTO. Browser File/Blob,
- * Node.js streams/buffers, HTTP responses, and provider-native handles belong
- * to their respective implementation layers.
+ * archiveId is the identity. The remaining fields are a small display snapshot
+ * so common UIs can render a filename/type/size without issuing an archive
+ * metadata request for every reference. Archive-owned metadata such as bucket,
+ * checksum, version, title, custom metadata, and timestamps deliberately does
+ * not belong here.
+ */
+export interface ArchiveFileReference {
+    archiveId: ArchiveId;
+    fileName: string;
+    mimeType?: string;
+    size?: number;
+}
+
+/**
+ * Complete provider-agnostic description of an archived file.
+ *
+ * Binary content and physical location are deliberately absent. Browser
+ * File/Blob, Node.js streams/buffers, HTTP responses, database IDs, filesystem
+ * paths, and provider-native handles belong to implementation layers.
  */
 export interface ArchiveFileDescriptor extends ArchiveFileProperties {
-    archiveKey: ArchiveKey;
+    archiveId: ArchiveId;
     bucket: ArchiveBucket;
     fileName: string;
     mimeType?: string;

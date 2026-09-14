@@ -23,11 +23,13 @@ export namespace AtDomainDto {
     // Archive
     // =========================================================
 
-    export type ArchiveKey = import("./archive/domain").ArchiveKey;
+    export type ArchiveId = import("./archive/domain").ArchiveId;
     export type ArchiveBucket = import("./archive/domain").ArchiveBucket;
     export type ArchiveMetadata = import("./archive/domain").ArchiveMetadata;
+    export type ArchiveChecksumEncoding = import("./archive/domain").ArchiveChecksumEncoding;
     export type ArchiveChecksum = import("./archive/domain").ArchiveChecksum;
     export type ArchiveFileProperties = import("./archive/domain").ArchiveFileProperties;
+    export type ArchiveFileReference = import("./archive/domain").ArchiveFileReference;
     export type ArchiveFileDescriptor = import("./archive/domain").ArchiveFileDescriptor;
     export type ArchiveUploadOptions = import("./archive/domain").ArchiveUploadOptions;
     export type ArchiveUploadResult = import("./archive/domain").ArchiveUploadResult;

@@ -9,8 +9,10 @@ export const AtTransportDto = {} as const;
 export namespace AtTransportDto {
   export type ArchiveUploadOptionsWireDto =
     import("./archive/transport").ArchiveUploadOptionsWireDto;
-  export type ArchiveFileWireDto =
-    import("./archive/transport").ArchiveFileWireDto;
+  export type ArchiveFileReferenceWireDto =
+    import("./archive/transport").ArchiveFileReferenceWireDto;
+  export type ArchiveFileDescriptorWireDto =
+    import("./archive/transport").ArchiveFileDescriptorWireDto;
   export type ArchiveUploadResultWireDto =
     import("./archive/transport").ArchiveUploadResultWireDto;
 

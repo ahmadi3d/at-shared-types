@@ -1,6 +1,7 @@
 import type { SnakeKeys } from "../../casing";
 import type {
     ArchiveFileDescriptor,
+    ArchiveFileReference,
     ArchiveUploadOptions,
 } from "../domain";
 
@@ -16,16 +17,23 @@ export type ArchiveUploadOptionsWireDto =
     SnakeKeys<ArchiveUploadOptions>;
 
 /**
+ * Wire representation of a durable archive reference embedded in business
+ * data such as forms and workflows.
+ */
+export type ArchiveFileReferenceWireDto =
+    SnakeKeys<ArchiveFileReference>;
+
+/**
  * Wire representation of a provider-agnostic archive file descriptor.
  *
  * Shallow casing preserves opaque metadata exactly as the caller supplied it.
  */
-export type ArchiveFileWireDto =
+export type ArchiveFileDescriptorWireDto =
     SnakeKeys<ArchiveFileDescriptor>;
 
 /**
  * Wire representation returned after uploading one or more files.
  */
 export interface ArchiveUploadResultWireDto {
-    files: ArchiveFileWireDto[];
+    files: ArchiveFileDescriptorWireDto[];
 }
