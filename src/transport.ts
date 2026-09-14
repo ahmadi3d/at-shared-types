@@ -1,11 +1,19 @@
 export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
 export type * from "./core/transport/responses";
+export type * from "./archive/transport";
 
 export const AtTransportDto = {} as const;
 
 // ✅ type bucket (so AtTransportDto.ResponseErrorDto etc works)
 export namespace AtTransportDto {
+  export type ArchiveUploadOptionsWireDto =
+    import("./archive/transport").ArchiveUploadOptionsWireDto;
+  export type ArchiveFileWireDto =
+    import("./archive/transport").ArchiveFileWireDto;
+  export type ArchiveUploadResultWireDto =
+    import("./archive/transport").ArchiveUploadResultWireDto;
+
   export type ResponseSuccessDto<T> =
     import("./core/transport/responses").ResponseSuccessDto<T>;
   export type ResponseErrorDto =

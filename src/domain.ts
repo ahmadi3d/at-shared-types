@@ -1,4 +1,5 @@
 export type * from "./core/domain/json.types";
+export type * from "./archive/domain";
 export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
@@ -18,6 +19,19 @@ export type * from "./dataResource/domain";
 export const AtDomainDto = {} as const;
 
 export namespace AtDomainDto {
+    // =========================================================
+    // Archive
+    // =========================================================
+
+    export type ArchiveKey = import("./archive/domain").ArchiveKey;
+    export type ArchiveBucket = import("./archive/domain").ArchiveBucket;
+    export type ArchiveMetadata = import("./archive/domain").ArchiveMetadata;
+    export type ArchiveChecksum = import("./archive/domain").ArchiveChecksum;
+    export type ArchiveFileProperties = import("./archive/domain").ArchiveFileProperties;
+    export type ArchiveFileDescriptor = import("./archive/domain").ArchiveFileDescriptor;
+    export type ArchiveUploadOptions = import("./archive/domain").ArchiveUploadOptions;
+    export type ArchiveUploadResult = import("./archive/domain").ArchiveUploadResult;
+
     // =========================================================
     // Data Shape / Runtime Values
     // =========================================================
