@@ -8,6 +8,7 @@ export type * from "./dataShape/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 export type * from "./dataResource/domain";
+export type * from "./workflow/domain";
 
 /**
  * Runtime value so consumers can use:
@@ -294,5 +295,52 @@ export namespace AtDomainDto {
     export type DataGraphVersion = import("./dataResource/domain").DataGraphVersion;
     export type DataGraph = import("./dataResource/domain").DataGraph;
     export type DataResourceReference = import("./dataResource/domain").DataResourceReference;
+
+    // =========================================================
+    // Workflow
+    // =========================================================
+
+    export type WorkflowTaskActionType = import("./workflow/domain").WorkflowTaskActionType;
+    export type WorkflowScriptApiVersion = import("./workflow/domain").WorkflowScriptApiVersion;
+    export type WorkflowScriptLanguage = import("./workflow/domain").WorkflowScriptLanguage;
+    export type WorkflowScriptTaskExecutionConfig = import("./workflow/domain").WorkflowScriptTaskExecutionConfig;
+    export type WorkflowTaskExecutionConfigMap = import("./workflow/domain").WorkflowTaskExecutionConfigMap;
+    export type WorkflowTaskExecutionMode = import("./workflow/domain").WorkflowTaskExecutionMode;
+    export type WorkflowTaskExecutionDefinition = import("./workflow/domain").WorkflowTaskExecutionDefinition;
+
+    export type WorkflowScriptConditionConfig = import("./workflow/domain").WorkflowScriptConditionConfig;
+    export type WorkflowConditionConfigMap = import("./workflow/domain").WorkflowConditionConfigMap;
+    export type WorkflowConditionMode = import("./workflow/domain").WorkflowConditionMode;
+    export type WorkflowConditionDefinition = import("./workflow/domain").WorkflowConditionDefinition;
+
+    export type WorkflowSchemaVersion = import("./workflow/domain").WorkflowSchemaVersion;
+    export type WorkflowReferenceId = import("./workflow/domain").WorkflowReferenceId;
+    export type WorkflowNodeKind = import("./workflow/domain").WorkflowNodeKind;
+    export type WorkflowProcessDefinition = import("./workflow/domain").WorkflowProcessDefinition;
+    export type WorkflowTaskDefinition = import("./workflow/domain").WorkflowTaskDefinition;
+    export type WorkflowNodeDefinition = import("./workflow/domain").WorkflowNodeDefinition;
+    export type WorkflowFlowDefinition = import("./workflow/domain").WorkflowFlowDefinition;
+    export type WorkflowDefinition = import("./workflow/domain").WorkflowDefinition;
+
+    export type WorkflowRequestId = import("./workflow/domain").WorkflowRequestId;
+    export type WorkflowTaskInstanceId = import("./workflow/domain").WorkflowTaskInstanceId;
+    export type WorkflowActionExecutionId = import("./workflow/domain").WorkflowActionExecutionId;
+    export type WorkflowScriptActor = import("./workflow/domain").WorkflowScriptActor;
+    export type WorkflowScriptRequestInfo = import("./workflow/domain").WorkflowScriptRequestInfo;
+    export type WorkflowScriptTaskInfo = import("./workflow/domain").WorkflowScriptTaskInfo;
+    export type WorkflowTaskScriptContext = import("./workflow/domain").WorkflowTaskScriptContext;
+    export type WorkflowConditionScriptContext = import("./workflow/domain").WorkflowConditionScriptContext;
+    export type WorkflowTaskScriptResult = import("./workflow/domain").WorkflowTaskScriptResult;
+    export type WorkflowScriptLogApi = import("./workflow/domain").WorkflowScriptLogApi;
+    export type WorkflowDatabaseResultFormat = import("./workflow/domain").WorkflowDatabaseResultFormat;
+    export type WorkflowDatabaseProcedureCallInput = import("./workflow/domain").WorkflowDatabaseProcedureCallInput;
+    export type WorkflowDatabaseProcedureCallResult = import("./workflow/domain").WorkflowDatabaseProcedureCallResult;
+    export type WorkflowScriptDatabaseApi = import("./workflow/domain").WorkflowScriptDatabaseApi;
+    export type WorkflowTaskScriptApi = import("./workflow/domain").WorkflowTaskScriptApi;
+    export type WorkflowConditionScriptApi = import("./workflow/domain").WorkflowConditionScriptApi;
+    export type WorkflowResolvedRoutePath = import("./workflow/domain").WorkflowResolvedRoutePath;
+    export type WorkflowRouteResolution = import("./workflow/domain").WorkflowRouteResolution;
+    export type WorkflowTaskActionRequest = import("./workflow/domain").WorkflowTaskActionRequest;
+    export type WorkflowTaskActionExecutionResult = import("./workflow/domain").WorkflowTaskActionExecutionResult;
 
 }

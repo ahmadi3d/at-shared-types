@@ -33,9 +33,13 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && tsup && tsc -p tsconfig.types.json",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "ai:bundle": "ai-bundle bundle",
+    "ai:apply": "ai-bundle apply",
+    "ai:status": "ai-bundle status"
   },
   "devDependencies": {
+    "@ahmadi3d/ai-bundle": "^0.1.5",
     "rimraf": "^6.1.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"

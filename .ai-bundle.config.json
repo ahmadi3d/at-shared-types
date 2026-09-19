@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ahmadi3d/ai-bundle/main/schema/ai-bundle-config.schema.json",
+  "workspaceDir": ".ai-bundles",
+  "sourceDir": "src",
+  "packageManager": "auto",
+  "projectType": "auto",
+  "exclude": [],
+  "respectGitignore": true,
+  "textExtensions": [],
+  "patch": {
+    "requireProjectNameInFileName": true,
+    "archiveApplied": true,
+    "allowZipDeliveries": true
+  }
+}

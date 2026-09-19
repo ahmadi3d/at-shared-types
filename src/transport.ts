@@ -2,6 +2,7 @@ export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
 export type * from "./core/transport/responses";
 export type * from "./archive/transport";
+export type * from "./workflow/transport";
 
 export const AtTransportDto = {} as const;
 
@@ -48,4 +49,13 @@ export namespace AtTransportDto {
 
   export type AiSessionConfigWireDto =
     import("./ai/transport/wire.types").AiSessionConfigWireDto;
+
+  export type WorkflowTaskActionRequestWireDto =
+    import("./workflow/transport").WorkflowTaskActionRequestWireDto;
+  export type WorkflowResolvedRoutePathWireDto =
+    import("./workflow/transport").WorkflowResolvedRoutePathWireDto;
+  export type WorkflowRouteResolutionWireDto =
+    import("./workflow/transport").WorkflowRouteResolutionWireDto;
+  export type WorkflowTaskActionExecutionResultWireDto =
+    import("./workflow/transport").WorkflowTaskActionExecutionResultWireDto;
 }
