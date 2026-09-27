@@ -1,3 +1,5 @@
+import type { DataContractReference } from "../../dataContract/domain";
+
 export interface StaticDataSourceConfig {
     data: unknown;
 }
@@ -67,13 +69,10 @@ export interface ManualDataSourceConfig {
     script: string;
 }
 
-export type DataContractId = string | number;
-export type DataContractVersion = number;
+export type { DataContractId, DataContractVersion } from "../../dataContract/domain";
 
-export interface DataContractDataSourceConfig {
-    dataContractId: DataContractId;
-    version: DataContractVersion;
-}
+/** DataSource adapter configuration for consuming a platform Data Contract. */
+export type DataContractDataSourceConfig = DataContractReference;
 
 /**
  * Maps each data-source type to its corresponding configuration.

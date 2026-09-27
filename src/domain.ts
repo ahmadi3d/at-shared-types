@@ -5,6 +5,7 @@ export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
 
 export type * from "./dataShape/domain";
+export type * from "./dataContract/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 export type * from "./dataResource/domain";
@@ -113,6 +114,38 @@ export namespace AtDomainDto {
 
 
     // =========================================================
+    // Data Contract
+    // =========================================================
+
+    export type DataContractId = import("./dataContract/domain").DataContractId;
+    export type DataContractKey = import("./dataContract/domain").DataContractKey;
+    export type DataContractVersion = import("./dataContract/domain").DataContractVersion;
+    export type DataContractImplementationId = import("./dataContract/domain").DataContractImplementationId;
+    export type DataContractEnvironment = import("./dataContract/domain").DataContractEnvironment;
+    export type DataContractReference = import("./dataContract/domain").DataContractReference;
+    export type DataContractStatus = import("./dataContract/domain").DataContractStatus;
+    export type DataContractEffect = import("./dataContract/domain").DataContractEffect;
+    export type DataContractMockDefinition = import("./dataContract/domain").DataContractMockDefinition;
+    export type DataContractVersionDefinition = import("./dataContract/domain").DataContractVersionDefinition;
+    export type DataContractDefinition = import("./dataContract/domain").DataContractDefinition;
+    export type DataContractDocument = import("./dataContract/domain").DataContractDocument;
+    export type DataContractRecord = import("./dataContract/domain").DataContractRecord;
+    export type DataContractImplementationType = import("./dataContract/domain").DataContractImplementationType;
+    export type DataContractImplementationStatus = import("./dataContract/domain").DataContractImplementationStatus;
+    export type DataContractImplementationDefinition<TConfig extends import("./core/domain/json.types").AtJsonObject = import("./core/domain/json.types").AtJsonObject> =
+        import("./dataContract/domain").DataContractImplementationDefinition<TConfig>;
+    export type DataContractImplementationRecord<TConfig extends import("./core/domain/json.types").AtJsonObject = import("./core/domain/json.types").AtJsonObject> =
+        import("./dataContract/domain").DataContractImplementationRecord<TConfig>;
+    export type DataContractInvocationRequest = import("./dataContract/domain").DataContractInvocationRequest;
+    export type DataContractInvocationMode = import("./dataContract/domain").DataContractInvocationMode;
+    export type DataContractInvocationMetadata = import("./dataContract/domain").DataContractInvocationMetadata;
+    export type DataContractInvocationResult = import("./dataContract/domain").DataContractInvocationResult;
+    export type DataContractValidationPhase = import("./dataContract/domain").DataContractValidationPhase;
+    export type DataContractValidationIssueCode = import("./dataContract/domain").DataContractValidationIssueCode;
+    export type DataContractValidationIssue = import("./dataContract/domain").DataContractValidationIssue;
+    export type DataContractValidationFailure = import("./dataContract/domain").DataContractValidationFailure;
+
+    // =========================================================
     // Data Source
     // =========================================================
 
@@ -158,8 +191,6 @@ export namespace AtDomainDto {
     export type ManualDataSourceConfig =
         import("./dataSource/domain").ManualDataSourceConfig;
 
-    export type DataContractId = import("./dataSource/domain").DataContractId;
-    export type DataContractVersion = import("./dataSource/domain").DataContractVersion;
     export type DataContractDataSourceConfig = import("./dataSource/domain").DataContractDataSourceConfig;
 
     export type DataSourceValue =
