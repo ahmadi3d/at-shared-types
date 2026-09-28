@@ -3,7 +3,7 @@ export interface AtPlatformLoginResponseDto {
 
     refresh_token: string;
 
-    user_id: number;
+    user_id: string;
 
     username: string;
 
