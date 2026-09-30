@@ -50,12 +50,35 @@ export namespace AtTransportDto {
   export type AiSessionConfigWireDto =
     import("./ai/transport/wire.types").AiSessionConfigWireDto;
 
-  export type WorkflowTaskActionRequestWireDto =
-    import("./workflow/transport").WorkflowTaskActionRequestWireDto;
-  export type WorkflowResolvedRoutePathWireDto =
-    import("./workflow/transport").WorkflowResolvedRoutePathWireDto;
-  export type WorkflowRouteResolutionWireDto =
-    import("./workflow/transport").WorkflowRouteResolutionWireDto;
-  export type WorkflowTaskActionExecutionResultWireDto =
-    import("./workflow/transport").WorkflowTaskActionExecutionResultWireDto;
+  export type WorkflowModelSummaryWireDto = import("./workflow/transport").WorkflowModelSummaryWireDto;
+  export type WorkflowModelDetailWireDto = import("./workflow/transport").WorkflowModelDetailWireDto;
+  export type WorkflowModelCreateInputWireDto = import("./workflow/transport").WorkflowModelCreateInputWireDto;
+  export type WorkflowModelUpdateInputWireDto = import("./workflow/transport").WorkflowModelUpdateInputWireDto;
+  export type WorkflowModelVersionSummaryWireDto = import("./workflow/transport").WorkflowModelVersionSummaryWireDto;
+  export type WorkflowValidationIssueWireDto = import("./workflow/transport").WorkflowValidationIssueWireDto;
+  export type WorkflowValidationResultWireDto = import("./workflow/transport").WorkflowValidationResultWireDto;
+  export type WorkflowPublishInputWireDto = import("./workflow/transport").WorkflowPublishInputWireDto;
+  export type WorkflowPublishResultWireDto = import("./workflow/transport").WorkflowPublishResultWireDto;
+  export type WorkflowProcedureParameterWireDto = import("./workflow/transport").WorkflowProcedureParameterWireDto;
+  export type WorkflowProcedureCatalogEntryWireDto = import("./workflow/transport").WorkflowProcedureCatalogEntryWireDto;
+  export type WorkflowStartInstanceInputWireDto = import("./workflow/transport").WorkflowStartInstanceInputWireDto;
+  export type WorkflowStartInstanceResultWireDto = import("./workflow/transport").WorkflowStartInstanceResultWireDto;
+  export type WorkflowInstanceSummaryWireDto = import("./workflow/transport").WorkflowInstanceSummaryWireDto;
+  export type WorkflowInstanceDetailWireDto = import("./workflow/transport").WorkflowInstanceDetailWireDto;
+  export type WorkflowTaskSummaryWireDto = import("./workflow/transport").WorkflowTaskSummaryWireDto;
+  export type WorkflowTaskOpenInputWireDto = import("./workflow/transport").WorkflowTaskOpenInputWireDto;
+  export type WorkflowTaskOpenResultWireDto = import("./workflow/transport").WorkflowTaskOpenResultWireDto;
+  export type WorkflowSaveDraftInputWireDto = import("./workflow/transport").WorkflowSaveDraftInputWireDto;
+  export type WorkflowSaveDraftResultWireDto = import("./workflow/transport").WorkflowSaveDraftResultWireDto;
+  export type WorkflowCompleteTaskInputWireDto = import("./workflow/transport").WorkflowCompleteTaskInputWireDto;
+  export type WorkflowCompleteTaskResultWireDto = import("./workflow/transport").WorkflowCompleteTaskResultWireDto;
+  export type WorkflowTaskAssignmentInputWireDto = import("./workflow/transport").WorkflowTaskAssignmentInputWireDto;
+  export type WorkflowTaskAssignmentResultWireDto = import("./workflow/transport").WorkflowTaskAssignmentResultWireDto;
+  export type WorkflowTimelineEventWireDto = import("./workflow/transport").WorkflowTimelineEventWireDto;
+  export type WorkflowTimelineResultWireDto = import("./workflow/transport").WorkflowTimelineResultWireDto;
+  export type WorkflowDiagramActivityWireDto = import("./workflow/transport").WorkflowDiagramActivityWireDto;
+  export type WorkflowDiagramResultWireDto = import("./workflow/transport").WorkflowDiagramResultWireDto;
+  export type WorkflowProcessActionInputWireDto = import("./workflow/transport").WorkflowProcessActionInputWireDto;
+  export type WorkflowAdminTerminateInputWireDto = import("./workflow/transport").WorkflowAdminTerminateInputWireDto;
+  export type WorkflowCommandResultWireDto = import("./workflow/transport").WorkflowCommandResultWireDto;
 }

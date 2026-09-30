@@ -1,88 +1,55 @@
-import type { WorkflowConditionDefinition } from "./condition";
-import type { WorkflowTaskExecutionDefinition } from "./execution";
+import type {
+    WorkflowAutomationScriptExecution,
+    WorkflowUserTaskScriptExecution,
+} from "./execution";
 
-/** Current compact workflow runtime schema. */
-export type WorkflowSchemaVersion = 2;
+/** References to database-backed catalog entries, such as forms. */
+export type WorkflowReferenceId = number | string;
 
-/**
- * Identifier/reference used by configurable task metadata.
- *
- * BPMN definition element IDs themselves remain strings; this union is for
- * references that may originate from database-backed catalogs/forms.
- */
-export type WorkflowReferenceId = string | number;
+export type WorkflowCompletionActionIntent = "primary" | "secondary" | "danger";
 
-export type WorkflowNodeKind =
-    | "task"
-    | "startEvent"
-    | "endEvent"
-    | "intermediateEvent"
-    | "gateway"
-    | "subProcess"
-    | "callActivity"
-    | "flowNode";
-
-export interface WorkflowProcessDefinition {
-    id: string;
-    name: string | null;
+/** Presentation and confirmation only. Routing is modeled in BPMN. */
+export interface WorkflowCompletionAction {
+    key: string;
+    label: string;
+    confirmationMessage?: string | null;
+    intent?: WorkflowCompletionActionIntent;
 }
 
-/**
- * Persisted BPMS metadata for a task definition.
- *
- * All contract-owned application/domain keys are camelCase. Database/provider
- * casing is a persistence concern and must not leak into this model.
- */
-export interface WorkflowTaskDefinition {
-    version: 1;
-    name?: string | null;
-    description?: string | null;
-    formId?: WorkflowReferenceId | null;
-    permissionId?: WorkflowReferenceId | null;
-    activityTypeId?: WorkflowReferenceId | null;
-    activityNatureId?: WorkflowReferenceId | null;
-    includedOrTags?: WorkflowReferenceId[];
-    excludedOrTags?: WorkflowReferenceId[];
-    includedAndTags?: WorkflowReferenceId[];
-    excludedAndTags?: WorkflowReferenceId[];
-    isCheckPoint?: boolean;
-    allowCommit?: boolean;
-    hasGoBack?: boolean;
-    hasCancel?: boolean;
-    isVolatile?: boolean;
-    proceedConfirmationMessage?: string | null;
-    execution?: WorkflowTaskExecutionDefinition | null;
+/** `at:TaskData` on a BPMN User Task. */
+export interface WorkflowUserTaskDefinitionV2 {
+    version: 2;
+    formId: WorkflowReferenceId;
+    contextPath: string;
+    outcomePath?: string | null;
+    completionActions?: WorkflowCompletionAction[];
+    execution?: WorkflowUserTaskScriptExecution | null;
 }
 
-export interface WorkflowNodeDefinition {
-    id: string;
-    kind: WorkflowNodeKind;
-    type: string;
-    name: string | null;
-    scopeId: string;
-    task?: WorkflowTaskDefinition | null;
+/** `at:AutomationData` on an external-worker BPMN Service Task. */
+export interface WorkflowAutomationDefinitionV2 {
+    version: 2;
+    execution: WorkflowAutomationScriptExecution;
 }
 
-export interface WorkflowFlowDefinition {
-    id: string;
-    type: "bpmn:SequenceFlow";
-    sourceId: string;
-    targetId: string;
-    scopeId: string;
-    name: string | null;
-    condition: WorkflowConditionDefinition | null;
-    isDefault: boolean;
+export type WorkflowGlobalEventType = "signal" | "message";
+
+export interface WorkflowGlobalActionEvent {
+    type: WorkflowGlobalEventType;
+    name: string;
 }
 
-/**
- * Compact, JSON-only runtime projection of the BPMN definition.
- *
- * XML/editor state and runtime instance state intentionally do not belong in
- * this static definition.
- */
-export interface WorkflowDefinition {
-    schemaVersion: WorkflowSchemaVersion;
-    process: WorkflowProcessDefinition;
-    nodes: WorkflowNodeDefinition[];
-    flows: WorkflowFlowDefinition[];
+/** Declares an already modeled BPMN event subscription. */
+export interface WorkflowGlobalAction {
+    key: string;
+    label: string;
+    confirmationMessage?: string | null;
+    intent?: WorkflowCompletionActionIntent;
+    event: WorkflowGlobalActionEvent;
+}
+
+/** `at:ProcessData` on the executable root process. */
+export interface WorkflowProcessDefinitionV2 {
+    version: 2;
+    globalActions?: WorkflowGlobalAction[];
 }

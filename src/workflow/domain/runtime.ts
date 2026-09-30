@@ -1,156 +1,186 @@
-import type {
-    AtJsonObject,
-    AtJsonValue,
-} from "../../core/domain/json.types";
-import type {
-    WorkflowReferenceId,
-} from "./model";
-import type {
-    WorkflowTaskActionType,
-} from "./execution";
+import type { AtJsonObject, AtJsonValue } from "../../core/domain/json.types";
+import type { WorkflowCompletionAction, WorkflowReferenceId } from "./model";
 
-export type WorkflowRequestId = string | number;
-export type WorkflowTaskInstanceId = string | number;
-export type WorkflowActionExecutionId = string;
+export type WorkflowInstanceState =
+    | "starting" | "running" | "suspended" | "completed"
+    | "canceling" | "canceled" | "failed";
 
-/**
- * Safe actor projection exposed to workflow scripts.
- *
- * Authentication tokens, request headers, raw invoker objects, IP/MAC values,
- * and backend request objects are intentionally excluded.
- */
-export interface WorkflowScriptActor {
-    userId: string | null;
-    businessId?: WorkflowReferenceId | null;
-    systemId?: WorkflowReferenceId | null;
-    customerId?: WorkflowReferenceId | null;
+export interface WorkflowStartInstanceInput {
+    /** Client-generated UUID for idempotency. */
+    commandId: string;
+    modelId: number;
+    businessKey?: string | null;
+    context?: AtJsonObject;
 }
 
-export interface WorkflowScriptRequestInfo {
-    id: WorkflowRequestId;
-    action: WorkflowTaskActionType;
-    executionId: WorkflowActionExecutionId;
+export interface WorkflowStartInstanceResult {
+    instanceId: number;
+    state: WorkflowInstanceState;
+    modelVersionId: number;
+    businessKey: string | null;
+    flowableProcessInstanceId: string | null;
+    contextVersion: number;
 }
 
-export interface WorkflowScriptTaskInfo {
-    /** Runtime task-instance identity. May be null while v1 DBs are linear. */
-    instanceId: WorkflowTaskInstanceId | null;
-    /** BPMN task/node definition ID. */
+export interface WorkflowInstanceSummary extends WorkflowStartInstanceResult {
+    modelId: number;
+    modelTitle: string;
+    startedAt: string | null;
+    completedAt: string | null;
+}
+
+export interface WorkflowInstanceDetail extends WorkflowInstanceSummary {
+    context: AtJsonObject;
+    activeTaskIds: string[];
+}
+
+export interface WorkflowTaskSummary {
+    taskId: string;
+    instanceId: number;
+    /** BPMN element ID, distinct from actual Flowable task ID. */
     definitionId: string;
     name: string | null;
-    formId: WorkflowReferenceId | null;
+    description: string | null;
+    assignee: string | null;
+    owner: string | null;
+    createdAt: string | null;
+    dueAt: string | null;
+    priority: number | null;
+    businessKey: string | null;
+    modelId: number;
+    modelTitle: string;
+    modelVersionId: number;
+    formId: WorkflowReferenceId;
+    formVersionId: WorkflowReferenceId;
+    canClaim: boolean;
+    canUnclaim: boolean;
 }
 
-/**
- * Canonical context visible inside task JavaScript.
- *
- * Contract-owned keys are always camelCase, regardless of HTTP/database
- * casing. Workflow variable names authored in BPMS scripts should also use
- * camelCase. Opaque nested business objects are not recursively recased.
- */
-export interface WorkflowTaskScriptContext {
-    request: WorkflowScriptRequestInfo;
-    task: WorkflowScriptTaskInfo;
-    input: AtJsonValue | null;
-    savedData: AtJsonValue | null;
-    variables: Record<string, AtJsonValue>;
-    businessData: AtJsonValue | null;
-    actor: WorkflowScriptActor;
+export interface WorkflowTaskOpenResult {
+    task: WorkflowTaskSummary;
+    form: {
+        id: WorkflowReferenceId;
+        versionId: WorkflowReferenceId;
+        title: string | null;
+        definition: AtJsonValue;
+    };
+    data: AtJsonValue;
+    /** Canonical context composed with this task's safely rebased draft overlay. */
+    context: AtJsonObject;
+    contextVersion: number;
+    draftVersion: number;
+    completionActions: WorkflowCompletionAction[];
 }
 
-/** Host-supported result envelope returned from load/save/proceed hooks. */
-export interface WorkflowTaskScriptResult {
-    data?: AtJsonValue;
-    variables?: Record<string, AtJsonValue>;
+/** Optional command correlation for a repeatable open/load request. */
+export interface WorkflowTaskOpenInput {
+    commandId?: string;
 }
 
-/** Context visible to a route condition after the proceed hook succeeds. */
-export interface WorkflowConditionScriptContext extends WorkflowTaskScriptContext {
-    taskResult: WorkflowTaskScriptResult;
+export interface WorkflowSaveDraftInput {
+    commandId: string;
+    data: AtJsonValue;
+    expectedDraftVersion: number;
 }
 
-export interface WorkflowScriptLogApi {
-    info(message: string, data?: AtJsonValue): void;
-    warn(message: string, data?: AtJsonValue): void;
-    error(message: string, data?: AtJsonValue): void;
+export interface WorkflowSaveDraftResult {
+    taskId: string;
+    data: AtJsonValue;
+    draftVersion: number;
+    /** Saving a draft does not increment canonical context version. */
+    baseContextVersion: number;
 }
 
-export type WorkflowDatabaseResultFormat =
-    | "object"
-    | "array";
-
-/**
- * Registered-procedure call requested from workflow JavaScript.
- *
- * Script authors use camelCase for these contract-owned keys. `parameters`
- * represents procedure parameter names in script-facing camelCase; the host
- * adapter is responsible for normalizing only those immediate parameter names
- * to the database boundary convention. Parameter values remain opaque.
- */
-export interface WorkflowDatabaseProcedureCallInput {
-    database?: string;
-    schema: string;
-    apiName: string;
-    parameters?: AtJsonObject;
-    resultFormat?: WorkflowDatabaseResultFormat;
+export interface WorkflowCompleteTaskInput {
+    commandId: string;
+    actionKey: string;
+    data: AtJsonValue;
+    expectedDraftVersion?: number | null;
 }
 
-/**
- * Provider-agnostic procedure result visible to scripts.
- *
- * `resultSets` is camelCase because it is part of the workflow API. For
- * object-form rows, the host should normalize immediate database column keys
- * to camelCase before exposing them. Nested JSON/business values remain
- * untouched.
- */
-export interface WorkflowDatabaseProcedureCallResult {
-    resultSets: AtJsonValue[][];
+export interface WorkflowCompleteTaskResult {
+    taskId: string;
+    instanceId: number;
+    commandId: string;
+    state: "completed" | "pending_remote";
+    contextVersion: number;
 }
 
-export interface WorkflowScriptDatabaseApi {
-    callProcedure(
-        input: WorkflowDatabaseProcedureCallInput
-    ): Promise<WorkflowDatabaseProcedureCallResult>;
+export interface WorkflowTaskAssignmentInput {
+    commandId: string;
 }
 
-/** API surface available to load/save/proceed task scripts. */
-export interface WorkflowTaskScriptApi {
-    database: WorkflowScriptDatabaseApi;
-    log: WorkflowScriptLogApi;
+export interface WorkflowTaskAssignmentResult {
+    taskId: string;
+    assignee: string | null;
+    canClaim: boolean;
+    canUnclaim: boolean;
 }
 
-/** Read-only host capability surface available to route conditions. */
-export interface WorkflowConditionScriptApi {
-    log: WorkflowScriptLogApi;
+export interface WorkflowTimelineEvent {
+    id: string;
+    source: "flowable" | "at";
+    type: string;
+    occurredAt: string;
+    taskId?: string | null;
+    elementId?: string | null;
+    actorUserId?: string | null;
+    details?: AtJsonObject | null;
 }
 
-export interface WorkflowResolvedRoutePath {
-    /** Ordered sequence-flow IDs traversed for this resolved path. */
-    flowIds: string[];
-    /** Next active BPMN node, or null when this path reaches completion. */
-    nextNodeId: string | null;
+export interface WorkflowTimelineResult {
+    instanceId: number;
+    events: WorkflowTimelineEvent[];
 }
 
-export interface WorkflowRouteResolution {
-    paths: WorkflowResolvedRoutePath[];
-    completed: boolean;
+export interface WorkflowDiagramActivity {
+    activityInstanceId: string;
+    elementId: string;
+    startedAt: string | null;
+    endedAt: string | null;
 }
 
-/** Domain request for one workflow task lifecycle command. */
-export interface WorkflowTaskActionRequest {
-    requestId: WorkflowRequestId;
-    taskInstanceId?: WorkflowTaskInstanceId | null;
-    actionExecutionId: WorkflowActionExecutionId;
-    actionType: WorkflowTaskActionType;
-    input?: AtJsonValue | null;
+export interface WorkflowDiagramResult {
+    instanceId: number;
+    modelVersionId: number;
+    flowableProcessDefinitionId: string;
+    bpmnArchiveId: string;
+    bpmnXml: string;
+    activeActivityIds: string[];
+    activeTaskIds: string[];
+    historicActivities: WorkflowDiagramActivity[];
 }
 
-/** Domain result returned after the workflow host processes an action. */
-export interface WorkflowTaskActionExecutionResult {
-    requestId: WorkflowRequestId;
-    taskInstanceId: WorkflowTaskInstanceId | null;
-    actionExecutionId: WorkflowActionExecutionId;
-    actionType: WorkflowTaskActionType;
-    taskResult: WorkflowTaskScriptResult;
-    route: WorkflowRouteResolution | null;
+export interface WorkflowHealthResult {
+    healthy: boolean;
+    ebpms: { available: boolean };
+    flowableBpmn: { available: boolean; engine: string | null; version: string | null };
+    flowableExternalJob: { available: boolean };
+    worker: {
+        enabled: boolean;
+        running: boolean;
+        lastSuccessfulAcquireAt: string | null;
+        lastPollErrorAt: string | null;
+        inFlightJobs: number;
+    };
+    pendingOperationsByState: Record<string, number>;
+    oldestPendingOperationAt: string | null;
+    oldestPendingOperationAgeMs: number | null;
+    deadOrManualReviewOperations: number;
+}
+
+export interface WorkflowProcessActionInput {
+    commandId: string;
+    payload?: AtJsonValue;
+}
+
+export interface WorkflowAdminTerminateInput {
+    commandId: string;
+    reason: string;
+}
+
+export interface WorkflowCommandResult {
+    commandId: string;
+    instanceId: number;
+    state: "succeeded" | "pending_remote" | "manual_review";
 }
