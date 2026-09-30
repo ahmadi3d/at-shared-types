@@ -1,12 +1,15 @@
 export interface AtPlatformAccessTokenPayloadDto {
     // user id
-    sub: string;
+    sub?: string;
+    user_id?: string;
+    username?: string;
     // session id, useful for tracking session in multiple devices and logging them out.
     sid: string;
     // issuer, which backend is issuing this? 
     iss: string;
     // audience, this token who is it for ? we can later reject token used for one system used for another.
     aud: string;
+    permissions?: string[];
 
     iat: number;
     exp: number;

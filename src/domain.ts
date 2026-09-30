@@ -366,6 +366,8 @@ export namespace AtDomainDto {
     export type WorkflowModelCreateInput = import("./workflow/domain").WorkflowModelCreateInput;
     export type WorkflowModelUpdateInput = import("./workflow/domain").WorkflowModelUpdateInput;
     export type WorkflowModelVersionSummary = import("./workflow/domain").WorkflowModelVersionSummary;
+    export type WorkflowModelVersionDetail = import("./workflow/domain").WorkflowModelVersionDetail;
+    export type WorkflowFrozenElementConfig = import("./workflow/domain").WorkflowFrozenElementConfig;
     export type WorkflowValidationSeverity = import("./workflow/domain").WorkflowValidationSeverity;
     export type WorkflowValidationIssue = import("./workflow/domain").WorkflowValidationIssue;
     export type WorkflowValidationResult = import("./workflow/domain").WorkflowValidationResult;
@@ -374,15 +376,15 @@ export namespace AtDomainDto {
     export type WorkflowProcedureParameter = import("./workflow/domain").WorkflowProcedureParameter;
     export type WorkflowProcedureCatalogEntry = import("./workflow/domain").WorkflowProcedureCatalogEntry;
     export type WorkflowInstanceState = import("./workflow/domain").WorkflowInstanceState;
+    export type WorkflowStartableDefinition = import("./workflow/domain").WorkflowStartableDefinition;
     export type WorkflowStartInstanceInput = import("./workflow/domain").WorkflowStartInstanceInput;
     export type WorkflowStartInstanceResult = import("./workflow/domain").WorkflowStartInstanceResult;
     export type WorkflowInstanceSummary = import("./workflow/domain").WorkflowInstanceSummary;
     export type WorkflowInstanceDetail = import("./workflow/domain").WorkflowInstanceDetail;
     export type WorkflowTaskSummary = import("./workflow/domain").WorkflowTaskSummary;
-    export type WorkflowTaskOpenInput = import("./workflow/domain").WorkflowTaskOpenInput;
-    export type WorkflowTaskOpenResult = import("./workflow/domain").WorkflowTaskOpenResult;
-    export type WorkflowSaveDraftInput = import("./workflow/domain").WorkflowSaveDraftInput;
-    export type WorkflowSaveDraftResult = import("./workflow/domain").WorkflowSaveDraftResult;
+    export type WorkflowInputDataLoadResult = import("./workflow/domain").WorkflowInputDataLoadResult;
+    export type WorkflowInputDataSaveInput = import("./workflow/domain").WorkflowInputDataSaveInput;
+    export type WorkflowInputDataSaveResult = import("./workflow/domain").WorkflowInputDataSaveResult;
     export type WorkflowCompleteTaskInput = import("./workflow/domain").WorkflowCompleteTaskInput;
     export type WorkflowCompleteTaskResult = import("./workflow/domain").WorkflowCompleteTaskResult;
     export type WorkflowTaskAssignmentInput = import("./workflow/domain").WorkflowTaskAssignmentInput;
@@ -390,6 +392,7 @@ export namespace AtDomainDto {
     export type WorkflowTimelineEvent = import("./workflow/domain").WorkflowTimelineEvent;
     export type WorkflowTimelineResult = import("./workflow/domain").WorkflowTimelineResult;
     export type WorkflowDiagramActivity = import("./workflow/domain").WorkflowDiagramActivity;
+    export type WorkflowDiagramScope = import("./workflow/domain").WorkflowDiagramScope;
     export type WorkflowDiagramResult = import("./workflow/domain").WorkflowDiagramResult;
     export type WorkflowProcessActionInput = import("./workflow/domain").WorkflowProcessActionInput;
     export type WorkflowAdminTerminateInput = import("./workflow/domain").WorkflowAdminTerminateInput;

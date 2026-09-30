@@ -13,7 +13,10 @@ export function mapAtPlatformSessionFromLogin(
             userId: String(response.user_id),
             username: response.username,
             firstName: response.first_name,
-            lastName: response.last_name
+            lastName: response.last_name,
+            permissions: Array.isArray(response.permissions)
+                ? response.permissions.filter((value): value is string => typeof value === "string")
+                : undefined,
         }
     };
 }
@@ -28,7 +31,11 @@ export function mapAtPlatformSessionFromToken(
         iss: payload.iss,
         providerType: 'atplatform',
         user: {
-            userId: payload.sub
+            userId: String(payload.sub ?? payload.user_id ?? ""),
+            username: payload.username,
+            permissions: Array.isArray(payload.permissions)
+                ? payload.permissions.filter((value): value is string => typeof value === "string")
+                : undefined,
         }
     };
 }

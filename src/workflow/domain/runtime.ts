@@ -5,6 +5,15 @@ export type WorkflowInstanceState =
     | "starting" | "running" | "suspended" | "completed"
     | "canceling" | "canceled" | "failed";
 
+export interface WorkflowStartableDefinition {
+    modelId: number;
+    modelVersionId: number;
+    versionNo: number;
+    key: string;
+    title: string;
+    description: string | null;
+}
+
 export interface WorkflowStartInstanceInput {
     /** Client-generated UUID for idempotency. */
     commandId: string;
@@ -56,7 +65,7 @@ export interface WorkflowTaskSummary {
     canUnclaim: boolean;
 }
 
-export interface WorkflowTaskOpenResult {
+export interface WorkflowInputDataLoadResult {
     task: WorkflowTaskSummary;
     form: {
         id: WorkflowReferenceId;
@@ -72,18 +81,13 @@ export interface WorkflowTaskOpenResult {
     completionActions: WorkflowCompletionAction[];
 }
 
-/** Optional command correlation for a repeatable open/load request. */
-export interface WorkflowTaskOpenInput {
-    commandId?: string;
-}
-
-export interface WorkflowSaveDraftInput {
+export interface WorkflowInputDataSaveInput {
     commandId: string;
     data: AtJsonValue;
     expectedDraftVersion: number;
 }
 
-export interface WorkflowSaveDraftResult {
+export interface WorkflowInputDataSaveResult {
     taskId: string;
     data: AtJsonValue;
     draftVersion: number;
@@ -140,6 +144,17 @@ export interface WorkflowDiagramActivity {
     endedAt: string | null;
 }
 
+export interface WorkflowDiagramScope {
+    flowableProcessInstanceId: string;
+    modelVersionId: number;
+    flowableProcessDefinitionId: string;
+    bpmnArchiveId: string;
+    bpmnXml: string;
+    activeActivityIds: string[];
+    activeTaskIds: string[];
+    historicActivities: WorkflowDiagramActivity[];
+}
+
 export interface WorkflowDiagramResult {
     instanceId: number;
     modelVersionId: number;
@@ -149,6 +164,7 @@ export interface WorkflowDiagramResult {
     activeActivityIds: string[];
     activeTaskIds: string[];
     historicActivities: WorkflowDiagramActivity[];
+    scopeDiagrams: WorkflowDiagramScope[];
 }
 
 export interface WorkflowHealthResult {
@@ -166,6 +182,9 @@ export interface WorkflowHealthResult {
     pendingOperationsByState: Record<string, number>;
     oldestPendingOperationAt: string | null;
     oldestPendingOperationAgeMs: number | null;
+    staleLocalCompletions: number;
+    oldestStaleLocalCompletionAt: string | null;
+    oldestStaleLocalCompletionAgeMs: number | null;
     deadOrManualReviewOperations: number;
 }
 

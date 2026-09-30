@@ -10,4 +10,5 @@ export interface AtPlatformLoginResponseDto {
     first_name: string;
 
     last_name: string;
+    permissions?: string[];
 }

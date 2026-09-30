@@ -6,6 +6,7 @@ import type {
     WorkflowCompleteTaskResult,
     WorkflowDiagramActivity,
     WorkflowDiagramResult,
+    WorkflowDiagramScope,
     WorkflowInstanceDetail,
     WorkflowInstanceSummary,
     WorkflowModelCreateInput,
@@ -13,19 +14,21 @@ import type {
     WorkflowModelSummary,
     WorkflowModelUpdateInput,
     WorkflowModelVersionSummary,
+    WorkflowModelVersionDetail,
+    WorkflowFrozenElementConfig,
     WorkflowProcedureCatalogEntry,
     WorkflowProcedureParameter,
     WorkflowProcessActionInput,
     WorkflowPublishInput,
     WorkflowPublishResult,
-    WorkflowSaveDraftInput,
-    WorkflowSaveDraftResult,
+    WorkflowInputDataSaveInput,
+    WorkflowInputDataSaveResult,
+    WorkflowInputDataLoadResult,
     WorkflowStartInstanceInput,
     WorkflowStartInstanceResult,
+    WorkflowStartableDefinition,
     WorkflowTaskAssignmentInput,
     WorkflowTaskAssignmentResult,
-    WorkflowTaskOpenInput,
-    WorkflowTaskOpenResult,
     WorkflowTaskSummary,
     WorkflowTimelineEvent,
     WorkflowTimelineResult,
@@ -39,6 +42,13 @@ export type WorkflowModelDetailWireDto = SnakeKeys<WorkflowModelDetail>;
 export type WorkflowModelCreateInputWireDto = SnakeKeys<WorkflowModelCreateInput>;
 export type WorkflowModelUpdateInputWireDto = SnakeKeys<WorkflowModelUpdateInput>;
 export type WorkflowModelVersionSummaryWireDto = SnakeKeys<WorkflowModelVersionSummary>;
+export type WorkflowFrozenElementConfigWireDto = SnakeKeys<Omit<WorkflowFrozenElementConfig, "config">> & {
+    config: WorkflowFrozenElementConfig["config"];
+};
+export type WorkflowModelVersionDetailWireDto = SnakeKeys<Omit<WorkflowModelVersionDetail, "elementConfigs" | "metadata">> & {
+    metadata: WorkflowModelVersionDetail["metadata"];
+    element_configs: WorkflowFrozenElementConfigWireDto[];
+};
 export type WorkflowValidationIssueWireDto = SnakeKeys<WorkflowValidationIssue>;
 export interface WorkflowValidationResultWireDto extends Omit<WorkflowValidationResult, "issues"> {
     issues: WorkflowValidationIssueWireDto[];
@@ -54,17 +64,17 @@ export type WorkflowProcedureCatalogEntryWireDto = SnakeKeys<Omit<WorkflowProced
 
 export type WorkflowStartInstanceInputWireDto = SnakeKeys<WorkflowStartInstanceInput>;
 export type WorkflowStartInstanceResultWireDto = SnakeKeys<WorkflowStartInstanceResult>;
+export type WorkflowStartableDefinitionWireDto = SnakeKeys<WorkflowStartableDefinition>;
 export type WorkflowInstanceSummaryWireDto = SnakeKeys<WorkflowInstanceSummary>;
 export type WorkflowInstanceDetailWireDto = SnakeKeys<WorkflowInstanceDetail>;
 export type WorkflowTaskSummaryWireDto = SnakeKeys<WorkflowTaskSummary>;
-export type WorkflowTaskOpenInputWireDto = SnakeKeys<WorkflowTaskOpenInput>;
-export type WorkflowTaskOpenResultWireDto = SnakeKeys<Omit<WorkflowTaskOpenResult, "task" | "form" | "completionActions">> & {
+export type WorkflowInputDataLoadResultWireDto = SnakeKeys<Omit<WorkflowInputDataLoadResult, "task" | "form" | "completionActions">> & {
     task: WorkflowTaskSummaryWireDto;
-    form: SnakeKeys<WorkflowTaskOpenResult["form"]>;
-    completion_actions: SnakeKeys<WorkflowTaskOpenResult["completionActions"][number]>[];
+    form: SnakeKeys<WorkflowInputDataLoadResult["form"]>;
+    completion_actions: SnakeKeys<WorkflowInputDataLoadResult["completionActions"][number]>[];
 };
-export type WorkflowSaveDraftInputWireDto = SnakeKeys<WorkflowSaveDraftInput>;
-export type WorkflowSaveDraftResultWireDto = SnakeKeys<WorkflowSaveDraftResult>;
+export type WorkflowInputDataSaveInputWireDto = SnakeKeys<WorkflowInputDataSaveInput>;
+export type WorkflowInputDataSaveResultWireDto = SnakeKeys<WorkflowInputDataSaveResult>;
 export type WorkflowCompleteTaskInputWireDto = SnakeKeys<WorkflowCompleteTaskInput>;
 export type WorkflowCompleteTaskResultWireDto = SnakeKeys<WorkflowCompleteTaskResult>;
 export type WorkflowTaskAssignmentInputWireDto = SnakeKeys<WorkflowTaskAssignmentInput>;
@@ -74,8 +84,12 @@ export type WorkflowTimelineResultWireDto = SnakeKeys<Omit<WorkflowTimelineResul
     events: WorkflowTimelineEventWireDto[];
 };
 export type WorkflowDiagramActivityWireDto = SnakeKeys<WorkflowDiagramActivity>;
-export type WorkflowDiagramResultWireDto = SnakeKeys<Omit<WorkflowDiagramResult, "historicActivities">> & {
+export type WorkflowDiagramScopeWireDto = SnakeKeys<Omit<WorkflowDiagramScope, "historicActivities">> & {
     historic_activities: WorkflowDiagramActivityWireDto[];
+};
+export type WorkflowDiagramResultWireDto = SnakeKeys<Omit<WorkflowDiagramResult, "historicActivities" | "scopeDiagrams">> & {
+    historic_activities: WorkflowDiagramActivityWireDto[];
+    scope_diagrams: WorkflowDiagramScopeWireDto[];
 };
 export type WorkflowProcessActionInputWireDto = SnakeKeys<WorkflowProcessActionInput>;
 export type WorkflowAdminTerminateInputWireDto = SnakeKeys<WorkflowAdminTerminateInput>;

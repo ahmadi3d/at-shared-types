@@ -55,6 +55,8 @@ export namespace AtTransportDto {
   export type WorkflowModelCreateInputWireDto = import("./workflow/transport").WorkflowModelCreateInputWireDto;
   export type WorkflowModelUpdateInputWireDto = import("./workflow/transport").WorkflowModelUpdateInputWireDto;
   export type WorkflowModelVersionSummaryWireDto = import("./workflow/transport").WorkflowModelVersionSummaryWireDto;
+  export type WorkflowModelVersionDetailWireDto = import("./workflow/transport").WorkflowModelVersionDetailWireDto;
+  export type WorkflowFrozenElementConfigWireDto = import("./workflow/transport").WorkflowFrozenElementConfigWireDto;
   export type WorkflowValidationIssueWireDto = import("./workflow/transport").WorkflowValidationIssueWireDto;
   export type WorkflowValidationResultWireDto = import("./workflow/transport").WorkflowValidationResultWireDto;
   export type WorkflowPublishInputWireDto = import("./workflow/transport").WorkflowPublishInputWireDto;
@@ -63,13 +65,13 @@ export namespace AtTransportDto {
   export type WorkflowProcedureCatalogEntryWireDto = import("./workflow/transport").WorkflowProcedureCatalogEntryWireDto;
   export type WorkflowStartInstanceInputWireDto = import("./workflow/transport").WorkflowStartInstanceInputWireDto;
   export type WorkflowStartInstanceResultWireDto = import("./workflow/transport").WorkflowStartInstanceResultWireDto;
+  export type WorkflowStartableDefinitionWireDto = import("./workflow/transport").WorkflowStartableDefinitionWireDto;
   export type WorkflowInstanceSummaryWireDto = import("./workflow/transport").WorkflowInstanceSummaryWireDto;
   export type WorkflowInstanceDetailWireDto = import("./workflow/transport").WorkflowInstanceDetailWireDto;
   export type WorkflowTaskSummaryWireDto = import("./workflow/transport").WorkflowTaskSummaryWireDto;
-  export type WorkflowTaskOpenInputWireDto = import("./workflow/transport").WorkflowTaskOpenInputWireDto;
-  export type WorkflowTaskOpenResultWireDto = import("./workflow/transport").WorkflowTaskOpenResultWireDto;
-  export type WorkflowSaveDraftInputWireDto = import("./workflow/transport").WorkflowSaveDraftInputWireDto;
-  export type WorkflowSaveDraftResultWireDto = import("./workflow/transport").WorkflowSaveDraftResultWireDto;
+  export type WorkflowInputDataLoadResultWireDto = import("./workflow/transport").WorkflowInputDataLoadResultWireDto;
+  export type WorkflowInputDataSaveInputWireDto = import("./workflow/transport").WorkflowInputDataSaveInputWireDto;
+  export type WorkflowInputDataSaveResultWireDto = import("./workflow/transport").WorkflowInputDataSaveResultWireDto;
   export type WorkflowCompleteTaskInputWireDto = import("./workflow/transport").WorkflowCompleteTaskInputWireDto;
   export type WorkflowCompleteTaskResultWireDto = import("./workflow/transport").WorkflowCompleteTaskResultWireDto;
   export type WorkflowTaskAssignmentInputWireDto = import("./workflow/transport").WorkflowTaskAssignmentInputWireDto;
@@ -77,6 +79,7 @@ export namespace AtTransportDto {
   export type WorkflowTimelineEventWireDto = import("./workflow/transport").WorkflowTimelineEventWireDto;
   export type WorkflowTimelineResultWireDto = import("./workflow/transport").WorkflowTimelineResultWireDto;
   export type WorkflowDiagramActivityWireDto = import("./workflow/transport").WorkflowDiagramActivityWireDto;
+  export type WorkflowDiagramScopeWireDto = import("./workflow/transport").WorkflowDiagramScopeWireDto;
   export type WorkflowDiagramResultWireDto = import("./workflow/transport").WorkflowDiagramResultWireDto;
   export type WorkflowProcessActionInputWireDto = import("./workflow/transport").WorkflowProcessActionInputWireDto;
   export type WorkflowAdminTerminateInputWireDto = import("./workflow/transport").WorkflowAdminTerminateInputWireDto;

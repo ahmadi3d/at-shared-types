@@ -47,6 +47,25 @@ export interface WorkflowModelVersionSummary {
     publishedAt?: string | null;
 }
 
+export interface WorkflowFrozenElementConfig {
+    bpmnElementId: string;
+    elementType: "user_task" | "automation" | "process";
+    config: AtJsonObject;
+    formId: number | null;
+    formVersionId: number | null;
+    contextPath: string | null;
+    scriptSha256: string | null;
+}
+
+/** Exact SQL-frozen version; none of these fields comes from the mutable model draft. */
+export interface WorkflowModelVersionDetail extends WorkflowModelVersionSummary {
+    title: string;
+    description: string | null;
+    metadata: AtJsonObject | null;
+    publishedByUserId: number;
+    elementConfigs: WorkflowFrozenElementConfig[];
+}
+
 export type WorkflowValidationSeverity = "error" | "warning";
 
 export interface WorkflowValidationIssue {
