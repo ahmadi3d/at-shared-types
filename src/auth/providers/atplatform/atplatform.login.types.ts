@@ -1,4 +1,6 @@
 export interface AtPlatformLoginResponseDto {
+    session_id?: string;
+
     token: string;
 
     refresh_token: string;
@@ -10,5 +12,4 @@ export interface AtPlatformLoginResponseDto {
     first_name: string;
 
     last_name: string;
-    permissions?: string[];
 }

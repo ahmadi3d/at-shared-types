@@ -37,7 +37,6 @@ export interface PartoUserInfoDto {
 
     phone: string | null;
 
-    roles: unknown;
 }
 
 export interface PartoLoginResponseDto {

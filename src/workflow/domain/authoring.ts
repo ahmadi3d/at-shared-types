@@ -1,6 +1,20 @@
 import type { AtJsonObject, AtJsonValue } from "../../core/domain/json.types";
 
-/** Existing `cat.business_models.id` is the sole model identity. */
+export interface WorkflowAuthoringReference {
+    id: number;
+    key: string;
+    title: string;
+    parentId?: number | null;
+    metadata?: AtJsonObject | null;
+}
+
+/** Taxonomy identity/display snapshot; it has no authorization effect. */
+export interface WorkflowTaxonomy {
+    category: WorkflowAuthoringReference;
+    subcategory: WorkflowAuthoringReference | null;
+}
+
+/** Numeric model ID is local; the server-derived key carries immutable engine identity. */
 export interface WorkflowModelSummary {
     id: number;
     /** Read-only server-derived BPMN process key. */
@@ -11,6 +25,7 @@ export interface WorkflowModelSummary {
     isArchived: boolean;
     latestPublishedVersionNo: number | null;
     updatedAt: string;
+    taxonomy?: WorkflowTaxonomy | null;
 }
 
 export interface WorkflowModelDetail extends WorkflowModelSummary {
@@ -30,6 +45,8 @@ export interface WorkflowModelUpdateInput {
     bpmnArchiveId: string;
     metadata?: AtJsonObject | null;
     expectedRevision: number;
+    categoryId?: number | null;
+    subcategoryId?: number | null;
 }
 
 export interface WorkflowModelVersionSummary {
@@ -45,6 +62,7 @@ export interface WorkflowModelVersionSummary {
     flowableProcessDefinitionVersion?: number | null;
     createdAt: string;
     publishedAt?: string | null;
+    taxonomy?: WorkflowTaxonomy | null;
 }
 
 export interface WorkflowFrozenElementConfig {

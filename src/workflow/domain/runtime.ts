@@ -1,5 +1,6 @@
 import type { AtJsonObject, AtJsonValue } from "../../core/domain/json.types";
 import type { WorkflowCompletionAction, WorkflowReferenceId } from "./model";
+import type { WorkflowTaxonomy } from "./authoring";
 
 export type WorkflowInstanceState =
     | "starting" | "running" | "suspended" | "completed"
@@ -12,9 +13,14 @@ export interface WorkflowStartableDefinition {
     key: string;
     title: string;
     description: string | null;
+    taxonomy?: WorkflowTaxonomy | null;
+    startScopePolicyKey?: "GLOBAL" | "CUSTOMER_OWNER" | "EXPLICIT_TELECOM_UNIT";
 }
 
 export interface WorkflowStartInstanceInput {
+    /** Accepted only by the server-owned frozen start-scope policy. */
+    customerId?: string | null;
+    telecomUnitId?: string | null;
     /** Client-generated UUID for idempotency. */
     commandId: string;
     modelId: number;
@@ -148,7 +154,6 @@ export interface WorkflowDiagramScope {
     flowableProcessInstanceId: string;
     modelVersionId: number;
     flowableProcessDefinitionId: string;
-    bpmnArchiveId: string;
     bpmnXml: string;
     activeActivityIds: string[];
     activeTaskIds: string[];
@@ -159,7 +164,6 @@ export interface WorkflowDiagramResult {
     instanceId: number;
     modelVersionId: number;
     flowableProcessDefinitionId: string;
-    bpmnArchiveId: string;
     bpmnXml: string;
     activeActivityIds: string[];
     activeTaskIds: string[];
@@ -170,7 +174,11 @@ export interface WorkflowDiagramResult {
 export interface WorkflowHealthResult {
     healthy: boolean;
     ebpms: { available: boolean };
-    flowableBpmn: { available: boolean; engine: string | null; version: string | null };
+    flowableBpmn: {
+        available: boolean;
+        engine: string | null;
+        version: string | null
+    };
     flowableExternalJob: { available: boolean };
     worker: {
         enabled: boolean;

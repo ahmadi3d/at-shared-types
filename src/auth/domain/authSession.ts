@@ -14,10 +14,12 @@ export interface AtAuthUserDto {
 
     avatar?: string;
 
-    permissions?: string[];
 }
 
 export interface AtAuthSessionDto {
+    /** Canonical internal session ID when issued by AT. */
+    sessionId?: string;
+
     token: string;
 
     refreshToken?: string;

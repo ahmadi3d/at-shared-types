@@ -41,6 +41,9 @@ export function mapSessionFromLogin(
     providerType: AtAuthProviderType,
     response: unknown,
 ): AtAuthSessionDto {
+    // Canonical AT sessions are identical after local or external exchange, regardless of UI adapter.
+    if (response && typeof response === "object" && "session_id" in response && "user_id" in response)
+        return mapAtPlatformSessionFromLogin(response as Parameters<typeof mapAtPlatformSessionFromLogin>[0]);
     const mapper = mapSessionFromLoginByProvider[providerType];
 
     if (!mapper)
@@ -54,6 +57,10 @@ export function mapSessionFromToken(
     payload: unknown,
     token: string
 ): AtAuthSessionDto {
+    const claims = payload as Record<string, unknown> | null;
+    if (claims?.tokenUse === "access" && typeof claims.sub === "string" && typeof claims.sid === "string" &&
+        typeof claims.iss === "string" && typeof claims.aud === "string" && typeof claims.iat === "number" && typeof claims.exp === "number")
+        return mapAtPlatformSessionFromToken(claims as unknown as Parameters<typeof mapAtPlatformSessionFromToken>[0], token);
     const mapper = mapSessionFromTokenByProvider[providerType];
 
     if (!mapper)

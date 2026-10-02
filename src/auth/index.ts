@@ -1,5 +1,6 @@
 // Export core auth models & runtime functions
 export * from "./domain/authSession";
+export type * from "./domain/identity";
 export * from "./auth.runtime";
 
 import * as CoreTypes from "./domain/authSession";
@@ -11,6 +12,11 @@ export namespace Types {
     export type AtAuthProviderType = CoreTypes.AtAuthProviderType;
     export type AtAuthUserDto = CoreTypes.AtAuthUserDto;
     export type AtAuthSessionDto = CoreTypes.AtAuthSessionDto;
+
+    export type AtIdentityPrincipalDto = import("./domain/identity").AtIdentityPrincipalDto;
+    export type AtIdentityTokenClaimsDto = import("./domain/identity").AtIdentityTokenClaimsDto;
+    export type AtExternalIdentityReferenceDto = import("./domain/identity").AtExternalIdentityReferenceDto;
+    export type AtSessionSummaryDto = import("./domain/identity").AtSessionSummaryDto;
 
     // AtPlatform Types
     export type AtPlatformLoginResponseDto = import("./providers/atplatform/atplatform.login.types").AtPlatformLoginResponseDto;

@@ -9,7 +9,6 @@ export interface AtPlatformAccessTokenPayloadDto {
     iss: string;
     // audience, this token who is it for ? we can later reject token used for one system used for another.
     aud: string;
-    permissions?: string[];
 
     iat: number;
     exp: number;

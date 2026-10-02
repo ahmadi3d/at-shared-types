@@ -36,8 +36,7 @@ export function mapHostSessionFromToken(
         iss: payload.iss,
         user: {
             userId: payload.ID,
-            username: payload.unique_name,
-            permissions: payload.PERMISSIONS?.split(",")
+            username: payload.unique_name
         }
     };
 }

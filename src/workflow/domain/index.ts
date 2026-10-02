@@ -4,3 +4,4 @@ export type * from "./model";
 export type * from "./script";
 export type * from "./authoring";
 export type * from "./runtime";
+export type * from "./identity";

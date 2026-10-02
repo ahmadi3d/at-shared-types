@@ -24,3 +24,6 @@ export type AtAiPromptId =
 
 export type AtApiErrorCode =
     import("./core/protocol/errors").AtApiErrorCode;
+
+export * from "./authorization/protocol/schemas";
+export * from "./workflow/protocol/task-policy";

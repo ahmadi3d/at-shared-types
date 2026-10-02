@@ -7,6 +7,7 @@ export function mapAtPlatformSessionFromLogin(
 ): AtAuthSessionDto {
     return {
         token: response.token,
+        sessionId: response.session_id,
         refreshToken: response.refresh_token,
         providerType: 'atplatform',
         user: {
@@ -14,9 +15,6 @@ export function mapAtPlatformSessionFromLogin(
             username: response.username,
             firstName: response.first_name,
             lastName: response.last_name,
-            permissions: Array.isArray(response.permissions)
-                ? response.permissions.filter((value): value is string => typeof value === "string")
-                : undefined,
         }
     };
 }
@@ -27,15 +25,13 @@ export function mapAtPlatformSessionFromToken(
 ): AtAuthSessionDto {
     return {
         token,
+        sessionId: payload.sid,
         expiresAt: payload.exp,
         iss: payload.iss,
         providerType: 'atplatform',
         user: {
             userId: String(payload.sub ?? payload.user_id ?? ""),
             username: payload.username,
-            permissions: Array.isArray(payload.permissions)
-                ? payload.permissions.filter((value): value is string => typeof value === "string")
-                : undefined,
         }
     };
 }

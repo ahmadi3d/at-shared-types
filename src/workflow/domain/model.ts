@@ -16,7 +16,7 @@ export interface WorkflowCompletionAction {
     intent?: WorkflowCompletionActionIntent;
 }
 
-/** `at:TaskData` on a BPMN User Task. */
+/** Legacy authored draft shape, accepted only by the explicit draft upgrade helper. */
 export interface WorkflowUserTaskDefinitionV2 {
     version: 2;
     formId: WorkflowReferenceId;
@@ -24,6 +24,28 @@ export interface WorkflowUserTaskDefinitionV2 {
     outcomePath?: string | null;
     completionActions?: WorkflowCompletionAction[];
     execution?: WorkflowUserTaskScriptExecution | null;
+}
+
+export type WorkflowTaskMatchMode = "ANY" | "ALL";
+
+/** Predicates in one clause are ANDed; each predicate uses its own match mode. */
+export interface WorkflowTaskEligibilityClause {
+    roleKeys?: string[];
+    roleMatch?: WorkflowTaskMatchMode;
+    permissionKeys?: string[];
+    permissionMatch?: WorkflowTaskMatchMode;
+}
+
+/** Clauses are ORed, then effective permission exclusions are applied. */
+export interface WorkflowTaskEligibilityPolicy {
+    anyOf: WorkflowTaskEligibilityClause[];
+    excludedPermissionKeys?: string[];
+}
+
+/** Current closed `at:TaskData` contract. Form identity does not grant task access. */
+export interface WorkflowUserTaskDefinitionV3 extends Omit<WorkflowUserTaskDefinitionV2, "version"> {
+    version: 3;
+    eligibility: WorkflowTaskEligibilityPolicy;
 }
 
 /** `at:AutomationData` on an external-worker BPMN Service Task. */

@@ -10,6 +10,9 @@ export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 export type * from "./dataResource/domain";
 export type * from "./workflow/domain";
+export type * from "./authorization/domain";
+export type * from "./auth/domain/authSession";
+export type * from "./auth/domain/identity";
 
 /**
  * Runtime value so consumers can use:
@@ -21,6 +24,14 @@ export type * from "./workflow/domain";
 export const AtDomainDto = {} as const;
 
 export namespace AtDomainDto {
+    export type AtAuthorizationMeDto = import("./authorization/domain").AtAuthorizationMeDto;
+    export type AtRegionalRootDto = import("./authorization/domain").AtRegionalRootDto;
+    export type AtPermissionDto = import("./authorization/domain").AtPermissionDto;
+    export type RegisteredRoutineSecurityMetadata = import("./authorization/domain").RegisteredRoutineSecurityMetadata;
+    export type AtPostActionEnvelopeDto = import("./authorization/domain").AtPostActionEnvelopeDto;
+    export type AtTelecomReferencePageDto = import("./authorization/domain").AtTelecomReferencePageDto;
+    export type AtSecurityCatalogItemDto = import("./authorization/domain").AtSecurityCatalogItemDto;
+    export type AtIdentityPrincipalDto = import("./auth/domain/identity").AtIdentityPrincipalDto;
     // =========================================================
     // Archive
     // =========================================================
@@ -342,6 +353,10 @@ export namespace AtDomainDto {
     export type WorkflowCompletionActionIntent = import("./workflow/domain").WorkflowCompletionActionIntent;
     export type WorkflowCompletionAction = import("./workflow/domain").WorkflowCompletionAction;
     export type WorkflowUserTaskDefinitionV2 = import("./workflow/domain").WorkflowUserTaskDefinitionV2;
+    export type WorkflowUserTaskDefinitionV3 = import("./workflow/domain").WorkflowUserTaskDefinitionV3;
+    export type WorkflowTaskMatchMode = import("./workflow/domain").WorkflowTaskMatchMode;
+    export type WorkflowTaskEligibilityClause = import("./workflow/domain").WorkflowTaskEligibilityClause;
+    export type WorkflowTaskEligibilityPolicy = import("./workflow/domain").WorkflowTaskEligibilityPolicy;
     export type WorkflowAutomationDefinitionV2 = import("./workflow/domain").WorkflowAutomationDefinitionV2;
     export type WorkflowGlobalEventType = import("./workflow/domain").WorkflowGlobalEventType;
     export type WorkflowGlobalActionEvent = import("./workflow/domain").WorkflowGlobalActionEvent;
@@ -362,6 +377,8 @@ export namespace AtDomainDto {
     export type WorkflowScriptDatabaseApi = import("./workflow/domain").WorkflowScriptDatabaseApi;
     export type WorkflowScriptApi = import("./workflow/domain").WorkflowScriptApi;
     export type WorkflowModelSummary = import("./workflow/domain").WorkflowModelSummary;
+    export type WorkflowAuthoringReference = import("./workflow/domain").WorkflowAuthoringReference;
+    export type WorkflowTaxonomy = import("./workflow/domain").WorkflowTaxonomy;
     export type WorkflowModelDetail = import("./workflow/domain").WorkflowModelDetail;
     export type WorkflowModelCreateInput = import("./workflow/domain").WorkflowModelCreateInput;
     export type WorkflowModelUpdateInput = import("./workflow/domain").WorkflowModelUpdateInput;

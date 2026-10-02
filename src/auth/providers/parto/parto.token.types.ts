@@ -9,7 +9,6 @@ export interface PartoAccessTokenPayloadDto {
 
     CUSTOMERID?: string;
 
-    PERMISSIONS?: string;
 
     unique_name?: string;
 
