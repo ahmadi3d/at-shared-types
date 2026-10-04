@@ -10,6 +10,8 @@ export interface WorkflowRoutineReference {
     apiName: string;
     /** Server-owned policy stamp filled during validation/publication. */
     registrationStamp?: string;
+    /** V4 task references freeze the reviewed hook admission at publication. */
+    taskHooks?: ("load" | "proceed")[];
 }
 
 export interface WorkflowScriptExecutionConfig {

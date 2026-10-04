@@ -1,4 +1,5 @@
 import type { AtJsonObject, AtJsonValue } from "../../core/domain/json.types";
+import type { AtRoutineExecutionContext, AtWorkflowTaskHook } from "../../authorization/domain/policy";
 
 export interface WorkflowAuthoringReference {
     id: number;
@@ -26,6 +27,7 @@ export interface WorkflowModelSummary {
     latestPublishedVersionNo: number | null;
     updatedAt: string;
     taxonomy?: WorkflowTaxonomy | null;
+    startScopePolicyKey?: "GLOBAL" | "CUSTOMER_OWNER" | "EXPLICIT_TELECOM_UNIT";
 }
 
 export interface WorkflowModelDetail extends WorkflowModelSummary {
@@ -47,6 +49,8 @@ export interface WorkflowModelUpdateInput {
     expectedRevision: number;
     categoryId?: number | null;
     subcategoryId?: number | null;
+    /** Omitted updates preserve the current start-scope policy. */
+    startScopePolicyKey?: "GLOBAL" | "CUSTOMER_OWNER" | "EXPLICIT_TELECOM_UNIT";
 }
 
 export interface WorkflowModelVersionSummary {
@@ -132,4 +136,8 @@ export interface WorkflowProcedureCatalogEntry {
     description: string | null;
     parameters?: WorkflowProcedureParameter[];
     metadata?: AtJsonValue | null;
+    executionContexts?: AtRoutineExecutionContext[];
+    taskHooks?: AtWorkflowTaskHook[];
+    effect?: "read" | "write";
+    registrationStamp?: string;
 }

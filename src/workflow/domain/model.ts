@@ -42,11 +42,38 @@ export interface WorkflowTaskEligibilityPolicy {
     excludedPermissionKeys?: string[];
 }
 
-/** Current closed `at:TaskData` contract. Form identity does not grant task access. */
+/** Immutable published legacy contract. Form identity does not grant task access. */
 export interface WorkflowUserTaskDefinitionV3 extends Omit<WorkflowUserTaskDefinitionV2, "version"> {
     version: 3;
     eligibility: WorkflowTaskEligibilityPolicy;
 }
+
+/** Current `at:TaskData`: platform Save followed by one Proceed using the saved draft. */
+export interface WorkflowTaskMultiInstance {
+    /** Relative to the canonical atContext object; native BPMN evaluates this collection. */
+    collectionPath: string;
+    itemVariable: string;
+    /** Omitted means Flowable's native loopCounter. */
+    indexVariable?: string;
+    sequential: boolean;
+    /** Paths are relative to the engine-local item, never browser form data. */
+    resourceScope: {
+        telecomUnitPath: string;
+        billingRunReviewIdPath?: string;
+    };
+}
+
+export interface WorkflowUserTaskDefinitionV4 {
+    version: 4;
+    formId: WorkflowReferenceId;
+    contextPath: string;
+    eligibility: WorkflowTaskEligibilityPolicy;
+    /** Only load/proceed exports are accepted by publication and execution. */
+    execution?: WorkflowUserTaskScriptExecution | null;
+    multiInstance?: WorkflowTaskMultiInstance;
+}
+
+export type WorkflowUserTaskDefinition = WorkflowUserTaskDefinitionV3 | WorkflowUserTaskDefinitionV4;
 
 /** `at:AutomationData` on an external-worker BPMN Service Task. */
 export interface WorkflowAutomationDefinitionV2 {

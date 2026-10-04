@@ -4,6 +4,9 @@ import type {
     WorkflowTaskEligibilityPolicy,
     WorkflowTaskMatchMode,
     WorkflowUserTaskDefinitionV3,
+    WorkflowUserTaskDefinitionV4,
+    WorkflowUserTaskDefinition,
+    WorkflowTaskMultiInstance,
 } from "../domain/model";
 
 export const WORKFLOW_TASK_MAX_CLAUSES = 8;
@@ -132,6 +135,14 @@ export function normalizeWorkflowUserTaskDefinitionV3(
     value: unknown,
     allowUnconfiguredDraft = false,
 ): WorkflowUserTaskDefinitionV3 | null {
+    return normalizeTaskDefinitionFields(value, allowUnconfiguredDraft, false);
+}
+
+function normalizeTaskDefinitionFields(
+    value: unknown,
+    allowUnconfiguredDraft: boolean,
+    allowTaskRoutineHooks: boolean,
+): WorkflowUserTaskDefinitionV3 | null {
     if (!isRecord(value) || !closed(value, ["version", "formId", "contextPath", "outcomePath", "completionActions", "execution", "eligibility"]) ||
         value.version !== 3 || !positiveId(value.formId) || !path(value.contextPath) ||
         value.outcomePath != null && !path(value.outcomePath)) return null;
@@ -158,16 +169,24 @@ export function normalizeWorkflowUserTaskDefinitionV3(
         if (!isRecord(execution) || !closed(execution, ["mode", "config"]) || execution.mode !== "script" ||
             !isRecord(execution.config) || !closed(execution.config, ["language", "apiVersion", "source", "routineReferences"]) ||
             execution.config.language !== "javascript" || execution.config.apiVersion !== 2 ||
-            typeof execution.config.source !== "string" || !execution.config.source.trim() || execution.config.source.length > 524288) return null;
+            typeof execution.config.source !== "string" ||
+            !allowUnconfiguredDraft && !execution.config.source.trim() ||
+            execution.config.source.length > 524288) return null;
         const references = execution.config.routineReferences;
         if (references !== undefined) {
             if (!Array.isArray(references) || references.length > 64) return null;
             for (const reference of references) {
-                if (!isRecord(reference) || !closed(reference, ["database", "schema", "apiName", "registrationStamp"]) ||
+                const keys = ["database", "schema", "apiName", "registrationStamp"];
+                if (allowTaskRoutineHooks) keys.push("taskHooks");
+                if (!isRecord(reference) || !closed(reference, keys) ||
                     ["database", "schema", "apiName"].some(key => typeof reference[key] !== "string" ||
                         !/^[A-Za-z_][A-Za-z0-9_]{0,127}$/.test(reference[key] as string)) ||
                     reference.registrationStamp !== undefined &&
                     (typeof reference.registrationStamp !== "string" || !reference.registrationStamp || reference.registrationStamp.length > 200)) return null;
+                if (reference.taskHooks !== undefined && (!Array.isArray(reference.taskHooks) ||
+                    reference.taskHooks.length < 1 || reference.taskHooks.length > 2 ||
+                    new Set(reference.taskHooks).size !== reference.taskHooks.length ||
+                    reference.taskHooks.some(hook => hook !== "load" && hook !== "proceed"))) return null;
             }
         }
         normalizedExecution = {
@@ -184,6 +203,9 @@ export function normalizeWorkflowUserTaskDefinitionV3(
                         ...(reference.registrationStamp === undefined ? {} : {
                             registrationStamp: reference.registrationStamp as string,
                         }),
+                        ...(reference.taskHooks === undefined ? {} : {
+                            taskHooks: [...reference.taskHooks as ("load" | "proceed")[]],
+                        }),
                     })),
                 }),
             },
@@ -198,6 +220,59 @@ export function normalizeWorkflowUserTaskDefinitionV3(
         execution: normalizedExecution,
         eligibility,
     };
+}
+
+/** V4 shares form, eligibility and execution validation, without legacy action properties. */
+export function normalizeWorkflowUserTaskDefinitionV4(
+    value: unknown,
+    allowUnconfiguredDraft = false,
+): WorkflowUserTaskDefinitionV4 | null {
+    if (!isRecord(value) || value.version !== 4 ||
+        !closed(value, ["version", "formId", "contextPath", "eligibility", "execution", "multiInstance"])) return null;
+    const { multiInstance: rawMultiInstance, ...fields } = value;
+    const multiInstance = rawMultiInstance === undefined ? undefined : normalizeWorkflowTaskMultiInstance(rawMultiInstance);
+    if (multiInstance === null) return null;
+    const normalized = normalizeTaskDefinitionFields({ ...fields, version: 3 }, allowUnconfiguredDraft, true);
+    if (!normalized) return null;
+    return {
+        version: 4,
+        formId: normalized.formId,
+        contextPath: normalized.contextPath,
+        eligibility: normalized.eligibility,
+        ...(normalized.execution === undefined ? {} : { execution: normalized.execution }),
+        ...(multiInstance === undefined ? {} : { multiInstance }),
+    };
+}
+
+/** Closed native MI pattern; arbitrary EL, cardinalities and completion conditions are excluded. */
+export function normalizeWorkflowTaskMultiInstance(value: unknown): WorkflowTaskMultiInstance | null {
+    const variable = (name: unknown): name is string => typeof name === "string" &&
+        name.length <= 64 && contextSegment.test(name) && !blockedSegments.has(name) &&
+        !/^(at|nrOf)/i.test(name);
+    if (!isRecord(value) || !closed(value, ["collectionPath", "itemVariable", "indexVariable", "sequential", "resourceScope"]) ||
+        !path(value.collectionPath) || !variable(value.itemVariable) || value.itemVariable === "loopCounter" ||
+        value.indexVariable !== undefined && !variable(value.indexVariable) ||
+        value.itemVariable === (value.indexVariable ?? "loopCounter") || typeof value.sequential !== "boolean" ||
+        !isRecord(value.resourceScope) || !closed(value.resourceScope, ["telecomUnitPath", "billingRunReviewIdPath"]) ||
+        !path(value.resourceScope.telecomUnitPath) ||
+        value.resourceScope.billingRunReviewIdPath !== undefined && !path(value.resourceScope.billingRunReviewIdPath)) return null;
+    return {
+        collectionPath: value.collectionPath,
+        itemVariable: value.itemVariable,
+        ...(value.indexVariable === undefined ? {} : { indexVariable: value.indexVariable as string }),
+        sequential: value.sequential,
+        resourceScope: {
+            telecomUnitPath: value.resourceScope.telecomUnitPath,
+            ...(value.resourceScope.billingRunReviewIdPath === undefined ? {} : {
+                billingRunReviewIdPath: value.resourceScope.billingRunReviewIdPath as string,
+            }),
+        },
+    };
+}
+
+/** Runtime reads the frozen version explicitly; published V3 is never upgraded. */
+export function normalizeWorkflowUserTaskDefinition(value: unknown): WorkflowUserTaskDefinition | null {
+    return normalizeWorkflowUserTaskDefinitionV4(value) ?? normalizeWorkflowUserTaskDefinitionV3(value);
 }
 
 /** One-time authored draft upgrade. Missing access stays unconfigured and cannot publish. */

@@ -25,6 +25,11 @@ export interface WorkflowScriptTaskContext {
     formId: WorkflowReferenceId | null;
     formVersionId: WorkflowReferenceId | null;
     contextPath: string | null;
+    /** Server-derived native execution-local item; immutable during script execution. */
+    item?: Readonly<AtJsonObject>;
+    index?: number;
+    /** Current server-resolved choices used to validate V4 Proceed; separate from mutable process context. */
+    formOptions?: Readonly<AtJsonObject>;
 }
 
 export interface WorkflowScriptActionContext {
@@ -49,6 +54,8 @@ export interface WorkflowScriptContext {
     action?: WorkflowScriptActionContext | null;
     input: AtJsonValue | null;
     data: AtJsonValue | null;
+    /** V4 initial form on load, exact saved form on proceed. Legacy data/input remain available. */
+    form?: AtJsonValue;
     /** Mutable JSON clone. The host persists it only at the appropriate boundary. */
     context: AtJsonObject;
     actor: WorkflowScriptActor;

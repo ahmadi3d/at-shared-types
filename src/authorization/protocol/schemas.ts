@@ -121,12 +121,22 @@ const metadata = object({
     allowedExecutionContexts: {
         type: "array",
         minItems: 1,
-        maxItems: 2,
+        maxItems: 3,
         uniqueItems: true,
-        items: { enum: ["user", "workflow-system"] }
+        items: { enum: ["user", "workflow-system", "workflow-task"] }
     },
     authoringVisibility: { enum: ["hidden", "discoverable"] },
     authoringReferencePermissionKey: permissionKey,
+    workflowExecution: object({
+        effect: { enum: ["read", "write"] },
+        taskHooks: {
+            type: "array",
+            minItems: 1,
+            maxItems: 2,
+            uniqueItems: true,
+            items: { enum: ["load", "proceed"] },
+        },
+    }, ["effect"]),
     postActions: AtPostActionEnvelopeSchema,
 }, ["version", "authorizationMode", "scopePolicy", "allowedExecutionContexts", "authoringVisibility"]);
 export const RegisteredRoutineSecurityMetadataSchema = {
@@ -136,6 +146,23 @@ export const RegisteredRoutineSecurityMetadataSchema = {
             if: { properties: { authorizationMode: { const: "permission" } }, required: ["authorizationMode"] },
             then: { required: ["requiredPermissionKey"], not: { required: ["reviewedExceptionKey"] } },
             else: { required: ["reviewedExceptionKey"], not: { required: ["requiredPermissionKey"] } }
+        },
+        {
+            if: {
+                properties: { allowedExecutionContexts: { contains: { const: "workflow-task" } } },
+                required: ["allowedExecutionContexts"],
+            },
+            then: {
+                required: ["authoringReferencePermissionKey", "workflowExecution"],
+                properties: {
+                    authorizationMode: { const: "permission" },
+                    workflowExecution: {
+                        required: ["taskHooks"],
+                        if: { properties: { effect: { const: "write" } }, required: ["effect"] },
+                        then: { properties: { taskHooks: { items: { const: "proceed" } } } },
+                    },
+                },
+            },
         },
         {
             if: {

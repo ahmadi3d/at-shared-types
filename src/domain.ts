@@ -354,6 +354,8 @@ export namespace AtDomainDto {
     export type WorkflowCompletionAction = import("./workflow/domain").WorkflowCompletionAction;
     export type WorkflowUserTaskDefinitionV2 = import("./workflow/domain").WorkflowUserTaskDefinitionV2;
     export type WorkflowUserTaskDefinitionV3 = import("./workflow/domain").WorkflowUserTaskDefinitionV3;
+    export type WorkflowUserTaskDefinitionV4 = import("./workflow/domain").WorkflowUserTaskDefinitionV4;
+    export type WorkflowUserTaskDefinition = import("./workflow/domain").WorkflowUserTaskDefinition;
     export type WorkflowTaskMatchMode = import("./workflow/domain").WorkflowTaskMatchMode;
     export type WorkflowTaskEligibilityClause = import("./workflow/domain").WorkflowTaskEligibilityClause;
     export type WorkflowTaskEligibilityPolicy = import("./workflow/domain").WorkflowTaskEligibilityPolicy;
@@ -403,6 +405,8 @@ export namespace AtDomainDto {
     export type WorkflowInputDataSaveInput = import("./workflow/domain").WorkflowInputDataSaveInput;
     export type WorkflowInputDataSaveResult = import("./workflow/domain").WorkflowInputDataSaveResult;
     export type WorkflowCompleteTaskInput = import("./workflow/domain").WorkflowCompleteTaskInput;
+    export type WorkflowCompleteTaskInputV3 = import("./workflow/domain").WorkflowCompleteTaskInputV3;
+    export type WorkflowCompleteTaskInputV4 = import("./workflow/domain").WorkflowCompleteTaskInputV4;
     export type WorkflowCompleteTaskResult = import("./workflow/domain").WorkflowCompleteTaskResult;
     export type WorkflowTaskAssignmentInput = import("./workflow/domain").WorkflowTaskAssignmentInput;
     export type WorkflowTaskAssignmentResult = import("./workflow/domain").WorkflowTaskAssignmentResult;

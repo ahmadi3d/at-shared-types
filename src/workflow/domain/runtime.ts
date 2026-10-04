@@ -82,8 +82,13 @@ export interface WorkflowInputDataLoadResult {
     data: AtJsonValue;
     /** Canonical context composed with this task's safely rebased draft overlay. */
     context: AtJsonObject;
+    /** Host-owned current choices; never persisted as the task draft or process context. */
+    runtimeContext?: AtJsonObject;
     contextVersion: number;
     draftVersion: number;
+    definitionVersion: 3 | 4;
+    hasSavedDraft: boolean;
+    draftBaseContextVersion: number | null;
     completionActions: WorkflowCompletionAction[];
 }
 
@@ -101,12 +106,22 @@ export interface WorkflowInputDataSaveResult {
     baseContextVersion: number;
 }
 
-export interface WorkflowCompleteTaskInput {
+export interface WorkflowCompleteTaskInputV3 {
     commandId: string;
     actionKey: string;
     data: AtJsonValue;
     expectedDraftVersion?: number | null;
 }
+
+/** The server resolves form data and the sole Proceed operation from the frozen task. */
+export interface WorkflowCompleteTaskInputV4 {
+    commandId: string;
+    expectedDraftVersion: number;
+    actionKey?: never;
+    data?: never;
+}
+
+export type WorkflowCompleteTaskInput = WorkflowCompleteTaskInputV3 | WorkflowCompleteTaskInputV4;
 
 export interface WorkflowCompleteTaskResult {
     taskId: string;

@@ -1,5 +1,11 @@
 import type { AtPermissionKey } from "./authorization";
-export type AtRoutineExecutionContext = "user" | "workflow-system";
+export type AtRoutineExecutionContext = "user" | "workflow-system" | "workflow-task";
+export type AtWorkflowTaskHook = "load" | "proceed";
+export interface AtWorkflowRoutinePolicyDto {
+    effect: "read" | "write";
+    /** Explicit admission only; a write can never be admitted to load. */
+    taskHooks?: AtWorkflowTaskHook[];
+}
 export type AtScopePolicyKey = "none" | "telecomUnit.parameter" | "customer.byId" |
     "customer.ownerTransfer" | "workflow.instance" | "workflow.start" | "workflow.scopeTransfer";
 /** Fixed bindings name validated input fields, never expressions/code. */
@@ -89,6 +95,7 @@ export type RegisteredRoutineSecurityMetadata = {
     allowedExecutionContexts: AtRoutineExecutionContext[];
     authoringVisibility: "hidden" | "discoverable";
     authoringReferencePermissionKey?: AtPermissionKey;
+    workflowExecution?: AtWorkflowRoutinePolicyDto;
     postActions?: AtPostActionEnvelopeDto;
 } & (
         | {
