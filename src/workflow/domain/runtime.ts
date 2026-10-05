@@ -69,6 +69,8 @@ export interface WorkflowTaskSummary {
     formVersionId: WorkflowReferenceId;
     canClaim: boolean;
     canUnclaim: boolean;
+    /** Administrative queue rows owned by another actor require explicit takeover. */
+    readOnly?: boolean;
 }
 
 export interface WorkflowInputDataLoadResult {
@@ -133,6 +135,11 @@ export interface WorkflowCompleteTaskResult {
 
 export interface WorkflowTaskAssignmentInput {
     commandId: string;
+}
+
+export interface WorkflowTaskTakeoverInput extends WorkflowTaskAssignmentInput {
+    /** Assignment shown when the administrator confirmed the transfer. */
+    expectedAssignee: string;
 }
 
 export interface WorkflowTaskAssignmentResult {
