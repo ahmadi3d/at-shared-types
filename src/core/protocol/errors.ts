@@ -10,4 +10,7 @@ export const AtApiErrorCodeMap = {
     ARCHIVE_INVALID_UPLOAD: 4605,
 } as const;
 
-export type AtApiErrorCode = typeof AtApiErrorCodeMap[keyof typeof AtApiErrorCodeMap];
+export type AtLegacyApiErrorCode = typeof AtApiErrorCodeMap[keyof typeof AtApiErrorCodeMap];
+
+/** Stable semantic support code; numeric values remain supported for legacy APIs. */
+export type AtApiErrorCode = string | number;
