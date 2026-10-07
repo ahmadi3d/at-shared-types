@@ -1,3 +1,5 @@
+import type { TabularResultBundle } from "../../tabular/domain";
+
 /**
  * Runtime result of executing a DataSource.
  *
@@ -16,4 +18,9 @@ export interface DataSourceExecutionResult<
     raw: TRaw;
     sourceValue: TSourceValue;
     value: TValue;
+    /**
+     * Optional provider-neutral projection. When present it must describe value
+     * after configured transforms, never retain stale provider-only rows.
+     */
+    tabular?: TabularResultBundle;
 }

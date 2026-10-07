@@ -1,4 +1,5 @@
 import type { AtJsonObject } from "../../core/domain/json.types";
+import type { DataContractImplementationConfigMap } from "./providers";
 import type {
     DataContractEnvironment,
     DataContractImplementationId,
@@ -6,10 +7,11 @@ import type {
 } from "./identity";
 
 /** Built-in implementation provider kinds. */
-export type DataContractImplementationType =
-    | "database"
-    | "api"
-    | "script";
+export type DataContractImplementationType = keyof DataContractImplementationConfigMap;
+
+export type DataContractImplementationConfig =
+    | AtJsonObject
+    | DataContractImplementationConfigMap[DataContractImplementationType];
 
 /** Lifecycle of one concrete implementation binding. */
 export type DataContractImplementationStatus =
@@ -20,17 +22,13 @@ export type DataContractImplementationStatus =
 /**
  * Concrete HOW behind a Data Contract version.
  *
- * `config` is intentionally provider-owned JSON for now. Database/API/script
- * infrastructure is still evolving, so the shared Data Contract domain should
- * not freeze those implementation-specific schemas prematurely. Each provider
- * handler is responsible for validating and interpreting its own config.
- *
- * Input mapping, output mapping/transforms, procedure/API identifiers, and
- * script settings may live inside that provider config until their platform
- * contracts are stable enough to promote into dedicated shared interfaces.
+ * Built-in schemas are declared in DataContractImplementationConfigMap.
+ * Provider handlers validate config at the service boundary. Generic JSON is
+ * retained for catalog adapters and drafts; runtime must use the validated
+ * discriminated BuiltInDataContractImplementationDefinition.
  */
 export interface DataContractImplementationDefinition<
-    TConfig extends AtJsonObject = AtJsonObject,
+    TConfig extends DataContractImplementationConfig = DataContractImplementationConfig,
 > {
     contractVersion: DataContractVersion;
     environment?: DataContractEnvironment;
@@ -41,8 +39,16 @@ export interface DataContractImplementationDefinition<
 
 /** Standalone persisted/read model when implementations receive dedicated IDs. */
 export interface DataContractImplementationRecord<
-    TConfig extends AtJsonObject = AtJsonObject,
+    TConfig extends DataContractImplementationConfig = DataContractImplementationConfig,
 > extends DataContractImplementationDefinition<TConfig> {
     id: DataContractImplementationId;
     dataContractId: import("./identity").DataContractId;
 }
+
+/** Couples each registered built-in kind to its configuration after validation. */
+export type BuiltInDataContractImplementationDefinition = {
+    [Type in DataContractImplementationType]:
+        DataContractImplementationDefinition<DataContractImplementationConfigMap[Type]> & {
+            type: Type;
+        };
+}[DataContractImplementationType];

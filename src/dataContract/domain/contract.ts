@@ -75,4 +75,21 @@ export interface DataContractDocument {
  */
 export interface DataContractRecord extends DataContractDocument {
     id: DataContractId;
+    /** Catalog concurrency token; callers echo it when editing a document. */
+    revision?: number;
+}
+
+/** Consumer metadata exposes WHAT and availability, never provider configuration. */
+export interface DataContractMetadata {
+    id: DataContractId;
+    revision: number;
+    definition: DataContractDefinition;
+    execution: {
+        /** Server-owned environment policy; execution authorization is still checked per call. */
+        mockAllowed: boolean;
+        versions: {
+            version: DataContractVersion;
+            implementationAvailable: boolean;
+        }[];
+    };
 }

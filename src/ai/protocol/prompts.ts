@@ -2,6 +2,15 @@ import { AtAiId } from "./ids";
 
 export const AtAiPrompts = {
     BPMS: {
+        DATACONTRACT: {
+            MOCK_GENERATE_V1: AtAiId.makePrompt({
+                app: "bpms",
+                area: "datacontract",
+                target: "mock",
+                action: "generate",
+                v: 1,
+            }),
+        },
         SYSTEM: {
             INTENT_DETECTION_V1: AtAiId.makePrompt({
                 app: "bpms",

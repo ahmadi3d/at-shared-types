@@ -9,6 +9,9 @@ export type * from "./dataContract/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 export type * from "./dataResource/domain";
+export type * from "./command/domain";
+export type * from "./tabular/domain";
+export type * from "./navigation/domain";
 export type * from "./workflow/domain";
 export type * from "./authorization/domain";
 export type * from "./auth/domain/authSession";
@@ -141,11 +144,14 @@ export namespace AtDomainDto {
     export type DataContractDefinition = import("./dataContract/domain").DataContractDefinition;
     export type DataContractDocument = import("./dataContract/domain").DataContractDocument;
     export type DataContractRecord = import("./dataContract/domain").DataContractRecord;
+    export type DataContractMetadata = import("./dataContract/domain").DataContractMetadata;
+    export type DataContractMockGenerationOptions = import("./dataContract/domain").DataContractMockGenerationOptions;
+    export type DataContractMockCandidate = import("./dataContract/domain").DataContractMockCandidate;
     export type DataContractImplementationType = import("./dataContract/domain").DataContractImplementationType;
     export type DataContractImplementationStatus = import("./dataContract/domain").DataContractImplementationStatus;
-    export type DataContractImplementationDefinition<TConfig extends import("./core/domain/json.types").AtJsonObject = import("./core/domain/json.types").AtJsonObject> =
+    export type DataContractImplementationDefinition<TConfig extends import("./dataContract/domain").DataContractImplementationConfig = import("./dataContract/domain").DataContractImplementationConfig> =
         import("./dataContract/domain").DataContractImplementationDefinition<TConfig>;
-    export type DataContractImplementationRecord<TConfig extends import("./core/domain/json.types").AtJsonObject = import("./core/domain/json.types").AtJsonObject> =
+    export type DataContractImplementationRecord<TConfig extends import("./dataContract/domain").DataContractImplementationConfig = import("./dataContract/domain").DataContractImplementationConfig> =
         import("./dataContract/domain").DataContractImplementationRecord<TConfig>;
     export type DataContractInvocationRequest = import("./dataContract/domain").DataContractInvocationRequest;
     export type DataContractInvocationMode = import("./dataContract/domain").DataContractInvocationMode;
@@ -155,6 +161,40 @@ export namespace AtDomainDto {
     export type DataContractValidationIssueCode = import("./dataContract/domain").DataContractValidationIssueCode;
     export type DataContractValidationIssue = import("./dataContract/domain").DataContractValidationIssue;
     export type DataContractValidationFailure = import("./dataContract/domain").DataContractValidationFailure;
+    export type DataContractImplementationConfig = import("./dataContract/domain").DataContractImplementationConfig;
+    export type DataContractImplementationConfigMap = import("./dataContract/domain").DataContractImplementationConfigMap;
+    export type BuiltInDataContractImplementationDefinition = import("./dataContract/domain").BuiltInDataContractImplementationDefinition;
+    export type DataContractDatabaseQueryConfig = import("./dataContract/domain").DataContractDatabaseQueryConfig;
+    export type DataContractDatabaseQueryPolicy = import("./dataContract/domain").DataContractDatabaseQueryPolicy;
+    export type DataContractQueryDiagnostic = import("./dataContract/domain").DataContractQueryDiagnostic;
+    export type DataContractApiConfig = import("./dataContract/domain").DataContractApiConfig;
+    export type DataContractScriptConfig = import("./dataContract/domain").DataContractScriptConfig;
+    export type DataContractDataSourceImplementationConfig = import("./dataContract/domain").DataContractDataSourceImplementationConfig;
+
+    // =========================================================
+    // Commands / Tabular Results
+    // =========================================================
+
+    export type CommandDefinition = import("./command/domain").CommandDefinition;
+    export type CommandInvocationContext = import("./command/domain").CommandInvocationContext;
+    export type CommandPlacement = import("./command/domain").CommandPlacement;
+    export type CommandPresentation = import("./command/domain").CommandPresentation;
+    export type CommandConfirmation = import("./command/domain").CommandConfirmation;
+    export type TabularResultBundle = import("./tabular/domain").TabularResultBundle;
+    export type TabularResultSet = import("./tabular/domain").TabularResultSet;
+    export type TabularColumnDefinition = import("./tabular/domain").TabularColumnDefinition;
+    export type TabularQueryContext = import("./tabular/domain").TabularQueryContext;
+    export type TabularRowKey = import("./tabular/domain").TabularRowKey;
+    export type GridTabSelection = import("./tabular/domain").GridTabSelection;
+    export type GridTabSelectionSnapshot = import("./tabular/domain").GridTabSelectionSnapshot;
+    export type GridSelectionSnapshot = import("./tabular/domain").GridSelectionSnapshot;
+    export type ResultGridDefinition = import("./tabular/domain").ResultGridDefinition;
+    export type ResultGridTabDefinition = import("./tabular/domain").ResultGridTabDefinition;
+    export type ResultGridResultBinding = import("./tabular/domain").ResultGridResultBinding;
+    export type RuntimeCondition<TSource = import("./runtime/domain").DeclarativeRuntimeValueExpression> =
+        import("./runtime/domain").RuntimeCondition<TSource>;
+    export type RuntimeConditionPolicy = import("./runtime/domain").RuntimeConditionPolicy;
+    export type DeclarativeRuntimeValueExpression = import("./runtime/domain").DeclarativeRuntimeValueExpression;
 
     // =========================================================
     // Data Source

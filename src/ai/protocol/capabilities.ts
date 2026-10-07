@@ -2,6 +2,14 @@ import { AtAiId } from "./ids";
 
 export const AtAiCapabilities = {
     BPMS: {
+        DATACONTRACT: {
+            MOCK_GENERATE: AtAiId.makeCapability({
+                app: "bpms",
+                area: "datacontract",
+                target: "mock",
+                action: "generate",
+            }),
+        },
         FORMAKER: {
             FORM_GENERATE: AtAiId.makeCapability({
                 app: "bpms",

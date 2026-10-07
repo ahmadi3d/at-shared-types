@@ -34,6 +34,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsup && tsc -p tsconfig.types.json",
     "prepublishOnly": "npm run build",
+    "test:contracts": "tsc -p tsconfig.contracts.json",
     "ai:bundle": "ai-bundle bundle",
     "ai:apply": "ai-bundle apply",
     "ai:status": "ai-bundle status"
