@@ -8,6 +8,7 @@ export type * from "./dataShape/domain";
 export type * from "./dataContract/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
+export type * from "./enum/domain";
 export type * from "./dataResource/domain";
 export type * from "./command/domain";
 export type * from "./tabular/domain";
@@ -214,6 +215,15 @@ export namespace AtDomainDto {
 
     export type EnumDataSourceConfig =
         import("./dataSource/domain").EnumDataSourceConfig;
+
+    export type EnumDeliveryMode = import("./enum/domain").EnumDeliveryMode;
+    export type EnumKind = import("./enum/domain").EnumKind;
+    export type EnumAccessMode = import("./enum/domain").EnumAccessMode;
+    export type EnumTranslationMode = import("./enum/domain").EnumTranslationMode;
+    export type EnumHierarchyLevel = import("./enum/domain").EnumHierarchyLevel;
+    export type EnumHierarchyDescriptor = import("./enum/domain").EnumHierarchyDescriptor;
+    export type EnumCapabilities = import("./enum/domain").EnumCapabilities;
+    export type EnumDefinition = import("./enum/domain").EnumDefinition;
 
     export type DatabaseDataSourceConfig =
         import("./dataSource/domain").DatabaseDataSourceConfig;

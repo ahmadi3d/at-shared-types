@@ -5,7 +5,7 @@ export interface StaticDataSourceConfig {
 }
 
 export interface EnumDataSourceConfig {
-    enumId: string;
+    enumKey: string;
 }
 
 export type DatabaseDataSourceObjectType =

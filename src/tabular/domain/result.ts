@@ -11,7 +11,7 @@ export interface TabularColumnDefinition {
     valuePath?: string;
     shape?: DataShape;
     uiColumnKey?: string;
-    enumId?: string;
+    enumKey?: string;
     hidden?: boolean;
     readOnly?: boolean;
 }
