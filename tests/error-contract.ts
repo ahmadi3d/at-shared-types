@@ -26,3 +26,18 @@ const invalid: ResponseErrorDto = {
 
 void codes;
 void invalid;
+
+const fieldIssue: ResponseErrorDto = {
+    code: "WORKFLOW_VALIDATION_ERROR", timestamp: "1791234567890000010",
+    issue: { version: 1, code: "WORKFLOW_VALIDATION_ERROR", kind: "validation", messageKey: "errors.formValidation",
+        fields: [{ fieldId: "published-field", path: "contact.accountId", rule: "min", code: "WORKFLOW_FIELD_MIN", params: { limit: 1 } }] },
+};
+const privateParameter: ResponseErrorDto = {
+    code: "WORKFLOW_VALIDATION_ERROR", timestamp: "1791234567890000011",
+    issue: { version: 1, code: "WORKFLOW_VALIDATION_ERROR", kind: "validation", messageKey: "errors.formValidation",
+        fields: [{ fieldId: "published-field", path: "accountId", rule: "min", code: "WORKFLOW_FIELD_MIN",
+            // @ts-expect-error Customer values cannot be interpolated into public issues.
+            params: { customerName: "private" } }] },
+};
+void fieldIssue;
+void privateParameter;

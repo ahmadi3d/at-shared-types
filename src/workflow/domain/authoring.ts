@@ -118,6 +118,8 @@ export interface WorkflowPublishResult {
     flowableProcessDefinitionVersion?: number | null;
     bpmnSha256: string;
     validation: WorkflowValidationResult;
+    /** Existing backend log occurrence for a terminal failure; excludes message/details. */
+    failure?: { code: string | number; timestamp: string };
 }
 
 export interface WorkflowProcedureParameter {

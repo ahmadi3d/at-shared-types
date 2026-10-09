@@ -14,3 +14,30 @@ export type AtLegacyApiErrorCode = typeof AtApiErrorCodeMap[keyof typeof AtApiEr
 
 /** Stable semantic support code; numeric values remain supported for legacy APIs. */
 export type AtApiErrorCode = string | number;
+
+/** Versioned, value-free UI correction metadata. Diagnostic details remain separate. */
+export type AtApiFieldIssueRule = 'required' | 'type' | 'min' | 'max' | 'minLength' | 'maxLength' |
+    'choice' | 'cascade' | 'readOnly' | 'crossField';
+
+export type AtApiUserIssueMessageKey = 'errors.formValidation' | 'errors.businessValidation' |
+    'errors.workflowInvalidInput' | 'errors.WORKFLOW_ACCESS_DENIED' | 'errors.WORKFLOW_DRAFT_CONFLICT' |
+    'errors.WORKFLOW_ASSIGNMENT_CONFLICT' | 'errors.WORKFLOW_COMMAND_IN_PROGRESS' | 'errors.WORKFLOW_SAVE_REQUIRED';
+
+export interface AtApiFieldIssue {
+    /** Published Form Maker element identity; labels are resolved by the client. */
+    fieldId: string;
+    /** Effective form value path, including nested Form names. */
+    path: string;
+    code: string;
+    rule: AtApiFieldIssueRule;
+    /** Only a numeric authored validation limit; never submitted values or customer labels. */
+    params?: { limit: number };
+}
+
+export interface AtApiUserIssue {
+    version: 1;
+    code: string;
+    kind: 'validation' | 'business' | 'authorization' | 'conflict';
+    messageKey: AtApiUserIssueMessageKey;
+    fields?: readonly AtApiFieldIssue[];
+}
