@@ -1,5 +1,6 @@
 export type * from "./ai/transport/wire.types";
 export type * from "./ai/transport/chat";
+export type * from "./ai/transport/platform";
 export type * from "./core/transport/responses";
 export type * from "./archive/transport";
 export type * from "./workflow/transport";

@@ -3,6 +3,8 @@ export type * from "./archive/domain";
 export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
 export type * from "./ai/domain/chat";
+export type * from "./ai/domain/platform";
+export type * from "./ai/domain/page-integrations";
 
 export type * from "./dataShape/domain";
 export type * from "./dataContract/domain";
@@ -470,3 +472,13 @@ export namespace AtDomainDto {
     export type WorkflowCommandResult = import("./workflow/domain").WorkflowCommandResult;
 
 }
+export type * from "./ai/domain/tool-turns";
+export type * from "./ai/domain/jobs";
+export type * from "./ai/domain/resource-conflicts";
+
+export type * from "./ai/domain/diagnostics";
+export type * from "./ai/domain/usage";
+export type * from "./ai/domain/form-authoring";
+export type * from "./ai/domain/api-authoring";
+export type * from "./ai/domain/contract-authoring";
+export type * from "./ai/domain/bpmn-authoring";
