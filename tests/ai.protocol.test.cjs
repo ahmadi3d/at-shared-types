@@ -71,7 +71,7 @@ test("unversioned/legacy/unknown fields, events, wrong types and raw context rej
         { ...command, options: { model: "expensive" } },
         { ...command, text: 42 },
         { ...command, mode: "execute-sql" },
-        { ...command, pageContext: { pageId: "api-manager", integrationVersion: 1, data: {} } },
+        { ...command, pageContext: { pageId: "api-integration", integrationVersion: 1, data: {} } },
         { ...command, text: "x".repeat(16001) },
     ]) assert.equal(validateAiProtocol(AiMessageCommandSchema, value).status, "invalid");
     assert.equal(validateAiProtocol(AiStreamEventSchema, { ...event, kind: "execute.javascript" }).status, "invalid");

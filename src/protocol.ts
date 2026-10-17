@@ -40,7 +40,7 @@ export * from "./ai/protocol/usage";
 export * from "./ai/protocol/form-authoring";
 export * from "./ai/form-maker/compile-form";
 export * from "./ai/protocol/api-authoring";
-export * from "./ai/api-manager/compile-api";
+export * from "./ai/api-integration/compile-api";
 export * from "./ai/protocol/contract-authoring";
 export * from "./ai/data-contract/compile-contract";
 export * from "./ai/protocol/bpmn-authoring";

@@ -18,10 +18,10 @@ export const AtAiCapabilities = {
                 action: "generate",
             }),
         },
-        APIMANAGER: {
+        APIINTEGRATION: {
             POST_RESPONSE_SCRIPT_GENERATE: AtAiId.makeCapability({
                 app: "bpms",
-                area: "apimanager",
+                area: "apiintegration",
                 target: "post_response_script",
                 action: "generate",
             }),

@@ -11,7 +11,7 @@ const command: AiMessageCommandDto = {
     expectedRevision: "1",
     mode: "ask",
     text: "Explain this page",
-    pageContext: { pageId: "api-manager", integrationVersion: 1 },
+    pageContext: { pageId: "api-integration", integrationVersion: 1 },
 };
 const wire: AiMessageCommandWireDto = {
     contract_version: 1,
@@ -57,7 +57,7 @@ const event: AiStreamEventDto = {
 const unsafeCommand: AiMessageCommandDto = {
     ...command,
     // @ts-expect-error Raw page state is outside the stable page integration envelope.
-    pageContext: { pageId: "api-manager", integrationVersion: 1, data: { password: "private" } },
+    pageContext: { pageId: "api-integration", integrationVersion: 1, data: { password: "private" } },
 };
 const unsupportedVersion: AiMessageCommandDto = {
     ...command,

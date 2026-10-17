@@ -29,10 +29,10 @@ export const AtAiPrompts = {
                 v: 1,
             }),
         },
-        APIMANAGER: {
+        APIINTEGRATION: {
             POST_RESPONSE_SCRIPT_GENERATE_V1: AtAiId.makePrompt({
                 app: "bpms",
-                area: "apimanager",
+                area: "apiintegration",
                 target: "post_response_script",
                 action: "generate",
                 v: 1,
