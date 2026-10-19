@@ -27,6 +27,7 @@ export interface AiPageIntegrationDto {
     integrationVersion: number;
     resourceType: string;
     resourceSchemaVersion: number;
+    /** Owning source provenance for explicit development reconciliation, not executable compatibility. */
     domainFingerprint: string;
     context: AiSchemaReferenceDto;
     tools: AiCapabilityReferenceDto[];
@@ -50,5 +51,9 @@ export interface AiIntegrationManifestDto {
 }
 
 export type AiPageCompatibility =
-    | { status: "supported"; deprecated: boolean }
+    | {
+          status: "supported";
+          deprecated: boolean;
+          diagnostics?: Array<{ code: "AI_PAGE_SOURCE_DRIFT" | "AI_PAGE_KNOWLEDGE_DRIFT"; repair: string }>;
+      }
     | { status: "invalid" | "unsupported_version" | "schema_drift" | "action_removed"; code: string; repair: string };

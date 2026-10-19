@@ -89,18 +89,21 @@ export function validateAiPageIntegration(source: unknown): AiPageIntegrationDto
     return page;
 }
 
-/** Only executable contract semantics enter persisted fingerprints; owner paths/deprecation are administrative metadata. */
-export function canonicalAiPageContract(source: unknown): string {
+/**
+ * Persist executable contracts independently of source/knowledge provenance.
+ * `legacy` reproduces the former payload only to verify an exact, trusted descriptor's old fingerprint.
+ */
+export function canonicalAiPageContract(source: unknown, format: "executable" | "legacy" = "executable"): string {
     const page = validateAiPageIntegration(source);
     if (!page) throw new Error("AI_PAGE_DESCRIPTOR_INVALID");
-    const { owner: _owner, lifecycle: _lifecycle, ...contract } = page;
+    const { owner: _owner, lifecycle: _lifecycle, domainFingerprint, knowledge, ...contract } = page;
     const sorted = <T extends { id: string }>(items: T[]) =>
         [...items].sort((left, right) => left.id.localeCompare(right.id));
     return canonicalAiJson({
         ...contract,
         tools: sorted(page.tools),
         foregroundActions: sorted(page.foregroundActions),
-        knowledge: sorted(page.knowledge),
+        ...(format === "legacy" ? { domainFingerprint, knowledge: sorted(knowledge) } : {}),
     });
 }
 
@@ -116,7 +119,7 @@ export function validateAiIntegrationManifest(source: unknown): AiIntegrationMan
     return result.value;
 }
 
-/** Exact metadata handshake. A mismatch never silently falls back to another page version or prompt. */
+/** Executable contracts are strict; source and knowledge provenance remain reviewable diagnostics. */
 export function compareAiPageIntegration(local: unknown, remote: unknown): AiPageCompatibility {
     const client = validateAiPageIntegration(local),
         server = validateAiPageIntegration(remote);
@@ -138,7 +141,6 @@ export function compareAiPageIntegration(local: unknown, remote: unknown): AiPag
         };
     if (
         client.resourceSchemaVersion !== server.resourceSchemaVersion ||
-        client.domainFingerprint !== server.domainFingerprint ||
         canonicalAiJson(client.context) !== canonicalAiJson(server.context)
     )
         return {
@@ -156,14 +158,26 @@ export function compareAiPageIntegration(local: unknown, remote: unknown): AiPag
             code: "AI_PAGE_CAPABILITY_DRIFT",
             repair: "Reconcile added, changed or retired tool/foreground actions in their owning adapters and fixtures.",
         };
+    const diagnostics: NonNullable<Extract<AiPageCompatibility, { status: "supported" }>["diagnostics"]> = [];
+    if (client.domainFingerprint !== server.domainFingerprint)
+        diagnostics.push({
+            code: "AI_PAGE_SOURCE_DRIFT",
+            repair: `Review ${client.pageId} owning sources (${client.owner.frontend}, ${client.owner.schema}; ` +
+                `server ${server.owner.backend}) and explicitly reconcile manifests. ` +
+                "Native writes still require current native validation.",
+        });
     if (
         canonicalAiJson({ sources: [...client.knowledge].sort((a, b) => a.id.localeCompare(b.id)) }) !==
         canonicalAiJson({ sources: [...server.knowledge].sort((a, b) => a.id.localeCompare(b.id)) })
     )
-        return {
-            status: "schema_drift",
+        diagnostics.push({
             code: "AI_PAGE_KNOWLEDGE_DRIFT",
-            repair: "Align the owning knowledge source versions and their schema compatibility evidence.",
-        };
-    return { status: "supported", deprecated: server.lifecycle === "deprecated" };
+            repair: `Review ${client.pageId} knowledge source versions and provenance in ${server.owner.backend}; ` +
+                "explicitly reconcile after review.",
+        });
+    return {
+        status: "supported",
+        deprecated: server.lifecycle === "deprecated",
+        ...(diagnostics.length ? { diagnostics } : {}),
+    };
 }

@@ -103,18 +103,54 @@ test("schema and removed-action drift are explicit; current deprecated versions 
         deprecated: true,
     });
     assert.equal(compareAiPageIntegration(page(), { ...page(), integrationVersion: 2 }).status, "unsupported_version");
-    assert.equal(
-        compareAiPageIntegration(page(), { ...page(), domainFingerprint: "d".repeat(64) }).status,
-        "schema_drift",
-    );
+    assert.equal(compareAiPageIntegration(page(), {
+        ...page(), context: { ...page().context, fingerprint: "d".repeat(64) },
+    }).status, "schema_drift");
     assert.equal(compareAiPageIntegration(page(), { ...page(), tools: [] }).status, "action_removed");
     assert.equal(
         compareAiPageIntegration(page(), {
             ...page(),
             knowledge: [{ id: "fixture.help", version: 1, fingerprint: "e".repeat(64) }],
-        }).code,
+        }).diagnostics[0].code,
         "AI_PAGE_KNOWLEDGE_DRIFT",
     );
+});
+
+test("source and knowledge provenance is advisory while every executable field remains strict", () => {
+    const current = page();
+    const provenance = {
+        ...current,
+        domainFingerprint: "d".repeat(64),
+        knowledge: [{ id: "fixture.help", version: 2, fingerprint: "e".repeat(64) }],
+    };
+    const comparison = compareAiPageIntegration(current, provenance);
+    assert.equal(comparison.status, "supported");
+    assert.deepEqual(comparison.diagnostics.map(item => item.code), [
+        "AI_PAGE_SOURCE_DRIFT", "AI_PAGE_KNOWLEDGE_DRIFT",
+    ]);
+    assert.match(comparison.diagnostics[0].repair, /fixture-page.*src\/pages\/Fixture/);
+    assert.equal(canonicalAiPageContract(current), canonicalAiPageContract(provenance));
+    assert.notEqual(canonicalAiPageContract(current, "legacy"), canonicalAiPageContract(provenance, "legacy"));
+    const { owner: _owner, lifecycle: _lifecycle, ...oldPayload } = current;
+    assert.equal(canonicalAiPageContract(current, "legacy"), canonicalAiJson(oldPayload),
+        "Legacy verification must reproduce the former canonical payload exactly.");
+    for (const changed of [
+        { ...provenance, pageId: "another-page" },
+        { ...provenance, integrationVersion: 2 },
+        { ...provenance, resourceType: "another-resource" },
+        { ...provenance, resourceSchemaVersion: 4 },
+        { ...provenance, context: { ...current.context, version: 2 } },
+        { ...provenance, context: { ...current.context, fingerprint: "f".repeat(64) } },
+        { ...provenance, tools: [{ id: "fixture.read", version: 2 }] },
+        { ...provenance, foregroundActions: [{
+            id: "fixture.fill", version: 1, mode: "assist", risk: "transient", undoable: true,
+            input: current.context, output: current.context,
+        }] },
+    ]) {
+        assert.notEqual(compareAiPageIntegration(current, changed).status, "supported");
+        assert.notEqual(canonicalAiPageContract(current), canonicalAiPageContract(changed));
+    }
+    assert.equal(compareAiPageIntegration(current, { ...provenance, domainFingerprint: "unknown" }).status, "invalid");
 });
 
 test("canonical fingerprints ignore object order and reject accessors before evaluation", () => {
