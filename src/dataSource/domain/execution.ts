@@ -18,6 +18,8 @@ export interface DataSourceExecutionResult<
     raw: TRaw;
     sourceValue: TSourceValue;
     value: TValue;
+    /** True when output includes simulated contract data; never implies a saved mutation. */
+    simulation?: boolean;
     /**
      * Optional provider-neutral projection. When present it must describe value
      * after configured transforms, never retain stale provider-only rows.

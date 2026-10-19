@@ -13,6 +13,12 @@ export type DataContractKey = string;
 /** Published/draft contract version number. */
 export type DataContractVersion = number;
 
+/** Dynamic references are resolved from the saved catalog on every use. */
+export type DataContractVersionSelector =
+    | { kind: "exact"; version: DataContractVersion }
+    | { kind: "latestPublished" }
+    | { kind: "latestDraft" };
+
 /** Optional identity of a concrete implementation binding. */
 export type DataContractImplementationId = string | number;
 
@@ -22,5 +28,6 @@ export type DataContractEnvironment = string;
 /** Portable reference used by DataSource, workflow, and future consumers. */
 export interface DataContractReference {
     dataContractId: DataContractId;
-    version: DataContractVersion;
+    /** Legacy numbers remain pinned; new consumers may use a named selector. */
+    version: DataContractVersion | DataContractVersionSelector;
 }

@@ -188,3 +188,12 @@ export const callbackFlow: CommandDefinition = {
         }],
     },
 };
+// Dynamic references coexist with the original pinned wire format.
+const latestPublishedReference: import("../src/dataContract/domain").DataContractReference = {
+    dataContractId: 1, version: { kind: "latestPublished" },
+};
+const latestDraftReference: import("../src/dataContract/domain").DataContractInvocationRequest = {
+    dataContractId: 1, version: { kind: "latestDraft" }, input: {},
+};
+void latestPublishedReference;
+void latestDraftReference;

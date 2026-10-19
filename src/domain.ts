@@ -140,6 +140,7 @@ export namespace AtDomainDto {
     export type DataContractImplementationId = import("./dataContract/domain").DataContractImplementationId;
     export type DataContractEnvironment = import("./dataContract/domain").DataContractEnvironment;
     export type DataContractReference = import("./dataContract/domain").DataContractReference;
+    export type DataContractVersionSelector = import("./dataContract/domain").DataContractVersionSelector;
     export type DataContractStatus = import("./dataContract/domain").DataContractStatus;
     export type DataContractEffect = import("./dataContract/domain").DataContractEffect;
     export type DataContractMockDefinition = import("./dataContract/domain").DataContractMockDefinition;
