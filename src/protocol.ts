@@ -1,4 +1,6 @@
 export * from "./core/protocol/errors";
+export * from "./events/protocol";
+export * from "./support/protocol";
 
 import { AtApiErrorCodeMap } from "./core/protocol/errors";
 

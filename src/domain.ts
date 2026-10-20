@@ -1,4 +1,6 @@
 export type * from "./core/domain/json.types";
+export type * from "./events/domain";
+export type * from "./support/domain";
 export type * from "./archive/domain";
 export type * from "./ai/domain/engine";
 export type * from "./ai/domain/session";
