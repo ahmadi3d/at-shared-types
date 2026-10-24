@@ -7,6 +7,9 @@
  */
 export type DataContractId = string | number;
 
+/** Additive server-issued UUID; internal numeric IDs and stable keys remain valid. */
+export type DataContractUuid = string;
+
 /** Stable machine-readable key such as `customer.getBasicInfo`. */
 export type DataContractKey = string;
 

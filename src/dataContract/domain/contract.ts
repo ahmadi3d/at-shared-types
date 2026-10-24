@@ -5,6 +5,7 @@ import type {
     DataContractKey,
     DataContractVersion,
     DataContractId,
+    DataContractUuid,
 } from "./identity";
 
 /** Lifecycle of one immutable/publishable Data Contract version. */
@@ -75,6 +76,8 @@ export interface DataContractDocument {
  */
 export interface DataContractRecord extends DataContractDocument {
     id: DataContractId;
+    /** Present on dedicated UUID-capable catalogs; never changes the internal id. */
+    uuid?: DataContractUuid;
     /** Catalog concurrency token; callers echo it when editing a document. */
     revision?: number;
 }
@@ -82,6 +85,7 @@ export interface DataContractRecord extends DataContractDocument {
 /** Consumer metadata exposes WHAT and availability, never provider configuration. */
 export interface DataContractMetadata {
     id: DataContractId;
+    uuid?: DataContractUuid;
     revision: number;
     definition: DataContractDefinition;
     execution: {

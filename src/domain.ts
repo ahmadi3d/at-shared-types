@@ -10,6 +10,7 @@ export type * from "./ai/domain/page-integrations";
 
 export type * from "./dataShape/domain";
 export type * from "./dataContract/domain";
+export type * from "./publicEndpoint/domain";
 export type * from "./runtime/domain";
 export type * from "./dataSource/domain";
 export type * from "./enum/domain";
